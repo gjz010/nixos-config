@@ -1,6 +1,2 @@
-{pkgs? import <nixpkgs> {} } :
-{
-    icalinguapp = pkgs.callPackage ./pkgs/icalinguapp {};
-    lib = pkgs.callPackage ./pkgs/lib {};
-}
-
+{pkgs? import <nixpkgs> {}}:
+pkgs.extend (import ./overlay.nix)
