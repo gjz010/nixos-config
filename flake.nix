@@ -9,9 +9,10 @@
     pkgs = nixpkgs.legacyPackages.${system}.extend overlay;
     in
     rec {
-      packages = flake-utils.lib.flattenTree {
-        icalinguapp = pkgs.icalinguapp;
-      };
+      packages = flake-utils.lib.flattenTree (with pkgs; {
+        inherit icalinguapp;
+        inherit hmcl;
+      });
     }
   )) // {overlays.default = overlay;};
 }
