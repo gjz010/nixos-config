@@ -9,11 +9,7 @@
     pkgs = nixpkgs.legacyPackages.${system}.extend overlay;
     in
     rec {
-      packages = flake-utils.lib.flattenTree (with pkgs; {
-        inherit icalinguapp;
-        inherit hmcl;
-        inherit wechat-uos;
-      });
+      packages = flake-utils.lib.flattenTree pkgs.gjz010.pkgs;
     }
   )) // {overlays.default = overlay;};
 }

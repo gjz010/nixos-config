@@ -1,8 +1,12 @@
 final: prev :
-{
-    icalinguapp = prev.callPackage ./pkgs/icalinguapp {};
-    hmcl = prev.callPackage ./pkgs/hmcl {};
-    wechat-uos = prev.callPackage ./pkgs/wechat-uos {};
-    gjz010 = prev.callPackage ./pkgs/lib {};
+let packages = {
+    icalinguapp = final.callPackage ./pkgs/icalinguapp {};
+    hmcl = final.callPackage ./pkgs/hmcl {};
+    wechat-uos = final.callPackage ./pkgs/wechat-uos {};
+};
+in {
+    gjz010 = {
+      pkgs = packages;
+      lib = final.callPackage ./pkgs/lib {};
+    };
 }
-
