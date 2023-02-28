@@ -1,7 +1,8 @@
-{stdenvNoCC, lib, electron_19, dpkg, lsb-release, bubblewrap, procps, bash, coreutils, scrot, fetchurl, buildFHSUserEnv, openssl, dbus,
+{stdenvNoCC, lib, electron_19, dpkg, lsb-release, bubblewrap, procps, bash, coreutils, scrot, fetchurl, buildFHSUserEnv, openssl_1_1, dbus,
 nettools}:
 let
 electron = electron_19; # https://aur.archlinux.org/packages/wechat-uos
+openssl = openssl_1_1;
 wechat = stdenvNoCC.mkDerivation {
   pname = "wechat-uos";
   version = "2.1.5";
