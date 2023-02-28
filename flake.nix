@@ -12,6 +12,7 @@
       packages = flake-utils.lib.flattenTree (with pkgs; {
         inherit icalinguapp;
         inherit hmcl;
+        inherit wechat-uos;
       });
     }
   )) // {overlays.default = overlay;};
