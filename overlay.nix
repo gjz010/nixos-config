@@ -4,6 +4,7 @@ let packages = {
     hmcl = final.callPackage ./pkgs/hmcl {};
     wechat-uos = final.callPackage ./pkgs/wechat-uos {};
     wemeetapp = final.callPackage ./pkgs/wemeetapp {};
+    nix-user-chroot = final.callPackage ./pkgs/nix-user-chroot {};
 };
 in {
     gjz010 = {

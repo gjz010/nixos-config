@@ -14,6 +14,9 @@
     in
     rec {
       packages = flake-utils.lib.flattenTree pkgs.gjz010.pkgs;
+      bundlers = {
+        toTarball = pkgs.gjz010.lib.tarballBundler;
+      };
     }
   )) // {
     overlays.default = overlay;
