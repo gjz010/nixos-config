@@ -2,7 +2,7 @@
 Name=WemeetApp
 Name[zh_CN]=腾讯会议
 Exec=wemeetapp %u
-Icon=mimetypes/wemeetapp
+Icon=wemeetapp
 Type=Application
 Terminal=false
 Categories=AudioVideo;

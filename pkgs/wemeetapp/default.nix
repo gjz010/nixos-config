@@ -1,9 +1,9 @@
 {stdenv, lib, 
-dpkg, lsb-release, bubblewrap, procps, bash, 
-coreutils, scrot, fetchurl, buildFHSUserEnv, dbus,
-nettools,
+dpkg,
+fetchurl, buildFHSUserEnv,
 autoPatchelfHook,
-libsForQt515
+libsForQt515,
+librsvg
 }:
 let
 libsForQt5 = libsForQt515;
@@ -16,9 +16,9 @@ wemeet = stdenv.mkDerivation {
     meta.license = lib.licenses.unfree;
   };
   buildInputs = with libsForQt5.qt5; [
-    qtlocation qtwebengine qtwebchannel qtx11extras
+    qtlocation qtwebengine qtwebchannel qtx11extras 
   ];
-  nativeBuildInputs = [ autoPatchelfHook libsForQt5.wrapQtAppsHook dpkg];
+  nativeBuildInputs = [ autoPatchelfHook libsForQt5.wrapQtAppsHook dpkg librsvg ];
   phases = [ "unpackPhase" "installPhase" "fixupPhase" ];
   unpackPhase = ''
     echo "  -> Extracting the deb package..."
@@ -49,6 +49,11 @@ wemeet = stdenv.mkDerivation {
     mkdir -p $out/share $out/share/applications
     cp -r ./deb/opt/wemeet/icons $out/share
     cp ${./wemeetapp.desktop} $out/share/applications/wemeetapp.desktop
+    for size in 16 32 64 128 256; do
+      icon_path=$out/share/icons/hicolor/''${size}x''${size}
+      mkdir -p $icon_path
+      rsvg-convert -w $size -h $size ./deb/opt/wemeet/wemeet.svg -o $icon_path/wemeetapp.png
+    done
   '';
   postFixup = ''
     wrapQtApp "$out/bin/wemeetapp" --prefix PATH : $out/bin
