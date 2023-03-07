@@ -7,7 +7,7 @@ A bunch of software, free and proprietary.
 Run single application
 --------------
 
-```nix
+```bash
 # Run Icalingua++
 nix run github:gjz010/nix-channel#icalinguapp
 # Run WeChat for UOS
