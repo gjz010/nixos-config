@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=WemeetApp
+Name[zh_CN]=腾讯会议
+Exec=wemeetapp %u
+Icon=mimetypes/wemeetapp
+Type=Application
+Terminal=false
+Categories=AudioVideo;
+MimeType=x-scheme-handler/wemeet;
