@@ -54,8 +54,6 @@ Utilities
 
 ### Tar closure bundler
 
-TODO: integrate with nix-user-chroot and nix-bundle.
-
 ```bash
-nix-build -E "let pkgs = import <nixpkgs> {overlays = [(import <gjz010>)];}; packClosure = pkgs.gjz010.lib.packClosure; in packClosure [pkgs.gcc]"
+nix bundle --bundler github:gjz010/nix-channel#toTarball nixpkgs#hello
 ```
