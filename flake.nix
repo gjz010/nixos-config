@@ -15,5 +15,7 @@
     rec {
       packages = flake-utils.lib.flattenTree pkgs.gjz010.pkgs;
     }
-  )) // {overlays.default = overlay;};
+  )) // {
+    overlays.default = overlay;
+  };
 }
