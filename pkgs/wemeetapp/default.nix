@@ -8,8 +8,8 @@ libsForQt515
 let
 libsForQt5 = libsForQt515;
 wemeet = stdenv.mkDerivation {
-  pname = "wemeet";
-  version = "2.1.5";
+  pname = "wemeetapp";
+  version = "3.12.0.400";
   deb = fetchurl {
     url = "https://updatecdn.meeting.qq.com/cos/e078bf97365540d9f0ff063f93372a9c/TencentMeeting_0300000000_3.12.0.400_x86_64_default.publish.deb";
     sha256 = "NN09Sm8IepV0tkosqC3pSor4/db4iF11XcGAuN/iOpM=";
@@ -55,18 +55,3 @@ wemeet = stdenv.mkDerivation {
   '';
 };
 in wemeet
-/*
-in
-buildFHSUserEnv{
-  inherit (wechat) name meta;
-  runScript = "${wechat.outPath}/bin/wechat-uos";
-  extraInstallCommands = ''
-    mkdir -p $out/share/applications
-    mv $out/bin/$name $out/bin/wechat-uos
-    ln -s ${wechat.outPath}/share/applications/wechat-uos.desktop $out/share/applications
-    cp -r ${wechat.outPath}/share/icons/ $out/share/icons
-  '';
-  targetPkgs = pkgs: [wechat-uos-env openssl dbus nettools];
-  extraOutputsToInstall = ["usr" "var/lib/uos" "var/uos" "etc"];
-}
-*/

@@ -3,7 +3,7 @@ let packages = {
     icalinguapp = final.callPackage ./pkgs/icalinguapp {};
     hmcl = final.callPackage ./pkgs/hmcl {};
     wechat-uos = final.callPackage ./pkgs/wechat-uos {};
-    wemeet = final.callPackage ./pkgs/wemeet {};
+    wemeetapp = final.callPackage ./pkgs/wemeetapp {};
 };
 in {
     gjz010 = {
