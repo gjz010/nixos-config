@@ -1,4 +1,4 @@
-final: prev :
+final: prev:
 let packages = {
     icalinguapp = final.callPackage ./pkgs/icalinguapp {};
     hmcl = final.callPackage ./pkgs/hmcl {};

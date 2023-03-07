@@ -7,4 +7,4 @@
     }
   )
   { src = ./.; }
-).overlays.default
+).defaultNix.overlays.default
