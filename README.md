@@ -42,7 +42,7 @@ Use as Nixpkgs overlay
 Non-Flake users
 --------------
 
-```nix
+```bash
 nix-channel --add https://github.com/gjz010/nix-channel/archive/refs/heads/main.tar.gz gjz010
 nix-channel --update gjz010
 nix-build -E "let pkgs = import <nixpkgs> {overlays = [(import <gjz010>)];}; in pkgs.gjz010.pkgs.icalinguapp"
@@ -56,6 +56,6 @@ Utilities
 
 TODO: integrate with nix-user-chroot and nix-bundle.
 
-```nix
+```bash
 nix-build -E "let pkgs = import <nixpkgs> {overlays = [(import <gjz010>)];}; packClosure = pkgs.gjz010.lib.packClosure; in packClosure [pkgs.gcc]"
 ```
