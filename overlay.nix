@@ -6,9 +6,12 @@ let packages = {
     wemeetapp = final.callPackage ./pkgs/wemeetapp {};
     nix-user-chroot = final.callPackage ./pkgs/nix-user-chroot {};
 };
+examples = {
+    egui-test = final.callPackage ./pkgs/examples/egui-test {};
+};
 in {
     gjz010 = {
-      pkgs = packages;
+      pkgs = packages // examples;
       lib = final.callPackage ./pkgs/lib {};
     };
 }
