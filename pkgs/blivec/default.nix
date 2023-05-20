@@ -10,6 +10,7 @@ in
 stdenvNoCC.mkDerivation {
     name = "blivec";
     version = "0.3.15";
+    meta.mainProgram = "bl";
     buildInputs = [ blivec-npm ] ++ (optional enableMPV mpv) ++ (optional enableFFPlay ffmpeg-full);
     nativeBuildInputs = [ makeWrapper ];
     phases = [ "installPhase" ];
