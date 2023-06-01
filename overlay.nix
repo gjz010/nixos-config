@@ -7,6 +7,7 @@ let packages = {
     wechat-uos = final.callPackage ./pkgs/wechat-uos {};
     wemeetapp = final.callPackage ./pkgs/wemeetapp {};
     nix-user-chroot = final.callPackage ./pkgs/nix-user-chroot {};
+    proxychains-wrapper = final.callPackage ./pkgs/proxychains-wrapper {};
 };
 examples = {
     egui-test = final.callPackage ./pkgs/examples/egui-test {};
