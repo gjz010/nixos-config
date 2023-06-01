@@ -8,11 +8,11 @@ Run single application
 --------------
 
 ```bash
-# Run Icalingua++
+# Run Icalingua++.
 nix run github:gjz010/nix-channel#icalinguapp
-# Run WeChat for UOS
+# Run WeChat for UOS. ABSOLUTELY PROPRIETARY!
 NIXPKGS_ALLOW_UNFREE=1 NIXPKGS_ALLOW_INSECURE=1 nix run github:gjz010/nix-channel#wechat-uos --impure
-# Run Wemeet
+# Run Wemeet. ABSOLUTELY PROPRIETARY!
 NIXPKGS_ALLOW_UNFREE=1 nix run github:gjz010/nix-channel#wemeetapp --impure
 ```
 
@@ -28,7 +28,7 @@ Use as Nixpkgs overlay
     };
     outputs = { self, nixpkgs, gjz010 }: let
         system = "x86_64-linux";
-        pkgs = import nixpkgs {inherit system; overlays = [ gjz010.overlays.default ]; config.allowUnfree=true;};
+        pkgs = import nixpkgs {inherit system; overlays = [ gjz010.overlays.default ]; };
         in {
             devShell.x86_64-linux = pkgs.mkShell {
                 buildInputs = [ pkgs.gjz010.pkgs.icalinguapp ];
