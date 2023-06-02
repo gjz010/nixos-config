@@ -1,7 +1,13 @@
-{ rustPlatform, pkgsStatic, fetchFromGitHub, lib }:
+{ pkgsStatic, rust, rust-bin, fetchFromGitHub, lib, makeRustPlatform }:
 let
-  inherit (pkgsStatic) makeRustPlatform;
-  target = pkgsStatic.rust.toRustTarget pkgsStatic.stdenv.targetPlatform;
+  target = rust.toRustTarget pkgsStatic.stdenv.targetPlatform;
+  rustStatic = rust-bin.stable.latest.minimal.override {
+    targets = [ target ];
+  };
+  rustPlatform = pkgsStatic.makeRustPlatform {
+    cargo = rustStatic;
+    rustc = rustStatic;
+  };
   src = fetchFromGitHub {
     owner = "nix-community";
     repo = "nix-user-chroot";
