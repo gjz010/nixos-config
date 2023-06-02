@@ -11,10 +11,11 @@ let packages = {
 };
 examples = {
     egui-test = final.callPackage ./pkgs/examples/egui-test {};
+    completion-test = final.callPackage ./pkgs/examples/completion-test {};
 };
 in {
     gjz010 = {
-      pkgs = packages // examples;
+      pkgs = packages // {inherit examples;};
       lib = final.callPackage ./pkgs/lib {};
     };
 }

@@ -13,7 +13,7 @@
     pkgs = nixpkgs.legacyPackages.${system}.extend overlay;
     in
     rec {
-      packages = flake-utils.lib.flattenTree pkgs.gjz010.pkgs;
+      packages =  pkgs.gjz010.pkgs;
       bundlers = {
         toTarball = pkgs.gjz010.lib.tarballBundler;
       };
