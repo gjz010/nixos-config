@@ -1,13 +1,15 @@
-{stdenvNoCC}:
+{stdenvNoCC, busybox, makeWrapper}:
 stdenvNoCC.mkDerivation {
     name = "completion-test";
     phases = [ "installPhase" ];
+    nativeBuildInputs = [ makeWrapper ];
     installPhase = ''
-        mkdir -p $out/bash-completion/completions
-        cat << EOF > $out/bash-completion/completions/example-completion.sh
-        #!/usr/bin/env bash
+        mkdir -p $out/bin
+        makeWrapper ${busybox}/bin/busybox $out/bin/completion-test --argv0 echo
+        mkdir -p $out/share/bash-completion/completions
+        cat << EOF > $out/share/bash-completion/completions/example-completion.sh
         complete -W "hello world completion test" completion-test
         EOF
-        chmod +x $out/bash-completion/completions/example-completion.sh
+        chmod +x $out/share/bash-completion/completions/example-completion.sh
     '';
 }
