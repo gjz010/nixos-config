@@ -7,7 +7,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, ... }: {
+  outputs = inputs@{ self, nixpkgs, home-manager, ... }: {
     nixosConfigurations = {
       "nixos-desktop" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -16,6 +16,11 @@
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
+          }
+          {
+            nix.registry.nixpkgs.flake = nixpkgs;
+            nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
+            system.configurationRevision = self.rev or "dirty";
           }
         ];
       };

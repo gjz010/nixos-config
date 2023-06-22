@@ -15,9 +15,10 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
-  boot.tmpOnTmpfs = true;
+  boot.tmp.useTmpfs = true;
   boot.initrd.kernelModules = [ "nfs" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelParams = [ "amdgpu.sg_display=0" ];
   #hardware.firmware = [(import ./firmware/amdgpu {})];
   networking.hostName = "nixos-desktop"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -147,6 +148,12 @@
   virtualisation.waydroid.enable = true;
   virtualisation.libvirtd.qemu.ovmf.enable = true;
   virtualisation.libvirtd.qemu.ovmf.packages = [pkgs.OVMFFull.fd];
+  #environment.sessionVariables = {
+  #    GTK_IM_MODULE = "fcitx";
+  #    QT_IM_MODULE = "fcitx";
+  #    XMODIFIERS = "@im=fcitx";
+  #};
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
