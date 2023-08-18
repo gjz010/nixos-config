@@ -38,14 +38,10 @@
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-  boot.kernel.sysctl = {
-    "net.bridge.bridge-nf-call-ip6tables"=0;
-    "net.bridge.bridge-nf-call-iptables"=0;
-    "net.bridge.bridge-nf-call-arptables"=0;
-  };
+
   # Enable networking
   networking.networkmanager.enable = true;
-  services.gnome.gnome-remote-desktop.enable = true;
+
   # Set your time zone.
   time.timeZone = "Asia/Shanghai";
 
@@ -109,7 +105,7 @@
   users.users.gjz010 = {
     isNormalUser = true;
     description = "gjz010";
-    extraGroups = [ "networkmanager" "wheel" "libvirtd" "docker" "transmission" "adbusers" ];
+    extraGroups = [ "networkmanager" "wheel" "libvirtd" "docker" "transmission" "adbusers"];
     packages = with pkgs; [
     #  thunderbird
     ];
@@ -131,6 +127,7 @@
     firefox
     kate
     libsForQt5.krfb
+    
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -150,14 +147,6 @@
   services.openssh.settings.X11Forwarding = true;
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 2222 5001 5201 5900 5901 33333];
-  #networking.bridges = {
-  #  "br0" = {
-  #    interfaces = [ "enp10s0" ];
-  #  };
-  #};
-  #networking.interfaces.br0.useDHCP = true;
-  #networking.interfaces.enp10s0.useDHCP = true;
-  #networking.dhcpcd.denyInterfaces = [ "macvtap0@*" ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
@@ -194,7 +183,6 @@
   virtualisation.libvirtd.qemu.ovmf.enable = true;
   virtualisation.libvirtd.qemu.ovmf.packages = [pkgs.OVMFFull.fd];
   virtualisation.libvirtd.qemu.swtpm.enable = true;
-  virtualisation.spiceUSBRedirection.enable = true;
 #  environment.sessionVariables = {
 #      GTK_IM_MODULE = "fcitx";
 #      QT_IM_MODULE = "fcitx";
