@@ -13,6 +13,7 @@
         system = "x86_64-linux";
         modules = [
           ./configuration.nix
+#          "${nixpkgs}/nixos/modules/virtualisation/qemu-vm.nix"
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;

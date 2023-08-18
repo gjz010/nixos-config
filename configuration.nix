@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, nixpkgs, ... }:
 
 {
   imports =
@@ -10,25 +10,42 @@
       ./hardware-configuration.nix
       ./cachix.nix
     ];
-
+  services.udev.packages = [
+    pkgs.android-udev-rules
+  ];
+  programs.adb.enable = true;
+  programs.corectrl.enable = true;
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.grub.enable = true;
+  boot.loader.grub.efiSupport = true;
+  boot.loader.grub.device = "nodev";
+  boot.loader.grub.efiInstallAsRemovable = true;
+  #boot.loader.systemd-boot.enable = true;
+  #boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
-  boot.tmp.useTmpfs = true;
+  boot.loader.grub.memtest86.enable = true;
+  boot.tmp.useTmpfs = false;
   boot.initrd.kernelModules = [ "nfs" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelParams = [ "amdgpu.sg_display=0" ];
   #hardware.firmware = [(import ./firmware/amdgpu {})];
   networking.hostName = "nixos-desktop"; # Define your hostname.
+  boot.binfmt.emulatedSystems = [ "riscv64-linux" ];
+  hardware.bluetooth.enable = true;
+  #virtualisation.memorySize = 8192;
+  #virtualisation.cores = 8;
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
+  boot.kernel.sysctl = {
+    "net.bridge.bridge-nf-call-ip6tables"=0;
+    "net.bridge.bridge-nf-call-iptables"=0;
+    "net.bridge.bridge-nf-call-arptables"=0;
+  };
   # Enable networking
   networking.networkmanager.enable = true;
-
+  services.gnome.gnome-remote-desktop.enable = true;
   # Set your time zone.
   time.timeZone = "Asia/Shanghai";
 
@@ -38,12 +55,17 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.xserver.videoDrivers = ["amdgpu"];
+  hardware.opengl.extraPackages = with pkgs; [
+    amdvlk
+  ];
+
+
 
   # Enable the KDE Plasma Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
-             "steam" "steam-original" "steam-run"
+             "steam" "steam-original" "steam-run" "memtest86-efi"
            ];
 
   # Configure keymap in X11
@@ -54,7 +76,8 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
-
+  services.transmission.enable = true;
+  services.transmission.openPeerPorts = true;
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
@@ -72,20 +95,26 @@
     #media-session.enable = true;
   };
 
+  #virtualisation.qemu.options = [
+  #  "-device virtio-vga-gl"
+  #  "-display gtk,gl=on"
+  #];
+
+
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
-
+  #programs.bash.enable = true;
   # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.extraGroups.docker.members = [ "gjz010" ];
   users.users.gjz010 = {
     isNormalUser = true;
     description = "gjz010";
-    extraGroups = [ "networkmanager" "wheel" "libvirtd" ];
+    extraGroups = [ "networkmanager" "wheel" "libvirtd" "docker" "transmission" "adbusers" ];
     packages = with pkgs; [
-      firefox
-      kate
-      virt-manager
     #  thunderbird
     ];
+    hashedPassword = "REDACTED";
+    shell = pkgs.bash;
   };
 
   # List packages installed in system profile. To search, run:
@@ -94,6 +123,14 @@
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
     nfs-utils
+    docker-compose
+    transmission-qt
+    virt-manager
+    dconf
+    virtiofsd
+    firefox
+    kate
+    libsForQt5.krfb
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -112,7 +149,15 @@
   services.openssh.ports = [2222 22];
   services.openssh.settings.X11Forwarding = true;
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 2222 5001 5201 5900 33333];
+  networking.firewall.allowedTCPPorts = [ 2222 5001 5201 5900 5901 33333];
+  #networking.bridges = {
+  #  "br0" = {
+  #    interfaces = [ "enp10s0" ];
+  #  };
+  #};
+  #networking.interfaces.br0.useDHCP = true;
+  #networking.interfaces.enp10s0.useDHCP = true;
+  #networking.dhcpcd.denyInterfaces = [ "macvtap0@*" ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
@@ -148,11 +193,13 @@
   virtualisation.waydroid.enable = true;
   virtualisation.libvirtd.qemu.ovmf.enable = true;
   virtualisation.libvirtd.qemu.ovmf.packages = [pkgs.OVMFFull.fd];
-  #environment.sessionVariables = {
-  #    GTK_IM_MODULE = "fcitx";
-  #    QT_IM_MODULE = "fcitx";
-  #    XMODIFIERS = "@im=fcitx";
-  #};
+  virtualisation.libvirtd.qemu.swtpm.enable = true;
+  virtualisation.spiceUSBRedirection.enable = true;
+#  environment.sessionVariables = {
+#      GTK_IM_MODULE = "fcitx";
+#      QT_IM_MODULE = "fcitx";
+#      XMODIFIERS = "@im=fcitx";
+#  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -160,6 +207,6 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "22.05"; # Did you read the comment?
+  system.stateVersion = "23.05"; # Did you read the comment?
 
 }
