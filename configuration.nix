@@ -24,6 +24,11 @@
   #boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
   boot.loader.grub.memtest86.enable = true;
+  boot.loader.grub.extraEntries = ''
+      menuentry "Memtest86+ bootPath" {
+        linux @bootRoot@/efi/memtest.bin 
+      }
+  '';
   boot.tmp.useTmpfs = false;
   boot.initrd.kernelModules = [ "nfs" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -65,7 +70,7 @@
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
-             "steam" "steam-original" "steam-run" "memtest86-efi"
+             "steam" "steam-original" "steam-run" 
            ];
 
   # Configure keymap in X11
@@ -189,7 +194,7 @@
   ];
   virtualisation.libvirtd.enable = true;
   virtualisation.docker.enable = true;
-  virtualisation.lxd.enable = true;
+  #virtualisation.lxd.enable = true;
   virtualisation.waydroid.enable = true;
   virtualisation.libvirtd.qemu.ovmf.enable = true;
   virtualisation.libvirtd.qemu.ovmf.packages = [pkgs.OVMFFull.fd];
