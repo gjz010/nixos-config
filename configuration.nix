@@ -30,9 +30,12 @@
       }
   '';
   boot.tmp.useTmpfs = false;
-  boot.initrd.kernelModules = [ "nfs" ];
+  boot.initrd.kernelModules = [ "nfs" "v4l2loopback" ];
+  boot.extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
+  boot.kernelModules = [ "v4l2loopback" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelParams = [ "amdgpu.sg_display=0" ];
+  boot.supportedFilesystems = ["ntfs"];
   #hardware.firmware = [(import ./firmware/amdgpu {})];
   networking.hostName = "nixos-desktop"; # Define your hostname.
   boot.binfmt.emulatedSystems = [ "riscv64-linux" ];
@@ -59,10 +62,16 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-  services.xserver.videoDrivers = ["amdgpu"];
-  hardware.opengl.extraPackages = with pkgs; [
-    amdvlk
-  ];
+  #services.xserver.videoDrivers = ["amdgpu"];
+  hardware.opengl = {
+      enable = true;
+      driSupport = true;
+      driSupport32Bit = true;
+      extraPackages = with pkgs; [
+          rocm-opencl-icd
+          rocm-opencl-runtime
+      ];
+  };
 
 
 
@@ -154,7 +163,7 @@
   services.openssh.ports = [2222 22];
   services.openssh.settings.X11Forwarding = true;
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 2222 5001 5201 5900 5901 33333];
+  networking.firewall.allowedTCPPorts = [ 2222 5001 5201 5900 5901 33333 22333];
   #networking.bridges = {
   #  "br0" = {
   #    interfaces = [ "enp10s0" ];
@@ -166,18 +175,20 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
-  nix.settings.substituters =  [ "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store" ];
   nix = {
     package = pkgs.nixFlakes;
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
+    settings.trusted-users = ["gjz010"];
+    settings.substituters =  [ "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store" ];
+
   };
   i18n.inputMethod = {
     enabled = "fcitx5";
     fcitx5.addons = with pkgs; [ fcitx5-rime fcitx5-chinese-addons fcitx5-configtool ];
   };
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
     wqy_zenhei
     wqy_microhei
     noto-fonts
