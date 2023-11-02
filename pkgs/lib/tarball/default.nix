@@ -9,7 +9,7 @@ let
             entryScriptPath = writeScript "${name}-entry" ''
                 #!/bin/sh
                 NIX_CHROOT_PATH=$(dirname "$0")
-                $NIX_CHROOT_PATH/${nix-user-chroot}/bin/nix-user-chroot $NIX_CHROOT_PATH/nix ${entry} "$@"
+                exec $NIX_CHROOT_PATH/${nix-user-chroot}/bin/nix-user-chroot $NIX_CHROOT_PATH/nix ${entry} "$@"
             '';
         in
         stdenvNoCC.mkDerivation {
