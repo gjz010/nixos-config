@@ -6,7 +6,8 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./cachix.nix
     ];
@@ -25,9 +26,9 @@
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
   boot.loader.grub.memtest86.enable = true;
   boot.loader.grub.extraEntries = ''
-      menuentry "Memtest86+ bootPath" {
-        linux @bootRoot@/efi/memtest.bin 
-      }
+    menuentry "Memtest86+ bootPath" {
+      linux @bootRoot@/efi/memtest.bin 
+    }
   '';
   boot.tmp.useTmpfs = false;
   boot.initrd.kernelModules = [ "nfs" "v4l2loopback" "vfio_pci" "vfio" "vfio_iommu_type1" ];
@@ -35,7 +36,7 @@
   boot.kernelModules = [ "v4l2loopback" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelParams = [ "amdgpu.sg_display=0" "amd_iommu=on" "vfio-pci.ids=1022:15b8" ];
-  boot.supportedFilesystems = ["ntfs"];
+  boot.supportedFilesystems = [ "ntfs" ];
   #hardware.firmware = [(import ./firmware/amdgpu {})];
   networking.hostName = "nixos-desktop"; # Define your hostname.
   boot.binfmt.emulatedSystems = [ "riscv64-linux" ];
@@ -47,9 +48,9 @@
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
   boot.kernel.sysctl = {
-    "net.bridge.bridge-nf-call-ip6tables"=0;
-    "net.bridge.bridge-nf-call-iptables"=0;
-    "net.bridge.bridge-nf-call-arptables"=0;
+    "net.bridge.bridge-nf-call-ip6tables" = 0;
+    "net.bridge.bridge-nf-call-iptables" = 0;
+    "net.bridge.bridge-nf-call-arptables" = 0;
   };
   # Enable networking
   networking.networkmanager.enable = true;
@@ -64,13 +65,13 @@
   services.xserver.enable = true;
   #services.xserver.videoDrivers = ["amdgpu"];
   hardware.opengl = {
-      enable = true;
-      driSupport = true;
-      driSupport32Bit = true;
-      extraPackages = with pkgs; [
-          rocm-opencl-icd
-          rocm-opencl-runtime
-      ];
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+    extraPackages = with pkgs; [
+      rocm-opencl-icd
+      rocm-opencl-runtime
+    ];
   };
 
 
@@ -78,10 +79,6 @@
   # Enable the KDE Plasma Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
-             "steam" "steam-original" "steam-run" 
-           ];
-
   # Configure keymap in X11
   services.xserver = {
     layout = "cn";
@@ -128,7 +125,7 @@
     description = "gjz010";
     extraGroups = [ "networkmanager" "wheel" "libvirtd" "docker" "transmission" "adbusers" ];
     packages = with pkgs; [
-    #  thunderbird
+      #  thunderbird
     ];
     hashedPassword = "REDACTED";
     shell = pkgs.bash;
@@ -137,8 +134,8 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
+    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    #  wget
     nfs-utils
     docker-compose
     transmission-qt
@@ -163,10 +160,10 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-  services.openssh.ports = [2222 22];
+  services.openssh.ports = [ 2222 22 ];
   services.openssh.settings.X11Forwarding = true;
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 2222 5001 5201 5900 5901 33333 22333 8000];
+  networking.firewall.allowedTCPPorts = [ 2222 5001 5201 5900 5901 33333 22333 8000 ];
   #networking.bridges = {
   #  "br0" = {
   #    interfaces = [ "enp10s0" ];
@@ -212,14 +209,14 @@
   #virtualisation.lxd.enable = true;
   virtualisation.waydroid.enable = true;
   virtualisation.libvirtd.qemu.ovmf.enable = true;
-  virtualisation.libvirtd.qemu.ovmf.packages = [pkgs.OVMFFull.fd];
+  virtualisation.libvirtd.qemu.ovmf.packages = [ pkgs.OVMFFull.fd ];
   virtualisation.libvirtd.qemu.swtpm.enable = true;
   virtualisation.spiceUSBRedirection.enable = true;
-#  environment.sessionVariables = {
-#      GTK_IM_MODULE = "fcitx";
-#      QT_IM_MODULE = "fcitx";
-#      XMODIFIERS = "@im=fcitx";
-#  };
+  #  environment.sessionVariables = {
+  #      GTK_IM_MODULE = "fcitx";
+  #      QT_IM_MODULE = "fcitx";
+  #      XMODIFIERS = "@im=fcitx";
+  #  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
