@@ -30,11 +30,11 @@
       }
   '';
   boot.tmp.useTmpfs = false;
-  boot.initrd.kernelModules = [ "nfs" "v4l2loopback" ];
+  boot.initrd.kernelModules = [ "nfs" "v4l2loopback" "vfio_pci" "vfio" "vfio_iommu_type1" ];
   boot.extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
   boot.kernelModules = [ "v4l2loopback" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelParams = [ "amdgpu.sg_display=0" ];
+  boot.kernelParams = [ "amdgpu.sg_display=0" "amd_iommu=on" "vfio-pci.ids=1022:15b8" ];
   boot.supportedFilesystems = ["ntfs"];
   #hardware.firmware = [(import ./firmware/amdgpu {})];
   networking.hostName = "nixos-desktop"; # Define your hostname.
@@ -53,7 +53,7 @@
   };
   # Enable networking
   networking.networkmanager.enable = true;
-  services.gnome.gnome-remote-desktop.enable = true;
+  #services.gnome.gnome-remote-desktop.enable = true;
   # Set your time zone.
   time.timeZone = "Asia/Shanghai";
 
@@ -94,10 +94,13 @@
   services.transmission.openPeerPorts = true;
   # Enable sound with pipewire.
   sound.enable = true;
-  hardware.pulseaudio.enable = false;
+  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.support32Bit = true;
+  nixpkgs.config.pulseaudio = true;
+  programs.dconf.enable = true;
   security.rtkit.enable = true;
   services.pipewire = {
-    enable = true;
+    enable = false;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
@@ -163,7 +166,7 @@
   services.openssh.ports = [2222 22];
   services.openssh.settings.X11Forwarding = true;
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 2222 5001 5201 5900 5901 33333 22333];
+  networking.firewall.allowedTCPPorts = [ 2222 5001 5201 5900 5901 33333 22333 8000];
   #networking.bridges = {
   #  "br0" = {
   #    interfaces = [ "enp10s0" ];
@@ -176,12 +179,12 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
   nix = {
-    package = pkgs.nixFlakes;
+    #package = pkgs.nixFlakes;
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
-    settings.trusted-users = ["gjz010"];
-    settings.substituters =  [ "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store" ];
+    #settings.trusted-users = ["gjz010"];
+    #settings.substituters =  pkgs.lib.mkForce [ "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store" ];
 
   };
   i18n.inputMethod = {
@@ -202,6 +205,7 @@
     dina-font
     proggyfonts
     sarasa-gothic
+    jetbrains-mono
   ];
   virtualisation.libvirtd.enable = true;
   virtualisation.docker.enable = true;
