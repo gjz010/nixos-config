@@ -1,13 +1,13 @@
 { electron, pkgs, stdenv }:
 with pkgs;
-stdenv.mkDerivation {
+stdenv.mkDerivation rec {
   pname = "icalinguapp";
-  version = "2.8.6";
+  version = "2.11.0";
   #builder = ./builder.sh;
   src = ./.;
   asar = fetchurl {
-    url = "https://github.com/Icalingua-plus-plus/Icalingua-plus-plus/releases/download/v2.8.6/app-x86_64.asar";
-    sha256 = "1dg9ss4bjnrg85ga8mz7apqy4jblbmwns4rjgz1q6lfaf6cmzk9s";
+    url = "https://github.com/Icalingua-plus-plus/Icalingua-plus-plus/releases/download/v${version}/app-x86_64.asar";
+    sha256 = "uhKcrd5rHEN1gXVY6hYbpmteQE5ySW7bZKnsZfx3y/4=";
   };
   buildInputs = [ electron ];
   phases = [ "installPhase" ];
