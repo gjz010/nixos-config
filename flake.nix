@@ -8,6 +8,7 @@
   inputs.rust-overlay.url = "github:oxalica/rust-overlay";
   inputs.rust-overlay.inputs.nixpkgs.follows = "nixpkgs";
   inputs.rust-overlay.inputs.flake-utils.follows = "flake-utils";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   outputs = { self, nixpkgs, flake-utils, rust-overlay, ... }: 
   let gjz010_overlay = import ./overlay.nix; 
   overlay = nixpkgs.lib.composeExtensions rust-overlay.overlays.default gjz010_overlay;

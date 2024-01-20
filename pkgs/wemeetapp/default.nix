@@ -9,10 +9,10 @@ let
 libsForQt5 = libsForQt515;
 wemeet = stdenv.mkDerivation {
   pname = "wemeetapp";
-  version = "3.15.0.402";
+  version = "3.19.0.401";
   deb = fetchurl {
-    url = "https://updatecdn.meeting.qq.com/cos/22516e32c067130e73b91ea0793495ae/TencentMeeting_0300000000_3.15.0.402_x86_64_default.publish.deb";
-    sha256 = "bHIPnJ5ioYF/xjrunpbjXohifJUMu/rVdt76v2DaCmc=";
+    url = "https://updatecdn.meeting.qq.com/cos/bb4001c715553579a8b3e496233331d4/TencentMeeting_0300000000_3.19.0.401_x86_64_default.publish.deb";
+    sha256 = "07rgvmmwn74ds8d54c3bd03mfpq676a2xcqlx1jns0xkglvfppsl";
     meta.license = lib.licenses.unfree;
   };
   buildInputs = with libsForQt5.qt5; [
@@ -33,7 +33,7 @@ wemeet = stdenv.mkDerivation {
     "libqt_uikit.so" "libwemeet_module_api.so" "libwemeet_sdk.so" "libservice_manager.so"
     "libwemeet_qt.so" "libwemeet_app_components.so" "libwemeet_app_sdk.so" "libxnn.so"
     "libxnn_core.so" "libxcast.so" "libxcast_codec.so" "libImSDK.so" "libwemeet_plugins.so"
-    "libxnn_media.so"
+    "libxnn_media.so" "libnxui_app.so" "libnxui_component.so" "libwemeet_migration.so"
   ];
   dontWrapQtApps = true;
   installPhase = ''
