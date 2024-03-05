@@ -2,7 +2,7 @@
   description = "NixOS configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs"
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     #nixpkgs.url = "github:nixos/nixpkgs?rev=4107024ef4d9f637b568296f40a2ba0f62b13437";
     #nixpkgs.url = "path:/home/gjz010/playground/nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
@@ -21,6 +21,7 @@
               nixpkgs.overlays = [ gjz010.overlays.default ];
               nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [
                 "TencentMeeting_0300000000_3.15.0.402_x86_64_default.publish.deb"
+                "TencentMeeting_0300000000_3.19.0.401_x86_64_default.publish.deb"
                 "steam"
                 "steam-original"
                 "steam-run"
@@ -39,6 +40,7 @@
               nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
               system.configurationRevision = self.rev or "dirty";
             }
+#            "${nixpkgs}/nixos/modules/virtualisation/qemu-vm.nix"
           ];
         };
       };

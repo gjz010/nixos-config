@@ -19,6 +19,7 @@ with pkgs;
     clinfo
     glxinfo
     gitFull
+    gnupg
     gnumake
     cfssl
     openssl
@@ -26,7 +27,7 @@ with pkgs;
     vscodium
     element-desktop
     prismlauncher
-    graalvm17-ce
+    graalvm-ce
     ripgrep
     remmina
     libreoffice-qt
@@ -44,7 +45,13 @@ with pkgs;
     firefox
     jq
     unar
-
+    (yesplaymusic.overrideAttrs (final: prev: {
+        src = fetchurl { 
+            url = "https://github.com/shih-liang/YesPlayMusicOSD/releases/download/v0.4.5/yesplaymusic_0.4.5_amd64.deb";
+            sha256 = "04yab3122wi5vxv4i0ygas4pf50rvqz4s1khkz2hlnhj5j2p2k8h";
+        };
+        version = "0.4.5";
+    }))
   ];
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
@@ -78,7 +85,7 @@ with pkgs;
         in
         pkgs.writeScript "x11vnc-start" ''
           #! ${pkgs.runtimeShell} -el
-          ${pkgs.x11vnc}/bin/x11vnc -usepw -display $DISPLAY -auth $XAUTHORITY -shared
+          ${pkgs.x11vnc}/bin/x11vnc -usepw -display $DISPLAY -auth $XAUTHORITY -nevershared -forever
         '';
     };
   };

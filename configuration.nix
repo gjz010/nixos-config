@@ -10,6 +10,7 @@
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./cachix.nix
+#      "${nixpkgs}/nixos/modules/virtualisation/qemu-vm.nix"
     ];
   services.udev.packages = [
     pkgs.android-udev-rules
@@ -41,8 +42,8 @@
   networking.hostName = "nixos-desktop"; # Define your hostname.
   boot.binfmt.emulatedSystems = [ "riscv64-linux" ];
   hardware.bluetooth.enable = true;
-  #virtualisation.memorySize = 8192;
-  #virtualisation.cores = 8;
+#  virtualisation.memorySize = 8192;
+#  virtualisation.cores = 8;
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -91,13 +92,13 @@
   services.transmission.openPeerPorts = true;
   # Enable sound with pipewire.
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
-  hardware.pulseaudio.support32Bit = true;
-  nixpkgs.config.pulseaudio = true;
+  #hardware.pulseaudio.enable = true;
+  #hardware.pulseaudio.support32Bit = true;
+  #nixpkgs.config.pulseaudio = true;
   programs.dconf.enable = true;
   security.rtkit.enable = true;
   services.pipewire = {
-    enable = false;
+    enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
@@ -109,10 +110,11 @@
     #media-session.enable = true;
   };
 
-  #virtualisation.qemu.options = [
-  #  "-device virtio-vga-gl"
-  #  "-display gtk,gl=on"
-  #];
+#  virtualisation.qemu.options = [
+#    "-vga none"
+#    "-device virtio-gpu-gl-pci"
+#    "-display gtk,gl=on"
+#  ];
 
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -180,7 +182,7 @@
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
-    #settings.trusted-users = ["gjz010"];
+    settings.trusted-users = ["gjz010"];
     #settings.substituters =  pkgs.lib.mkForce [ "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store" ];
 
   };
