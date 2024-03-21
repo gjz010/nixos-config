@@ -8,6 +8,7 @@ let packages = {
     wemeetapp = final.callPackage ./pkgs/wemeetapp {};
     nix-user-chroot = final.callPackage ./pkgs/nix-user-chroot {};
     proxychains-wrapper = final.callPackage ./pkgs/proxychains-wrapper {};
+    python3WithLD = final.callPackage ./pkgs/python3WithLD {};
 };
 examples = {
     egui-test = final.callPackage ./pkgs/examples/egui-test {};
