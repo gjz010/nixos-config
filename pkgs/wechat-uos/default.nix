@@ -12,6 +12,11 @@ wechat = stdenvNoCC.mkDerivation {
     sha256 = "1091nbf7avp3i45yh8qpsg5chlh17yf4cdgq4z6d8p0gxb1pnlxx";
     meta.license = lib.licenses.unfree;
   };
+  license = fetchurl {
+    url = "https://web.archive.org/web/20240327155742if_/https://aur.archlinux.org/cgit/aur.git/plain/license.tar.gz?h=wechat-uos";
+    sha256 = "0sdx5mdybx4y489dhhc8505mjfajscggxvymlcpqzdd5q5wh0xjk";
+    meta.license = lib.licenses.unfree;
+  };
   buildInputs = [ electron dpkg lsb-release bubblewrap ];
   inherit bubblewrap;
   lsb_release = lsb-release;
@@ -25,12 +30,12 @@ wechat = stdenvNoCC.mkDerivation {
     echo $electron
     echo "  -> Extracting the deb package..."
     dpkg -x $deb ./deb
-    tar -xvf $src/license.tar.gz
+    tar -xvf $license
   '';
 
   installPhase = ''
     pkgname=wechat-uos
-    echo "  -> Moving stuff in place..."
+    echo "  -> Moving stuff in place to $pkgname..."
     mkdir -p $out/usr/lib
     mv deb/opt/apps/com.tencent.weixin/files/weixin/resources/app $out/usr/lib/$pkgname
     install -Dm755 $src/wechat.sh $out/bin/$pkgname
