@@ -26,5 +26,9 @@
   )) // {
     overlays.default = overlay;
     overlays.single = gjz010_overlay;
+    templates.dream2nix-nodejs-rollup-typescript-bin = {
+      path = ./templates/dream2nix-nodejs-rollup-typescript-bin;
+      description = "Using dream2nix to package a binary built using rollup and Typescript.";
+    };
   };
 }

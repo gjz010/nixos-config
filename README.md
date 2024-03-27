@@ -1,11 +1,13 @@
-My Nix channel
+gjz010's Nix channel
 ==============
 
-A bunch of software, free and proprietary.
 
 
-Run single application
+
+Use packages
 --------------
+
+I've packaged a few software, free and proprietary.
 
 ```bash
 # Run Icalingua++.
@@ -19,6 +21,7 @@ NIXPKGS_ALLOW_UNFREE=1 nix run github:gjz010/nix-channel#wemeetapp --impure
 Use as Nixpkgs overlay
 --------------
 
+### Flake users
 ```nix
 {
     description = "Some Nix Flake configuration, for example, the one for home-manager.";
@@ -39,8 +42,7 @@ Use as Nixpkgs overlay
 ```
 
 
-Non-Flake users
---------------
+### Non-Flake users
 
 ```bash
 nix-channel --add https://github.com/gjz010/nix-channel/archive/refs/heads/main.tar.gz gjz010
@@ -49,11 +51,21 @@ nix-build -E "let pkgs = import <nixpkgs> {overlays = [(import <gjz010>)];}; in 
 ```
 
 
-Utilities
+Tar closure bundler
 --------------
-
-### Tar closure bundler
 
 ```bash
 nix bundle --bundler github:gjz010/nix-channel#toTarball nixpkgs#hello
 ```
+
+
+Flake templates
+--------------
+
+Usage: `nix flake init -t github:gjz010/nix-channel#<TEMPLATE>`.
+
+
+| Template                                   | Description                                                            |
+| ------------------------------------------ | ---------------------------------------------------------------------- |
+| dream2nix-nodejs-rollup-typescript-bin     | Using dream2nix to package a binary built using rollup and Typescript. |
+
