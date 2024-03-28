@@ -43,7 +43,7 @@ writeShellScriptBin "nixos-with-flake-init" ''
       installation_password_confirmation=""
     fi
   done
-  
+
   echo "Initializing flake template"
   nix --experimental-features "nix-command flakes" flake init -t $gjz010Flake#nixos-with-flake
   echo "Running nixos-generate-config"
@@ -74,6 +74,8 @@ writeShellScriptBin "nixos-with-flake-init" ''
     echo "user.name not set, using default"
     export GIT_AUTHOR_EMAIL="nixos-with-flake-init"
     export GIT_AUTHOR_NAME="nixos-with-flake-init@no-reply.gjz010.com"
+    export GIT_COMMITTER_EMAIL="nixos-with-flake-init"
+    export GIT_COMMITTER_NAME="nixos-with-flake-init@no-reply.gjz010.com"
     git commit -m "Initial commit."
   else
     git commit -m "Initial commit."
