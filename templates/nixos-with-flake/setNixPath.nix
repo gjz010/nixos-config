@@ -5,5 +5,5 @@
   nix.registry.nixos-configuration.flake = self;
   nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  system.configurationRevision = self.rev or "dirty";
+  system.configurationRevision = self.rev or self.dirtyRev or "dirty";
 }
