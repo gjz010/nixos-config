@@ -37,11 +37,12 @@ writeShellScriptBin "nixos-with-flake-init" ''
   echo "And the password for user $installation_username ?"
   while [ -z "$installation_password_hash" ]; do
     read -s -p "Password: " installation_password
+    echo
     if [ -z "$installation_password" ]; then
       echo "Password cannot be empty. Please try again."
     else
-      echo
       read -s -p "Confirm password: " installation_password_confirmation
+      echo
       if [ "$installation_password" != "$installation_password_confirmation" ]; then
         echo "Passwords do not match. Please try again."
       else
