@@ -3,20 +3,27 @@
 writeShellScriptBin "nixos-with-flake-init" ''
   export PATH=${nix}/bin:${nixos-install-tools}/bin:${git}/bin:${mkpasswd}/bin:${gnused}/bin:$PATH
   gjz010Flake=${gjz010Flake}
+  echo "==================================================="
   echo "NixOS With Flake Initializer by gjz010"
+  echo "==================================================="
+  echo
   config_dir=$(pwd)
   if [ "$(ls -A $config_dir)" ]; then
+    echo "==================================================="
     echo "This script should be run in an empty directory!"
+    echo "==================================================="
     exit 1
   fi
-
-
+  
+  echo "==================================================="
   echo "What will be the hostname of your system?"
   read -p "Hostname (default: nixos): " installation_hostname
   if [ -z "$installation_hostname" ]; then
     installation_hostname="nixos"
   fi
-
+  echo "==================================================="
+  echo
+  echo "==================================================="
   echo "And what is your username?"
   while [ -z "$installation_username" ]; do
     read -p "Username: " installation_username
@@ -24,7 +31,9 @@ writeShellScriptBin "nixos-with-flake-init" ''
       echo "Username cannot be empty. Please try again."
     fi
   done
-
+  echo "==================================================="
+  echo
+  echo "==================================================="
   echo "And the password for user $installation_username ?"
   while [ -z "$installation_password_hash" ]; do
     read -s -p "Password: " installation_password
@@ -43,11 +52,16 @@ writeShellScriptBin "nixos-with-flake-init" ''
       installation_password_confirmation=""
     fi
   done
-
+  echo "==================================================="
+  echo
+  echo "==================================================="
   echo "Initializing flake template"
   nix --experimental-features "nix-command flakes" flake init -t $gjz010Flake#nixos-with-flake
+  echo "==================================================="
+  echo
+  echo "==================================================="
   echo "Running nixos-generate-config"
-  nixos-generate-config --dir $config_dir
+  nixos-generate-config --root /mnt --dir $config_dir 
 
 
   installation_username_nospace=$(echo "$installation_username" | sed "s/ /-/g")
@@ -64,8 +78,9 @@ writeShellScriptBin "nixos-with-flake-init" ''
   sed -i "s/hashedPassword = null/hashedPassword = \"$installation_password_hash_escaped\"/" users/alice.nix
   mv users/alice.nix users/$installation_username_nospace.nix
   sed -i "s/alice\.nix/$installation_username_nospace.nix/" flake.nix
-
-
+  echo "==================================================="
+  echo
+  echo "==================================================="
   echo "Adding everything to git version control"
   git init
   git add .
@@ -80,6 +95,8 @@ writeShellScriptBin "nixos-with-flake-init" ''
   else
     git commit -m "Initial commit."
   fi
+  echo "==================================================="
+  echo
   echo "==================================================="
   echo "Done! Now edit your configuration, namely:"
   echo "- Edit "configuration.nix" to match your needs."
