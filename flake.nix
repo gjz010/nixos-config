@@ -10,7 +10,7 @@
   inputs.rust-overlay.inputs.flake-utils.follows = "flake-utils";
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   outputs = { self, nixpkgs, flake-utils, rust-overlay, ... }: 
-  let gjz010_overlay = import ./overlay.nix; 
+  let gjz010_overlay = import ./overlay.nix {gjz010Flake = self;}; 
   overlay = nixpkgs.lib.composeExtensions rust-overlay.overlays.default gjz010_overlay;
   in
   (flake-utils.lib.eachDefaultSystem (system:
@@ -29,6 +29,10 @@
     templates.dream2nix-nodejs-rollup-typescript-bin = {
       path = ./templates/dream2nix-nodejs-rollup-typescript-bin;
       description = "Using dream2nix to package a binary built using rollup and Typescript.";
+    };
+    templates.nixos-with-flake = {
+      path = ./templates/nixos-with-flake;
+      description = "A NixOS configuration using Flake and home-manager.";
     };
   };
 }

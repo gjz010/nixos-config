@@ -59,6 +59,7 @@ nix bundle --bundler github:gjz010/nix-channel#toTarball nixpkgs#hello
 ```
 
 
+
 Flake templates
 --------------
 
@@ -68,4 +69,5 @@ Usage: `nix flake init -t github:gjz010/nix-channel#<TEMPLATE>`.
 | Template                                   | Description                                                            |
 | ------------------------------------------ | ---------------------------------------------------------------------- |
 | dream2nix-nodejs-rollup-typescript-bin     | Using dream2nix to package a binary built using rollup and Typescript. |
+| nixos-with-flake                           | A NixOS configuration using Flake and home-manager. Try `nix run github:gjz010#nixos-with-flake-init in an empty folder. |
 

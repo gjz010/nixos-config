@@ -1,3 +1,4 @@
+{gjz010Flake}:
 final: prev:
 let packages = {
     icalinguapp = final.callPackage ./pkgs/icalinguapp {};
@@ -9,6 +10,7 @@ let packages = {
     nix-user-chroot = final.callPackage ./pkgs/nix-user-chroot {};
     proxychains-wrapper = final.callPackage ./pkgs/proxychains-wrapper {};
     python3WithLD = final.callPackage ./pkgs/python3WithLD {};
+    nixos-with-flake-init = final.callPackage ./pkgs/nixos-with-flake-init {inherit gjz010Flake;};
 };
 examples = {
     egui-test = final.callPackage ./pkgs/examples/egui-test {};
