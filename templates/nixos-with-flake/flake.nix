@@ -8,10 +8,10 @@
     flake-parts.lib.mkFlake {inherit inputs;} {
       flake = {
         nixosConfigurations = {
-          "nixos" = nixpkgs.lib.nixosSystem {
+          "nixos-desktop-alice" = nixpkgs.lib.nixosSystem {
             modules = [
               {
-                networking.hostName = "nixos";
+                networking.hostName = "nixos-desktop-alice";
               }
               (import ./setNixPath.nix {inherit nixpkgs self;})
               ./homeManagerConfig.nix
