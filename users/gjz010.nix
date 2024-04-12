@@ -3,7 +3,7 @@
   users.users."gjz010" = {
     isNormalUser = true;
     extraGroups = [ "networkmanager" "wheel" ];
-    hashedPassword = "REDACTED";
+    hashedPasswordFile = config.sops.secrets."shadow/gjz010".path;
   };
   home-manager.users."gjz010" = { pkgs, ... }: {
     home.packages = [ pkgs.cowsay ];
