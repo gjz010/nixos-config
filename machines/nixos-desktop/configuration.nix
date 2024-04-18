@@ -221,6 +221,7 @@
   virtualisation.libvirtd.qemu.ovmf.packages = [ pkgs.OVMFFull.fd ];
   virtualisation.libvirtd.qemu.swtpm.enable = true;
   virtualisation.spiceUSBRedirection.enable = true;
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
   #  environment.sessionVariables = {
   #      GTK_IM_MODULE = "fcitx";
   #      QT_IM_MODULE = "fcitx";

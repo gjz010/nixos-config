@@ -14,6 +14,10 @@
       url = "github:gjz010/nix-channel";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    prismlauncher = {
+      url = "github:PrismLauncher/PrismLauncher";
+      inputs.nixpkgs.follows = "nixpkgs";
+    }; 
   };
   outputs = inputs@{ self, nixpkgs, home-manager, flake-parts, nixos-wsl, sops-nix, gjz010, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {

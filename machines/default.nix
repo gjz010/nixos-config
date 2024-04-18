@@ -23,4 +23,15 @@ inputs@{ nixpkgs, self, ... }:
       })
     ];
   };
+  "nixos-laptop" = nixpkgs.lib.nixosSystem {
+    system = "x86_64-linux";
+    specialArgs = { inherit inputs; };
+    modules = (builtins.attrValues self.nixosModules) ++ [
+      ./nixos-laptop
+      ({ lib, ... }: {
+        networking.hostName = "nixos-laptop";
+        nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+      })
+    ];
+  };
 }
