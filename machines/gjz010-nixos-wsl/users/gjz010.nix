@@ -1,9 +1,12 @@
-{config, ...}:
+{ config, ... }:
 {
   users.users."gjz010" = {
     isNormalUser = true;
     extraGroups = [ "networkmanager" "wheel" ];
-    hashedPasswordFile = config.sops.secrets."shadow/gjz010".path;
+    hashedPasswordFile = config.sops.secrets."shadow/gjz010-nixos-wsl/gjz010".path;
+  };
+  sops.secrets."shadow/gjz010-nixos-wsl/gjz010" = {
+    neededForUsers = true;
   };
   home-manager.users."gjz010" = { pkgs, ... }: {
     home.packages = [ pkgs.cowsay ];

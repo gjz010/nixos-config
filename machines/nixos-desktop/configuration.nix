@@ -9,8 +9,7 @@
     [
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ./cachix.nix
-#      "${nixpkgs}/nixos/modules/virtualisation/qemu-vm.nix"
+      #      "${nixpkgs}/nixos/modules/virtualisation/qemu-vm.nix"
     ];
   services.udev.packages = [
     pkgs.android-udev-rules
@@ -45,8 +44,8 @@
   networking.hostName = "nixos-desktop"; # Define your hostname.
   boot.binfmt.emulatedSystems = [ "riscv64-linux" "aarch64-linux" ];
   hardware.bluetooth.enable = true;
-#  virtualisation.memorySize = 8192;
-#  virtualisation.cores = 8;
+  #  virtualisation.memorySize = 8192;
+  #  virtualisation.cores = 8;
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -114,11 +113,11 @@
     #media-session.enable = true;
   };
 
-#  virtualisation.qemu.options = [
-#    "-vga none"
-#    "-device virtio-gpu-gl-pci"
-#    "-display gtk,gl=on"
-#  ];
+  #  virtualisation.qemu.options = [
+  #    "-vga none"
+  #    "-device virtio-gpu-gl-pci"
+  #    "-display gtk,gl=on"
+  #  ];
 
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -136,6 +135,7 @@
     hashedPassword = "REDACTED";
     shell = pkgs.bash;
   };
+  home-manager.users.gjz010 = import ./home.nix;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -188,7 +188,7 @@
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
-    settings.trusted-users = ["gjz010"];
+    settings.trusted-users = [ "gjz010" ];
     #settings.substituters =  pkgs.lib.mkForce [ "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store" ];
 
   };

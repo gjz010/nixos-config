@@ -46,13 +46,17 @@ with pkgs;
     jq
     unar
     (yesplaymusic.overrideAttrs (final: prev: {
-        src = fetchurl { 
-            url = "https://github.com/shih-liang/YesPlayMusicOSD/releases/download/v0.4.5/yesplaymusic_0.4.5_amd64.deb";
-            sha256 = "04yab3122wi5vxv4i0ygas4pf50rvqz4s1khkz2hlnhj5j2p2k8h";
-        };
-        version = "0.4.5";
+      src = fetchurl {
+        url = "https://github.com/shih-liang/YesPlayMusicOSD/releases/download/v0.4.5/yesplaymusic_0.4.5_amd64.deb";
+        sha256 = "04yab3122wi5vxv4i0ygas4pf50rvqz4s1khkz2hlnhj5j2p2k8h";
+      };
+      version = "0.4.5";
     }))
-    zk fzf krita gimp sops
+    zk
+    fzf
+    krita
+    gimp
+    sops
   ];
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage

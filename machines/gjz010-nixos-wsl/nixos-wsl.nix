@@ -4,31 +4,21 @@
 
 # NixOS-WSL specific options are documented on the NixOS-WSL repository:
 # https://github.com/nix-community/NixOS-WSL
-{ nixos-wsl }:
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, specialArgs, ... }:
 
 {
   imports = [
-    # include NixOS-WSL modules
-    "${nixos-wsl}/modules"
+    "${specialArgs.inputs.nixos-wsl}/modules"
   ];
-
   wsl.enable = true;
   wsl.defaultUser = "gjz010";
 
   # /bin/bash is good for WSL
   # https://discourse.nixos.org/t/add-bin-bash-to-avoid-unnecessary-pain/5673/10
   system.activationScripts.binbash =
-      ''
-        mkdir -m 0755 -p /bin
-        ln -sfn /run/current-system/sw/bin/bash /bin/.bash.tmp
-        mv /bin/.bash.tmp /bin/bash # atomically replace /usr/bin/env
-      '';
-
-
-
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-
-
-
+    ''
+      mkdir -m 0755 -p /bin
+      ln -sfn /run/current-system/sw/bin/bash /bin/.bash.tmp
+      mv /bin/.bash.tmp /bin/bash # atomically replace /usr/bin/env
+    '';
 }

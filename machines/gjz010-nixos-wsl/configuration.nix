@@ -6,10 +6,11 @@
 
 {
   environment.systemPackages = with pkgs; [
-    firefox gitFull sops
+    firefox
+    gitFull
+    sops
   ];
   services.openssh.enable = true;
-  system.stateVersion = "24.05"; 
+  system.stateVersion = "24.05";
 
 }
-
