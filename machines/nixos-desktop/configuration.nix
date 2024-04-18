@@ -14,9 +14,6 @@
   services.udev.packages = [
     pkgs.android-udev-rules
   ];
-  services.udev.extraRules = ''
-    KERNEL=="kvm", NAME="i_love_kernel_virtualization"    
-  '';
   programs.adb.enable = true;
   programs.corectrl.enable = true;
   # Bootloader.
@@ -153,6 +150,8 @@
     kdePackages.krfb
     virtiofsd
     virt-viewer
+    gitFull
+    git-crypt
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
