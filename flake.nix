@@ -8,9 +8,11 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     gjz010.url = "github:gjz010/nix-channel";
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, gjz010, ... }:
+  outputs = inputs@{ self, nixpkgs, home-manager, gjz010, sops-nix, ... }:
     {
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
       nixosConfigurations = {
@@ -35,10 +37,11 @@
               home-manager.useUserPackages = true;
               home-manager.users.gjz010 = import ./home.nix;
             }
+            sops-nix.nixosModules.sops
             {
               nix.registry.nixpkgs.flake = nixpkgs;
               nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
-              system.configurationRevision = self.rev or "dirty";
+              system.configurationRevision = self.rev or self.dirtyRev or "dirty";
             }
 #            "${nixpkgs}/nixos/modules/virtualisation/qemu-vm.nix"
           ];

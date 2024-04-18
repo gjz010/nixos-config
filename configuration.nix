@@ -15,6 +15,9 @@
   services.udev.packages = [
     pkgs.android-udev-rules
   ];
+  services.udev.extraRules = ''
+    KERNEL=="kvm", NAME="i_love_kernel_virtualization"    
+  '';
   programs.adb.enable = true;
   programs.corectrl.enable = true;
   # Bootloader.
@@ -40,7 +43,7 @@
   boot.supportedFilesystems = [ "ntfs" ];
   #hardware.firmware = [(import ./firmware/amdgpu {})];
   networking.hostName = "nixos-desktop"; # Define your hostname.
-  boot.binfmt.emulatedSystems = [ "riscv64-linux" ];
+  boot.binfmt.emulatedSystems = [ "riscv64-linux" "aarch64-linux" ];
   hardware.bluetooth.enable = true;
 #  virtualisation.memorySize = 8192;
 #  virtualisation.cores = 8;
@@ -79,7 +82,7 @@
 
   # Enable the KDE Plasma Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
+  services.xserver.desktopManager.plasma6.enable = true;
   # Configure keymap in X11
   services.xserver = {
     layout = "cn";
@@ -97,6 +100,7 @@
   #nixpkgs.config.pulseaudio = true;
   programs.dconf.enable = true;
   security.rtkit.enable = true;
+  services.flatpak.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -143,10 +147,12 @@
     transmission-qt
     virt-manager
     dconf
-    virtiofsd
+    #virtiofsd
     firefox
     kate
-    libsForQt5.krfb
+    kdePackages.krfb
+    virtiofsd
+    virt-viewer
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -165,7 +171,7 @@
   services.openssh.ports = [ 2222 22 ];
   services.openssh.settings.X11Forwarding = true;
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 2222 5001 5201 5900 5901 33333 22333 8000 ];
+  networking.firewall.allowedTCPPorts = [ 2222 5001 5201 5900 5901 33333 22333 8000 3389 ];
   #networking.bridges = {
   #  "br0" = {
   #    interfaces = [ "enp10s0" ];
@@ -208,6 +214,7 @@
   ];
   virtualisation.libvirtd.enable = true;
   virtualisation.docker.enable = true;
+  virtualisation.podman.enable = true;
   #virtualisation.lxd.enable = true;
   virtualisation.waydroid.enable = true;
   virtualisation.libvirtd.qemu.ovmf.enable = true;
