@@ -1,10 +1,13 @@
 keys:
   - &admin_gjz010_nixos_wsl age1q2gzuu8xsn2xvcqpdmftt8yyjthgrzq0r4uv952d5aj0c7v29cussp8s0c
+  - &admin_gjz010_nixos_laptop age1vgcerrxut6mxwm249x6yagz9j9y86pq4csunnp3f6sc52c62yuzsdqpvjx
   - &server_gjz010_nixos_wsl age13n42wjj3kvmj3wk7ms3h7wgdsdpj225lyxvlutg5yd9ja5l433wqelpe7x
 creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
-    key_groups: 
+    key_groups:
     - age:
       - *admin_gjz010_nixos_wsl
       - *server_gjz010_nixos_wsl
+      - *admin_gjz010_nixos_laptop
+
 
