@@ -35,7 +35,7 @@ in
     };
     serviceConfig = {
       ExecStart = "${pkgs.kcptun}/bin/kcptun-client -l 127.0.0.1:${qqbridge_port} -r 127.0.0.1:${kcptun_udp2raw_port} --mode fast3";
-      EnvironmentFile = config.sops.template."kcptun-qqbridge.env".path;
+      EnvironmentFile = config.sops.templates."kcptun-qqbridge.env".path;
       Restart = "always";
       RestartSec = "10s";
     };
@@ -49,7 +49,7 @@ in
     };
     serviceConfig = {
       ExecStart = udp2rawScript;
-      EnvironmentFile = config.sops.template."udp2raw-qqbridge.env".path;
+      EnvironmentFile = config.sops.templates."udp2raw-qqbridge.env".path;
       Restart = "always";
       RestartSec = "10s";
     };
