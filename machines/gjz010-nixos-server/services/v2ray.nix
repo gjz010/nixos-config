@@ -81,19 +81,18 @@ in
 
 
   sops.templates."tunnel.yaml".content = builtins.toJSON serverConfig;
-  sops.templates."tunnel.yaml".owner = "serviceuser";
+  sops.templates."tunnel.yaml".owner = "v2ray";
   services.v2ray.enable = true;
   services.v2ray.configFile = config.sops.templates."tunnel.yaml".path;
 
   users.users = {
     v2ray = {
       group = "v2ray";
-      uid = config.ids.uids.v2ray;
     };
   };
 
   users.groups = {
-    v2ray.gid = config.ids.gids.v2ray;
+    v2ray = {};
   };
 
   systemd.services.v2ray = {
