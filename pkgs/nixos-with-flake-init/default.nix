@@ -1,5 +1,11 @@
-{writeShellScriptBin, nixos-install-tools, nix, git, mkpasswd, gnused
-, gjz010Flake}:
+{ writeShellScriptBin
+, nixos-install-tools
+, nix
+, git
+, mkpasswd
+, gnused
+, gjz010Flake
+}:
 writeShellScriptBin "nixos-with-flake-init" ''
   export PATH=${nix}/bin:${nixos-install-tools}/bin:${git}/bin:${mkpasswd}/bin:${gnused}/bin:$PATH
   gjz010Flake=${gjz010Flake}

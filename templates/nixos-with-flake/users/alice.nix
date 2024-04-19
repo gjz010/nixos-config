@@ -1,4 +1,4 @@
-{config, ...}:
+{ config, ... }:
 {
   users.users.alice = {
     isNormalUser = true;

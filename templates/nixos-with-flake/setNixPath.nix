@@ -1,5 +1,5 @@
 # Note: the self here refers to the NixOS flake!
-{self, nixpkgs, ...}:
+{ self, nixpkgs, ... }:
 {
   nix.registry.nixpkgs.flake = nixpkgs;
   nix.registry.nixos-configuration.flake = self;

@@ -1,4 +1,5 @@
-{ lib, stdenv
+{ lib
+, stdenv
 , fetchurl
 , gobject-introspection
 , gsettings-desktop-schemas

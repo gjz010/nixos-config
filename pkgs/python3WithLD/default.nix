@@ -1,4 +1,4 @@
-{mkShell
+{ mkShell
 , python3
 , bashInteractive
 , stdenv
@@ -19,10 +19,31 @@
 , binutils
 , ncurses5
 , git
-, lib}:
+, lib
+}:
 mkShell rec{
-    buildInputs = [python3 bashInteractive 
-      stdenv.cc.cc.lib stdenv.cc zlib curl glib libGLU libGL unzip gperf m4 util-linux gnumake procps autoconf gnupg gitRepo binutils ncurses5 git
-    ];
-    LD_LIBRARY_PATH = (lib.makeLibraryPath buildInputs);
+  buildInputs = [
+    python3
+    bashInteractive
+    stdenv.cc.cc.lib
+    stdenv.cc
+    zlib
+    curl
+    glib
+    libGLU
+    libGL
+    unzip
+    gperf
+    m4
+    util-linux
+    gnumake
+    procps
+    autoconf
+    gnupg
+    gitRepo
+    binutils
+    ncurses5
+    git
+  ];
+  LD_LIBRARY_PATH = (lib.makeLibraryPath buildInputs);
 }
