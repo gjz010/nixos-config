@@ -88,11 +88,12 @@ in
   users.users = {
     v2ray = {
       group = "v2ray";
+      isSystemUser = true;
     };
   };
 
   users.groups = {
-    v2ray = {};
+    v2ray = { };
   };
 
   systemd.services.v2ray = {
