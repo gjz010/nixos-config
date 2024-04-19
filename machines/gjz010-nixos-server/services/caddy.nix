@@ -14,6 +14,14 @@
       respond /.well-known/matrix/client `{"m.homeserver":{"base_url":"https://matrix.gjz010.com"},"org.matrix.msc3575.proxy":{"url":"https://matrix.gjz010.com"}}`
     '';
     virtualHosts."matrix.gjz010.com:8448".extraConfig = virtualHosts."matrix.gjz010.com".extraConfig;
+    virtualHosts."matrix-bridge.gjz010.com".extraConfig = ''
+      encode gzip
+      reverse_proxy /_matrix/* http://127.0.0.1:6167
+      header /.well-known/matrix/* Content-Type application/json
+      header /.well-known/matrix/* Access-Control-Allow-Origin *
+      respond /.well-known/matrix/server `{"m.server": "matrix-bridge.gjz010.com:443"}`
+      respond /.well-known/matrix/client `{"m.homeserver":{"base_url":"https://matrix-bridge.gjz010.com"}}`
+    '';
   };
   networking.firewall.allowedTCPPorts = [ 80 443 8448 ];
 }
