@@ -1,4 +1,4 @@
-{configs, pkgs, ...}:
+{ configs, pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [ direnv nix-direnv ];
   # nix options for derivations to persist garbage collection
@@ -12,6 +12,6 @@
   # if you also want support for flakes (this makes nix-direnv use the
   # unstable version of nix):
   nixpkgs.overlays = [
-    (self: super: { nix-direnv = super.nix-direnv.override { }; } )
+    (self: super: { nix-direnv = super.nix-direnv.override { }; })
   ];
 }

@@ -17,14 +17,14 @@
     prismlauncher = {
       url = "github:PrismLauncher/PrismLauncher";
       inputs.nixpkgs.follows = "nixpkgs";
-    }; 
+    };
   };
   outputs = inputs@{ self, nixpkgs, home-manager, flake-parts, nixos-wsl, sops-nix, gjz010, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       perSystem = { config, pkgs, system, ... }: {
         formatter = pkgs.nixpkgs-fmt;
-        devShells.default = pkgs.mkShell{
-          nativeBuildInputs = [pkgs.bashInteractive pkgs.sops pkgs.age pkgs.ssh-to-age];
+        devShells.default = pkgs.mkShell {
+          nativeBuildInputs = [ pkgs.bashInteractive pkgs.sops pkgs.age pkgs.ssh-to-age ];
           EDITOR = ./scripts/editor.sh;
         };
       };

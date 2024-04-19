@@ -5,7 +5,8 @@
 
 {
   imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
+    [
+      (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
@@ -14,27 +15,29 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/306d0f8b-ffb1-4da1-9abf-272378567d74";
+    {
+      device = "/dev/disk/by-uuid/306d0f8b-ffb1-4da1-9abf-272378567d74";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/247F-03FD";
+    {
+      device = "/dev/disk/by-uuid/247F-03FD";
       fsType = "vfat";
     };
 
-  fileSystems."/mnt/win10" = { 
+  fileSystems."/mnt/win10" = {
     device = "/dev/disk/by-uuid/B6EE0816EE07CD95";
     fsType = "auto";
-    options = [ "defaults" "rw"];
+    options = [ "defaults" "rw" ];
   };
   fileSystems."/mnt/zhitai" = {
     device = "/dev/disk/by-uuid/f2ecf750-f14b-45b4-a5a8-37250844d84e";
     fsType = "auto";
-    options = [ "defaults" "rw"];
+    options = [ "defaults" "rw" ];
   };
 
-  swapDevices = [ { device = "/dev/disk/by-uuid/07d5de5c-a6a3-44a2-9ee9-c0386e5c5d3c"; } ];
+  swapDevices = [{ device = "/dev/disk/by-uuid/07d5de5c-a6a3-44a2-9ee9-c0386e5c5d3c"; }];
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;

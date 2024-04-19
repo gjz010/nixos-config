@@ -20,19 +20,71 @@ in
   # the Home Manager release notes for a list of state version
   # changes in each release.
   home.packages = with pkgs;
-        [ pkgs.kdenlive pkgs.dmidecode pkgs.screen pkgs.gitFull pkgs.git-lfs pkgs.bind 
-          ark gdb ghc gimp gitFull imagemagick jq kate libreoffice-qt nodejs obs-studio pmutils mclauncher (gjz010.proxychains-wrapper) (gjz010.examples.completion-test)
-          mypython ripgrep thunderbird vlc vscodium x11vnc zotero (coq_8_16.override {buildIde = true;})  zip 
-          p7zip unar unzipNLS electron (gjz010.icalinguapp.override{electron = electron;}) kotatogram-desktop element-desktop gmp opam usbimager nwjs-sdk ungoogled-chromium transmission-qt tor-browser-bundle-bin pdftk openal graalvm-ce cachix
-          waypipe
-          desktop-file-utils cloudflare-warp nix-index (gjz010.wemeetapp) texlive.combined.scheme-medium graphviz 
-          (gjz010.blivec-mpv) unrar];
+    [
+      pkgs.kdenlive
+      pkgs.dmidecode
+      pkgs.screen
+      pkgs.gitFull
+      pkgs.git-lfs
+      pkgs.bind
+      ark
+      gdb
+      ghc
+      gimp
+      gitFull
+      imagemagick
+      jq
+      kate
+      libreoffice-qt
+      nodejs
+      obs-studio
+      pmutils
+      mclauncher
+      (gjz010.proxychains-wrapper)
+      (gjz010.examples.completion-test)
+      mypython
+      ripgrep
+      thunderbird
+      vlc
+      vscodium
+      x11vnc
+      zotero
+      (coq_8_16.override { buildIde = true; })
+      zip
+      p7zip
+      unar
+      unzipNLS
+      electron
+      (gjz010.icalinguapp.override { electron = electron; })
+      kotatogram-desktop
+      element-desktop
+      gmp
+      opam
+      usbimager
+      nwjs-sdk
+      ungoogled-chromium
+      transmission-qt
+      tor-browser-bundle-bin
+      pdftk
+      openal
+      graalvm-ce
+      cachix
+      waypipe
+      desktop-file-utils
+      cloudflare-warp
+      nix-index
+      (gjz010.wemeetapp)
+      texlive.combined.scheme-medium
+      graphviz
+      (gjz010.blivec-mpv)
+      unrar
+    ];
   home.stateVersion = "22.05";
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
   programs.tmux.enable = true;
   programs.tmux.clock24 = true;
-  programs.timidity.enable=true;
-#  programs.kdeconnect.enable = true;
+  programs.timidity.enable = true;
+  #  programs.kdeconnect.enable = true;
 }

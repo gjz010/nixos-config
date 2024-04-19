@@ -8,18 +8,18 @@
     "hid_apple.fnmode=2"
   ];
   boot.extraModprobeConfig = ''
-      options hid_apple fnmode=2
-      options kvm_intel nested=1
+    options hid_apple fnmode=2
+    options kvm_intel nested=1
   '';
-  boot.kernelModules = [ "hid-apple"  ];
+  boot.kernelModules = [ "hid-apple" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
   services.udev.packages = [
     pkgs.android-udev-rules
   ];
-  
+
   programs.dconf.enable = true;
 
-  nix.settings.substituters =  [ "https://mirrors.cernet.edu.cn/nix-channels/store" ];
+  nix.settings.substituters = [ "https://mirrors.cernet.edu.cn/nix-channels/store" ];
   nix.settings.trusted-users = [ "gjz010" ];
 
   imports =
@@ -32,8 +32,8 @@
   virtualisation.spiceUSBRedirection.enable = true;
   #virtualisation.podman = {
   #  enable = true;
-    # Required for containers under podman-compose to be able to talk to each other.
-    #defaultNetwork.dnsname.enable = true;
+  # Required for containers under podman-compose to be able to talk to each other.
+  #defaultNetwork.dnsname.enable = true;
   #};
   nixpkgs.config.allowUnfree = true;
   #hardware.tuxedo-keyboard.enable = true;
@@ -45,21 +45,21 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.grub.useOSProber = true;
-  boot.supportedFilesystems = [ "ntfs" ];  
-  programs.steam.enable=true;
-  programs.kdeconnect.enable=true;
+  boot.supportedFilesystems = [ "ntfs" ];
+  programs.steam.enable = true;
+  programs.kdeconnect.enable = true;
   hardware.opengl.enable = true;
 
-  hardware.nvidia = 
-  {
-    powerManagement.enable = true;
-    nvidiaSettings = true;
-    modesetting.enable = true;
-    nvidiaPersistenced = true;
-  };
+  hardware.nvidia =
+    {
+      powerManagement.enable = true;
+      nvidiaSettings = true;
+      modesetting.enable = true;
+      nvidiaPersistenced = true;
+    };
 
   networking.networkmanager.enable = true;
-  networking.networkmanager.plugins = [pkgs.networkmanager-openvpn];
+  networking.networkmanager.plugins = [ pkgs.networkmanager-openvpn ];
   # Set your time zone.
   time.timeZone = "Asia/Shanghai";
 
@@ -149,15 +149,16 @@
   sops.secrets."shadow/nixos-laptop/gjz010" = {
     neededForUsers = true;
   };
- # services.softether.enable = true;
- # services.softether.vpnclient.enable = true;
+  # services.softether.enable = true;
+  # services.softether.vpnclient.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
-    helvum alsa-oss
+    helvum
+    alsa-oss
     firefox
     #v2ray
     vscodium
@@ -211,7 +212,7 @@
   #  '';
   #};
   /*
-  systemd.services.x11vnc = {
+    systemd.services.x11vnc = {
     wantedBy = [ "multi-user.target" ];
     after = [ "network.target" "display-manager.service" ];
     path = [pkgs.x11vnc pkgs.gawk pkgs.nettools pkgs.xorg.xauth];
@@ -220,7 +221,7 @@
       #Restart="on-failure";
       #RestartSec=3;
     };
-  };
+    };
   */
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -234,7 +235,7 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-  services.openssh.ports = [22 2222];
+  services.openssh.ports = [ 22 2222 ];
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 2222 22333 ];
   networking.firewall.extraCommands = ''
@@ -243,19 +244,19 @@
     iptables -A nixos-fw --source 192.168.77.0/24 -j nixos-fw-accept
     iptables -A nixos-fw --source 192.168.78.0/24 -j nixos-fw-accept
   '';
-  networking.firewall.trustedInterfaces = [ "enp0s20f0u4c2" "virbr0"  ];
+  networking.firewall.trustedInterfaces = [ "enp0s20f0u4c2" "virbr0" ];
   # gjz010.services.nixos-cache-local.enable = true;
-  
+
   boot.tmp.useTmpfs = true;
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
   environment.sessionVariables = {
-      NIX_PROFILES =
-        "${builtins.concatStringsSep " " (pkgs.lib.reverseList config.environment.profiles)}";
-      GTK_IM_MODULE = "fcitx";
-      QT_IM_MODULE = "fcitx";
-      XMODIFIERS = "@im=fcitx";
+    NIX_PROFILES =
+      "${builtins.concatStringsSep " " (pkgs.lib.reverseList config.environment.profiles)}";
+    GTK_IM_MODULE = "fcitx";
+    QT_IM_MODULE = "fcitx";
+    XMODIFIERS = "@im=fcitx";
   };
 
   # This value determines the NixOS release from which the default

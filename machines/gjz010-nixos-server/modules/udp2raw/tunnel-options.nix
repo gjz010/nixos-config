@@ -1,11 +1,9 @@
-{cfg}:
-{config, lib, ...}:
+{ cfg }:
+{ config, lib, ... }:
 let
-    inherit (lib) types;
+  inherit (lib) types;
 in
 {
-    options = {
-        
-    };
+  options = { };
 
 }

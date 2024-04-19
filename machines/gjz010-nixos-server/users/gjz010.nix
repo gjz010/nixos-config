@@ -1,4 +1,4 @@
-{config, ...}:
+{ config, ... }:
 {
   users.users."gjz010" = {
     isNormalUser = true;
