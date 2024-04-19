@@ -12,6 +12,7 @@ let
     proxychains-wrapper = final.callPackage ./pkgs/proxychains-wrapper { };
     python3WithLD = final.callPackage ./pkgs/python3WithLD { };
     nixos-with-flake-init = final.callPackage ./pkgs/nixos-with-flake-init { inherit gjz010Flake; };
+    kcptun-bin = final.callPackage ./pkgs/kcptun-bin { };
   };
   examples = {
     egui-test = final.callPackage ./pkgs/examples/egui-test { };
