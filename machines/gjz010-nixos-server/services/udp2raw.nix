@@ -4,7 +4,7 @@ let
     sopsFile = "${config.passthru.gjz010.secretRoot}/tunnel-config/config.yaml";
   };
   udp2rawScript = pkgs.writeShellScript "udp2raw-launch" ''
-    exec ${pkgs.udp2raw}/bin/udp2raw -s -l $listen_addr:1 -r 127.0.0.1:18888 --raw-mode icmp -k $key --sqe-mode 4 --fix-gro
+    exec ${pkgs.udp2raw}/bin/udp2raw -s -l $listen_addr:1 -r 127.0.0.1:18888 --raw-mode icmp -k $key --seq-mode 4 --fix-gro
   '';
 in
 {

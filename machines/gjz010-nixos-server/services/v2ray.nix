@@ -81,11 +81,31 @@ in
 
 
   sops.templates."tunnel.yaml".content = builtins.toJSON serverConfig;
-
+  sops.templates."tunnel.yaml".owner = "serviceuser";
   services.v2ray.enable = true;
   services.v2ray.configFile = config.sops.templates."tunnel.yaml".path;
 
+  users.users = {
+    v2ray = {
+      group = "v2ray";
+      uid = config.ids.uids.v2ray;
+    };
+  };
+
+  users.groups = {
+    v2ray.gid = config.ids.gids.v2ray;
+  };
+
+  systemd.services.v2ray = {
+    serviceConfig = {
+      User = "v2ray";
+      Group = "v2ray";
+    };
+  };
+
   networking.firewall.allowedTCPPorts = [ 18888 ];
   networking.firewall.allowedUDPPorts = [ 18888 ];
+
+
 
 }
