@@ -9,6 +9,7 @@
     ./services/v2ray.nix
     ./services/udp2raw.nix
     ./services/caddy.nix
+    ./services/qqbridge.nix
   ];
 }
 

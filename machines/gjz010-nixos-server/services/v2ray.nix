@@ -29,6 +29,7 @@ let
           settings = {
             inherit clients;
           };
+          tag = "tunnel";
           inherit streamSettings;
         }
         {
@@ -38,6 +39,7 @@ let
           settings = {
             inherit clients;
           };
+          tag = "tunnel";
           inherit streamSettings;
         }
         {
@@ -47,6 +49,7 @@ let
           settings = {
             inherit clients;
           };
+          tag = "tunnel";
           streamSettings = {
             network = "ws";
             security = "none";
