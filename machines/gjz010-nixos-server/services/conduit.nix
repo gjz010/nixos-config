@@ -11,4 +11,16 @@
       };
     };
   };
+  virtualisation.oci-containers.containers = {
+    mautrix-tg = {
+      image = "dock.mau.dev/mautrix/telegram:latest";
+      extraOptions = [ "--network=host" ];
+      volumes = [ "/var/qqbridge/mautrix-tg:/data" ];
+    };
+    mautrix-discord = {
+      image = "dock.mau.dev/mautrix/discord:latest";
+      extraOptions = [ "--network=host" ];
+      volumes = [ "/var/qqbridge/mautrix-discord:/data" ];
+    };
+  };
 }
