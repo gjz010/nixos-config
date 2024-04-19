@@ -1,9 +1,9 @@
 { config, pkgs, ... }:
 let
   # This port is UDP.
-  kcptun_udp2raw_port = 18890;
+  kcptun_udp2raw_port = "18890";
   # This port is TCP.
-  qqbridge_port = 18890;
+  qqbridge_port = "18890";
   sopsConfig = {
     sopsFile = "${config.passthru.gjz010.secretRoot}/tunnel-config/config.yaml";
   };
@@ -34,10 +34,10 @@ in
       after = [ "network.target" "nss-lookup.target" ];
     };
     serviceConfig = {
-      ExecStart = "${pkgs.gjz010.pkgs.kcptun}/bin/kcptun-client -l 127.0.0.1:${qqbridge_port} -r 127.0.0.1:${kcptun_udp2raw_port} --mode fast3";
+      ExecStart = "${pkgs.gjz010.pkgs.kcptun-bin}/bin/kcptun-client -l 127.0.0.1:${qqbridge_port} -r 127.0.0.1:${kcptun_udp2raw_port} --mode fast3";
       EnvironmentFile = config.sops.templates."kcptun-qqbridge.env".path;
       Restart = "always";
-      RestartSec = "10s";
+      RestartSec = 10;
     };
   };
   systemd.services.udp2raw-qqbridge = {
@@ -51,7 +51,7 @@ in
       ExecStart = udp2rawScript;
       EnvironmentFile = config.sops.templates."udp2raw-qqbridge.env".path;
       Restart = "always";
-      RestartSec = "10s";
+      RestartSec = 10;
     };
   };
 
