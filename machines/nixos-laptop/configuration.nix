@@ -4,9 +4,8 @@
 { config, pkgs, ... }:
 {
 
-  boot.kernelParams = [
-    "hid_apple.fnmode=2"
-  ];
+  #boot.kernelParams = [
+  #];
   boot.extraModprobeConfig = ''
     options hid_apple fnmode=2
     options kvm_intel nested=1
@@ -50,14 +49,22 @@
   programs.kdeconnect.enable = true;
   hardware.opengl.enable = true;
 
-  hardware.nvidia =
-    {
-      powerManagement.enable = true;
-      nvidiaSettings = true;
-      modesetting.enable = true;
-      nvidiaPersistenced = true;
-    };
-
+  boot.kernelParams = [
+    "hid_apple.fnmode=2"
+#    "nouveau.config=NvGspRM=1"
+#    "nouveau.debug=info,VBIOS=info,gsp=debug"
+  ];
+  /*
+  hardware.nvidia = 
+  {
+    powerManagement.enable = true;
+    nvidiaSettings = true;
+    modesetting.enable = true;
+    nvidiaPersistenced = true;
+    open = true;
+  };
+  */
+  gjz010.drivers.nvidia-proprietary.enable = true;
   networking.networkmanager.enable = true;
   networking.networkmanager.plugins = [ pkgs.networkmanager-openvpn ];
   # Set your time zone.
@@ -67,7 +74,7 @@
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
-  networking.interfaces.enp110s0.useDHCP = true;
+  #networking.interfaces.enp110s0.useDHCP = true;
   networking.interfaces.wlp0s20f3.useDHCP = true;
 
   # Configure network proxy if necessary
@@ -83,7 +90,7 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-  services.xserver.videoDrivers = [ "nvidia" ];
+#  services.xserver.videoDrivers = [ "modesetting" ];
   services.smartd.enable = true;
   # Enable the GNOME Desktop Environment.
   #services.xserver.displayManager.gdm.enable = true;
@@ -177,7 +184,7 @@
   ];
   virtualisation.libvirtd.enable = true;
   virtualisation.docker.enable = true;
-  virtualisation.docker.enableNvidia = true;
+  #virtualisation.docker.enableNvidia = true;
   services.softether = {
     enable = true;
     vpnclient.enable = true;

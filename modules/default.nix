@@ -5,4 +5,5 @@ rec {
   home-manager = import ./home-manager.nix flake;
   cachix = import ./cachix;
   nixpkgs-gjz010-overlay = import ./nixpkgs-gjz010-overlay.nix flake;
+  nvidia = import ./nvidia.nix flake;
 }
