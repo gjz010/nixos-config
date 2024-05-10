@@ -6,5 +6,6 @@
     ./nixos-wsl.nix
     # User with home-manager
     ./users/gjz010.nix
+    ./services/redis.nix
   ];
 }

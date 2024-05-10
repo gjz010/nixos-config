@@ -9,7 +9,10 @@
     firefox
     gitFull
     sops
+    proxychains-ng
   ];
+  programs.nix-ld.enable = true;
+  programs.direnv.enable = true;
   services.openssh.enable = true;
   system.stateVersion = "24.05";
 
