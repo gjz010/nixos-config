@@ -16,6 +16,7 @@
   ];
   programs.adb.enable = true;
   programs.corectrl.enable = true;
+  programs.nix-ld.enable = true;
   # Bootloader.
   boot.loader.grub.enable = true;
   boot.loader.grub.efiSupport = true;
@@ -174,6 +175,7 @@
   services.openssh.settings.X11Forwarding = true;
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 2222 5001 5201 5900 5901 33333 22333 8000 3389 ];
+
   #networking.bridges = {
   #  "br0" = {
   #    interfaces = [ "enp10s0" ];
@@ -224,6 +226,8 @@
   virtualisation.libvirtd.qemu.swtpm.enable = true;
   virtualisation.spiceUSBRedirection.enable = true;
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
+  services.guix.enable = true;
   #  environment.sessionVariables = {
   #      GTK_IM_MODULE = "fcitx";
   #      QT_IM_MODULE = "fcitx";
