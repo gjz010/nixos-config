@@ -24,6 +24,7 @@ flake@{ inputs, self, ... }:
       };
       nix.nixPath = map (input: "${input}=${inputs."${input}"}") registryInputs;
       nix.settings.experimental-features = [ "nix-command" "flakes" ];
+      nix.settings.flake-registry = "";
       system.configurationRevision = self.rev or self.dirtyRev or "dirty";
     };
 }
