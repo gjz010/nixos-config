@@ -8,6 +8,7 @@
         port = 6167;
         server_name = "matrix-bridge.gjz010.com";
         database_backend = "rocksdb";
+        allow_registration = true;
       };
     };
   };

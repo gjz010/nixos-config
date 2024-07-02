@@ -83,7 +83,7 @@
     podman-compose
     git-crypt
   ];
-
+  programs.nix-ld.enable = true;
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -96,7 +96,7 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-
+  services.openssh.settings.GatewayPorts = "yes";
 
   services.btrfs.autoScrub = {
     enable = true;
@@ -113,9 +113,26 @@
   #virtualisation.podman.defaultNetwork.settings.dns_enabled = true;
   #environment.systemPackages = with pkgs; [
   #];
+  fonts.packages = with pkgs; [
+    wqy_zenhei
+    wqy_microhei
+    noto-fonts
+    noto-fonts-cjk-sans
+    noto-fonts-cjk-serif
+    noto-fonts-emoji
+    liberation_ttf
+    fira-code
+    fira-code-symbols
+    mplus-outline-fonts.githubRelease
+    dina-font
+    proggyfonts
+    sarasa-gothic
+    jetbrains-mono
+  ];
+
   networking.firewall.trustedInterfaces = [ "docker0" "br-93ecfca3a4ec" ];
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [ 25565 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
