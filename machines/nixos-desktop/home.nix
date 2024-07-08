@@ -15,10 +15,8 @@ with pkgs;
     gjz010.pkgs.proxychains-wrapper
     x11vnc
     screen
-    ark
     clinfo
     glxinfo
-    gitFull
     gnupg
     gnumake
     cfssl
@@ -34,7 +32,7 @@ with pkgs;
     wget
     kotatogram-desktop
     corectrl
-    zotero
+    zotero_7
     gjz010.pkgs.wemeetapp
     (wrapOBS { plugins = with pkgs.obs-studio-plugins; [ obs-multi-rtmp ]; })
     renderdoc
@@ -57,6 +55,7 @@ with pkgs;
     krita
     gimp
     sops
+    retroarch retroarch-assets
   ];
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage

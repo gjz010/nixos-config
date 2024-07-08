@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, nixpkgs, ... }:
+{ config, pkgs, nixpkgs, inputs, ... }:
 
 {
   imports =
@@ -17,6 +17,9 @@
   programs.adb.enable = true;
   programs.corectrl.enable = true;
   programs.nix-ld.enable = true;
+  programs.hyprland = {
+    enable = true;
+  };
   # Bootloader.
   boot.loader.grub.enable = true;
   boot.loader.grub.efiSupport = true;
@@ -156,6 +159,8 @@
     virt-viewer
     gitFull
     git-crypt
+    kitty
+    kdePackages.ark
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -174,8 +179,16 @@
   services.openssh.ports = [ 2222 22 ];
   services.openssh.settings.X11Forwarding = true;
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 2222 5001 5201 5900 5901 33333 22333 8000 3389 ];
-
+  networking.firewall.allowedTCPPorts = [ 2222 5001 5201 5900 5901 33333 22333 8000 3389 22000 ];
+  networking.firewall.allowedUDPPorts = [ 55400 22000 21027];
+  services.syncthing = {
+        enable = true;
+        user = "gjz010";
+        dataDir = "/home/gjz010/link/Syncthing";    # Default folder for new synced folders
+        configDir = "/home/gjz010/.config/syncthing";   # Folder for Syncthing's settings and keys
+  };
+#   networking.firewall.allowedTCPPorts = [ 22000 ];
+#   networking.firewall.allowedUDPPorts = [ 22000 21027 ];
   #networking.bridges = {
   #  "br0" = {
   #    interfaces = [ "enp10s0" ];
@@ -222,7 +235,7 @@
   #virtualisation.lxd.enable = true;
   virtualisation.waydroid.enable = true;
   virtualisation.libvirtd.qemu.ovmf.enable = true;
-  virtualisation.libvirtd.qemu.ovmf.packages = [ pkgs.OVMFFull.fd ];
+  virtualisation.libvirtd.qemu.ovmf.packages = [ pkgs.OVMFFull.fd pkgs.pkgsCross.aarch64-multiplatform.OVMF.fd ];
   virtualisation.libvirtd.qemu.swtpm.enable = true;
   virtualisation.spiceUSBRedirection.enable = true;
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
