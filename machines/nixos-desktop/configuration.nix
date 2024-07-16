@@ -129,8 +129,11 @@
     packages = with pkgs; [
       #  thunderbird
     ];
-    hashedPassword = "REDACTED";
     shell = pkgs.bash;
+    hashedPasswordFile = config.sops.secrets."shadow/nixos-desktop/gjz010".path;
+  };
+  sops.secrets."shadow/nixos-desktop/gjz010" = {
+    neededForUsers = true;
   };
   home-manager.users.gjz010 = import ./home.nix;
 
