@@ -23,6 +23,10 @@
     flake-parts.lib.mkFlake { inherit inputs; } {
       perSystem = { config, pkgs, system, ... }: {
         formatter = pkgs.nixpkgs-fmt;
+        devShells.default = pkgs.mkShell{
+          nativeBuildInputs = [pkgs.bashInteractive pkgs.sops pkgs.age pkgs.ssh-to-age];
+          EDITOR = ./scripts/editor.sh;
+        };
       };
       flake = {
         nixosConfigurations = import ./machines inputs;
