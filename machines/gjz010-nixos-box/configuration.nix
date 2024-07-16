@@ -78,9 +78,9 @@
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
-    firefox git
+    firefox git kitty
   ];
-  font.packages = with pkgs [ sarasa-gothic ];
+  fonts.packages = with pkgs; [ sarasa-gothic ];
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
