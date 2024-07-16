@@ -45,4 +45,15 @@ inputs@{ nixpkgs, self, ... }:
       })
     ];
   };
+  "gjz010-nixos-box" = nixpkgs.lib.nixosSystem {
+    system = "x86_64-linux";
+    specialArgs = { inherit inputs; };
+    modules = (builtins.attrValues self.nixosModules) ++ [
+      ./gjz010-nixos-box
+      ({ lib, ... }: {
+        networking.hostName = "gjz010-nixos-box";
+        nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+      })
+    ];
+  };
 }

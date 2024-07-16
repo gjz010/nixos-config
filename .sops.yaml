@@ -3,10 +3,12 @@ keys:
   - &admin_gjz010_nixos_laptop age1vgcerrxut6mxwm249x6yagz9j9y86pq4csunnp3f6sc52c62yuzsdqpvjx
   - &admin_gjz010_nixos_server age16s7awqlufm0r3cj5wfhympp683aqr6t8zpfpsyxvs8vdpyh8ypxs2wh0jx
   - &admin_gjz010_nixos_desktop age12fa2tnhpsntzy6qe9g2ugxvje26nmg6v7ekgr6wymkmjyytrhqnqxwa980
+  - &admin_gjz010_nixos_box age1qrvxhwk50zkas9u06cauxlhtwn2hh9cj878nl0u8aae64pkmdves4r8dwz
   - &server_gjz010_nixos_wsl age13n42wjj3kvmj3wk7ms3h7wgdsdpj225lyxvlutg5yd9ja5l433wqelpe7x
   - &server_gjz010_nixos_laptop age1velfazv9dlx4jqkanmcjv4hf6x6twxjme7n83nvym22txyscmssscjusar
   - &server_gjz010_nixos_server age13jmg2t7nxng36x0xqq5dvst0k9v55q733pu9w8z9xfvp9d2q33xqe4vj6n
   - &server_gjz010_nixos_desktop age1nd74ktldahmyq9x8ycc4d6em37csgp4mfm84rk87vsmxxd7d6ydqalv8v4
+  - &server_gjz010_nixos_box age1wl8npxnyfd6vllvheqqgt9fqygerczrpmfsnlp7w7x2lemfd9f5qzltda4
 creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
@@ -19,6 +21,8 @@ creation_rules:
       - *server_gjz010_nixos_server
       - *admin_gjz010_nixos_desktop
       - *server_gjz010_nixos_desktop
+      - *admin_gjz010_nixos_box
+      - *server_gjz010_nixos_box
   - path_regex: secrets/nixos-cache-local-certs/.*\.pem$
     key_groups:
     - age:
