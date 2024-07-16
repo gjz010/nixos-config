@@ -20,6 +20,12 @@
   programs.hyprland = {
     enable = true;
   };
+  services.xserver.desktopManager.runXdgAutostartIfNone = true;
+  services.xserver.displayManager.lightdm.enable = true;
+  services.xserver.windowManager.bspwm.enable = true;
+  #services.xserver.windowManager.bspwm.configFile = ./bspwm-starter-pack/bspwm/bspwmrc;
+  services.xserver.dpi = 160;
+  programs.thunar.enable = true;
   # Bootloader.
   boot.loader.grub.enable = true;
   boot.loader.grub.efiSupport = true;
@@ -81,7 +87,7 @@
 
 
   # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
+  #services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -228,6 +234,7 @@
     proggyfonts
     sarasa-gothic
     jetbrains-mono
+    dejavu_fonts
   ];
   virtualisation.libvirtd.enable = true;
   virtualisation.docker.enable = true;
