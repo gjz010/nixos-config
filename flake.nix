@@ -21,6 +21,9 @@
       url = "github:PrismLauncher/PrismLauncher";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware";
+    };
   };
   outputs = inputs@{ self, nixpkgs, home-manager, flake-parts, nixos-wsl, sops-nix, gjz010, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
@@ -35,7 +38,7 @@
         nixosConfigurations = import ./machines inputs;
         nixosModules = import ./modules { inherit self inputs; };
       };
-      systems = [ "x86_64-linux" ];
+      systems = [ "x86_64-linux" "aarch64-linux" ];
     };
 
 }

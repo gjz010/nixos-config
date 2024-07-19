@@ -34,6 +34,17 @@ inputs@{ nixpkgs, self, ... }:
       })
     ];
   };
+  "nixos-pi" = nixpkgs.lib.nixosSystem {
+    system = "x86_64-linux";
+    specialArgs = { inherit inputs; };
+    modules = (builtins.attrValues self.nixosModules) ++ [
+      ./nixos-pi
+      ({ lib, ... }: {
+        networking.hostName = "nixos-pi";
+        nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
+      })
+    ];
+  };
   "gjz010-nixos-server" = nixpkgs.lib.nixosSystem {
     system = "x86_64-linux";
     specialArgs = { inherit inputs; };
