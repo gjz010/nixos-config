@@ -1,36 +1,36 @@
 { config, pkgs, ... }:
 with pkgs;
-let 
-symbols-nerd-font = (stdenv.mkDerivation {
-        pname = "symbols-nerd-font";
-        version = "2.2.0";
-        src = fetchFromGitHub {
-          owner = "ryanoasis";
-          repo = "nerd-fonts";
-          rev = "v3.2.1";
-          hash = "sha256-lHnp4fPDZK4aPv6CZyBf03ylajGfxuqjhWzn7ubLlIU=";
-          sparseCheckout = [
-            "10-nerd-font-symbols.conf"
-            "patched-fonts/NerdFontsSymbolsOnly"
-          ];
-        };
-        dontConfigure = true;
-        dontBuild = true;
-        installPhase = ''
-          runHook preInstall
+let
+  symbols-nerd-font = (stdenv.mkDerivation {
+    pname = "symbols-nerd-font";
+    version = "2.2.0";
+    src = fetchFromGitHub {
+      owner = "ryanoasis";
+      repo = "nerd-fonts";
+      rev = "v3.2.1";
+      hash = "sha256-lHnp4fPDZK4aPv6CZyBf03ylajGfxuqjhWzn7ubLlIU=";
+      sparseCheckout = [
+        "10-nerd-font-symbols.conf"
+        "patched-fonts/NerdFontsSymbolsOnly"
+      ];
+    };
+    dontConfigure = true;
+    dontBuild = true;
+    installPhase = ''
+      runHook preInstall
 
-          fontconfigdir="$out/etc/fonts/conf.d"
-          install -d "$fontconfigdir"
-          install 10-nerd-font-symbols.conf "$fontconfigdir"
+      fontconfigdir="$out/etc/fonts/conf.d"
+      install -d "$fontconfigdir"
+      install 10-nerd-font-symbols.conf "$fontconfigdir"
 
-          fontdir="$out/share/fonts/truetype"
-          install -d "$fontdir"
-          install "patched-fonts/NerdFontsSymbolsOnly/complete/Symbols-2048-em Nerd Font Complete.ttf" "$fontdir"
+      fontdir="$out/share/fonts/truetype"
+      install -d "$fontdir"
+      install "patched-fonts/NerdFontsSymbolsOnly/complete/Symbols-2048-em Nerd Font Complete.ttf" "$fontdir"
 
-          runHook postInstall
-        '';
-        enableParallelBuilding = true;
-      });
+      runHook postInstall
+    '';
+    enableParallelBuilding = true;
+  });
 in
 {
   programs.direnv.enable = true;
@@ -87,10 +87,21 @@ in
     krita
     gimp
     sops
-    retroarch retroarch-assets
-    font-awesome pavucontrol slurp grim wl-clipboard wofi polybarFull sxhkd
+    retroarch
+    retroarch-assets
+    font-awesome
+    pavucontrol
+    slurp
+    grim
+    wl-clipboard
+    wofi
+    polybarFull
+    sxhkd
     (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
-    i3lock-fancy xdo xdotool libnotify
+    i3lock-fancy
+    xdo
+    xdotool
+    libnotify
   ];
   programs.waybar.enable = true;
   fonts.fontconfig.enable = true;
@@ -114,9 +125,9 @@ in
   services.dunst = {
     enable = true;
     settings = {
-        global = {
-          origin = "bottom-right";
-        };
+      global = {
+        origin = "bottom-right";
+      };
     };
   };
   services.flameshot.enable = true;
@@ -131,21 +142,21 @@ in
     };
   };
   programs.rofi = {
-      enable = true;
-      # package = pkgs.rofi-wayland;
+    enable = true;
+    # package = pkgs.rofi-wayland;
   };
 
-      systemd.user.services.sxhkd = {
-        Unit = {
-          Description = "sxhkd daemon";
-          After = [ "graphical-session-pre.target" ];
-          PartOf = [ "graphical-session.target" ];
-        };
+  systemd.user.services.sxhkd = {
+    Unit = {
+      Description = "sxhkd daemon";
+      After = [ "graphical-session-pre.target" ];
+      PartOf = [ "graphical-session.target" ];
+    };
 
-        Service = {
-          ExecStart = "${pkgs.sxhkd}/bin/sxhkd";
-        };
-      };
+    Service = {
+      ExecStart = "${pkgs.sxhkd}/bin/sxhkd";
+    };
+  };
   #services.sxhkd.enable = true;
   #services.polybar.enable = true;
   #services.polybar.config = "${./bspwm-starter-pack/polybar}/config.ini";

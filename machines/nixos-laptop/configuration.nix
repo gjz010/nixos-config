@@ -51,18 +51,18 @@
 
   boot.kernelParams = [
     "hid_apple.fnmode=2"
-#    "nouveau.config=NvGspRM=1"
-#    "nouveau.debug=info,VBIOS=info,gsp=debug"
+    #    "nouveau.config=NvGspRM=1"
+    #    "nouveau.debug=info,VBIOS=info,gsp=debug"
   ];
   /*
-  hardware.nvidia = 
-  {
+    hardware.nvidia = 
+    {
     powerManagement.enable = true;
     nvidiaSettings = true;
     modesetting.enable = true;
     nvidiaPersistenced = true;
     open = true;
-  };
+    };
   */
   gjz010.drivers.nvidia-proprietary.enable = true;
   networking.networkmanager.enable = true;
@@ -90,7 +90,7 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-#  services.xserver.videoDrivers = [ "modesetting" ];
+  #  services.xserver.videoDrivers = [ "modesetting" ];
   services.smartd.enable = true;
   # Enable the GNOME Desktop Environment.
   #services.xserver.displayManager.gdm.enable = true;

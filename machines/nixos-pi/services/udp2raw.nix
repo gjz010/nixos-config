@@ -1,4 +1,4 @@
-{pkgs, config, ...}:
+{ pkgs, config, ... }:
 let
   sopsConfig = {
     sopsFile = "${config.passthru.gjz010.secretRoot}/tunnel-config/config.yaml";
@@ -37,14 +37,14 @@ in
   networking.nftables.checkRuleset = false;
   networking.nftables.tables."udp2raw-v4" = {
     family = "ip";
-    content = 
-    ''
+    content =
+      ''
         include "${config.sops.templates."udp2raw-var.nft".path}"
         chain user_post_input {
             type filter hook input priority 1; policy accept;
             ip saddr $udp2raw_peer icmp type echo-reply drop;
             ct state new log prefix "Firewall4 accepted ingress: ";
         }
-    '';
+      '';
   };
 }

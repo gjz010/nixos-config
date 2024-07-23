@@ -15,7 +15,8 @@ let
   ip6ServedAddressRange1 = "fd56:7142:ec69::3,fd56:7142:ec69::150,ra-names,24h";
   ssid = "gjz010-nixos-pi";
   vpn-dev = "tun0";
-in {
+in
+{
   sops.templates."router-hostapd.conf".content = ''
     interface=${wifi}
     #hw_mode=a
@@ -41,15 +42,17 @@ in {
   networking.networkmanager.unmanaged = [ wifi ethInternal vpn-dev ];
   networking.nat = {
     enable = true;
-    internalInterfaces = [wifi ethInternal vpn-dev];
+    internalInterfaces = [ wifi ethInternal vpn-dev ];
     externalInterface = eth;
     enableIPv6 = true;
   };
-  nixpkgs.overlays = [(self: super: {
-    #miniupnpd = super.miniupnpd.override {
-    #  iptables = self.iptables-legacy;
-    #};
-  })];
+  nixpkgs.overlays = [
+    (self: super: {
+      #miniupnpd = super.miniupnpd.override {
+      #  iptables = self.iptables-legacy;
+      #};
+    })
+  ];
 
   #services.miniupnpd = {
   #  enable = true;
@@ -58,28 +61,28 @@ in {
   #  natpmp = true;
   #};
 
-#  networking.dhcpcd.denyInterfaces = [ wifi ];
+  #  networking.dhcpcd.denyInterfaces = [ wifi ];
   networking.interfaces."${wifi}" = {
 
-  ipv4.addresses = [{
-    address = ipAddress;
-    prefixLength = prefixLength;
-  }];
-  ipv6.addresses = [{
-    address = ip6Address;
-    prefixLength = ip6PrefixLength;
-  }];
+    ipv4.addresses = [{
+      address = ipAddress;
+      prefixLength = prefixLength;
+    }];
+    ipv6.addresses = [{
+      address = ip6Address;
+      prefixLength = ip6PrefixLength;
+    }];
   };
   networking.interfaces."${ethInternal}" = {
 
-  ipv4.addresses = [{
-    address = ipAddress1;
-    prefixLength = prefixLength;
-  }];
-  ipv6.addresses = [{
-    address = ip6Address1;
-    prefixLength = ip6PrefixLength;
-  }];
+    ipv4.addresses = [{
+      address = ipAddress1;
+      prefixLength = prefixLength;
+    }];
+    ipv6.addresses = [{
+      address = ip6Address1;
+      prefixLength = ip6PrefixLength;
+    }];
   };
 
   # forward traffic coming in trough the access point => provide internet and vpn network access
@@ -138,13 +141,13 @@ in {
   networking.nftables.enable = true;
   networking.nftables.tables."nat-udp-broadcast-forward" = {
     family = "ip";
-    content = 
-    ''
+    content =
+      ''
         chain prerouting {
             type filter hook prerouting priority -150; policy accept;
             ip daddr 255.255.255.255 iifname ${wifi} ip saddr 192.168.76.0/24 dup to 192.168.77.255;
             ip daddr 255.255.255.255 iifname ${ethInternal} ip saddr 192.168.77.0/24 dup to 192.168.76.255;
         }
-    '';
-    };
+      '';
+  };
 }

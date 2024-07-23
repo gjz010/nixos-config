@@ -1,4 +1,4 @@
-{config, pkgs, ...}:
+{ config, pkgs, ... }:
 let
   enableSniffing = {
     enabled = true;
@@ -37,7 +37,7 @@ let
           settings = {
             auth = "password";
             accounts = [
-              {user = config.sops.placeholder."router/tunnel/socks/user"; pass = config.sops.placeholder."router/tunnel/socks/pass";}
+              { user = config.sops.placeholder."router/tunnel/socks/user"; pass = config.sops.placeholder."router/tunnel/socks/pass"; }
             ];
             udp = true;
             ip = "192.168.76.1";
@@ -62,7 +62,7 @@ let
         }
         {
           tag = "blocked";
-          settings = {};
+          settings = { };
           protocol = "blackhole";
         }
         {
@@ -80,7 +80,7 @@ let
           }
           {
             type = "field";
-            domain = ["geosite:category-ads"];
+            domain = [ "geosite:category-ads" ];
             outboundTag = "blocked";
           }
         ];
@@ -95,7 +95,7 @@ let
   sopsRouterConfig = {
     sopsFile = "${config.passthru.gjz010.secretRoot}/router/router.yaml";
   };
-  v2rayAssets = pkgs.runCommand "v2ray-assets" {} ''
+  v2rayAssets = pkgs.runCommand "v2ray-assets" { } ''
     mkdir -p $out/share/v2ray
     cd ${pkgs.v2ray-geoip}/share/v2ray/
     for i in *.dat; do

@@ -186,15 +186,15 @@
   services.openssh.settings.X11Forwarding = true;
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 2222 5001 5201 5900 5901 33333 22333 8000 3389 22000 ];
-  networking.firewall.allowedUDPPorts = [ 55400 22000 21027];
+  networking.firewall.allowedUDPPorts = [ 55400 22000 21027 ];
   services.syncthing = {
-        enable = true;
-        user = "gjz010";
-        dataDir = "/home/gjz010/link/Syncthing";    # Default folder for new synced folders
-        configDir = "/home/gjz010/.config/syncthing";   # Folder for Syncthing's settings and keys
+    enable = true;
+    user = "gjz010";
+    dataDir = "/home/gjz010/link/Syncthing"; # Default folder for new synced folders
+    configDir = "/home/gjz010/.config/syncthing"; # Folder for Syncthing's settings and keys
   };
-#   networking.firewall.allowedTCPPorts = [ 22000 ];
-#   networking.firewall.allowedUDPPorts = [ 22000 21027 ];
+  #   networking.firewall.allowedTCPPorts = [ 22000 ];
+  #   networking.firewall.allowedUDPPorts = [ 22000 21027 ];
   #networking.bridges = {
   #  "br0" = {
   #    interfaces = [ "enp10s0" ];

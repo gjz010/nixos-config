@@ -1,4 +1,4 @@
-{config, lib, pkgs, ...}:
+{ config, lib, pkgs, ... }:
 let
   certSecretName = crt: "openvpn-cert-${crt}";
   createCert = crt: {
@@ -22,7 +22,7 @@ in
   networking.firewall.allowedUDPPorts = [ vpnPort ];
   networking.firewall.allowedTCPPorts = [ vpnPort ];
   sops.secrets = lib.attrsets.mergeAttrsList allCerts;
-  environment.systemPackages = [pkgs.openvpn];
+  environment.systemPackages = [ pkgs.openvpn ];
 
   services.openvpn.servers.remote.config = ''
     tls-server

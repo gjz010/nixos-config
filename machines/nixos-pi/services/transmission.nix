@@ -1,5 +1,5 @@
 let
-transmissionRoot = "/mnt/downloads/transmission/";
+  transmissionRoot = "/mnt/downloads/transmission/";
 in
 {
   services.transmission.enable = true;

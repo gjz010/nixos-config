@@ -1,7 +1,8 @@
-{config, ...}:
-let cloudflare = {
-  sopsFile = "${config.passthru.gjz010.secretRoot}/router/router.yaml";
-};
+{ config, ... }:
+let
+  cloudflare = {
+    sopsFile = "${config.passthru.gjz010.secretRoot}/router/router.yaml";
+  };
 in
 {
   sops.secrets."router/cloudflare/email" = cloudflare;

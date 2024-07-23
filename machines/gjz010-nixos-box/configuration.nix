@@ -6,7 +6,8 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
 
@@ -36,7 +37,6 @@
   # Enable auth-thu
   services.auth-thu.enable = true;
   gjz010.secrets.auth-thu.enable = true;
-
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
@@ -53,7 +53,7 @@
   services.xserver.enable = true;
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
-  
+
 
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
@@ -88,7 +88,9 @@
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
-    firefox git kitty
+    firefox
+    git
+    kitty
   ];
   fonts.packages = with pkgs; [ sarasa-gothic ];
   # Some programs need SUID wrappers, can be configured further or are
@@ -99,6 +101,7 @@
   #   enableSSHSupport = true;
   # };
 
+  programs.direnv.enable = true;
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.

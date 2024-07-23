@@ -6,7 +6,8 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
 
@@ -26,7 +27,7 @@
   ];
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   networking.networkmanager.logLevel = "DEBUG";
 
@@ -57,19 +58,19 @@
   #  alsa.enable = true;
   #  alsa.support32Bit = true;
   #  pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
+  # If you want to use JACK applications, uncomment this
+  #jack.enable = true;
   #};
   #services.xserver.displayManager.defaultSession = "xfce";
   #services.xserver.desktopManager.xfce.enable = true;
   #services.xserver.desktopManager.xterm.enable = false;
-  nix.settings.substituters = ["https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"];
-  
+  nix.settings.substituters = [ "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store" ];
 
-#  boot.loader.raspberryPi = {
-#    enable = true;
-#    version = 4;
-#  };
+
+  #  boot.loader.raspberryPi = {
+  #    enable = true;
+  #    version = 4;
+  #  };
   hardware.enableRedistributableFirmware = true;
 
   services.gvfs.enable = true;
@@ -94,8 +95,8 @@
   services.openssh.enable = true;
   services.openssh.ports = [ 2222 ];
   virtualisation.docker.enable = true;
-  
-  
+
+
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
