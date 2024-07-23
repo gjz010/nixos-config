@@ -21,11 +21,21 @@
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true;
+  networking.networkmanager.plugins = [ pkgs.networkmanager-openvpn ];
 
   # Set your time zone.
   time.timeZone = "Asia/Shanghai";
 
   i18n.defaultLocale = "zh_CN.UTF-8";
+  i18n.inputMethod = {
+    enabled = "fcitx5";
+    fcitx5.addons = with pkgs; [ fcitx5-rime fcitx5-chinese-addons ];
+  };
+
+  # Enable auth-thu
+  services.auth-thu.enable = true;
+  gjz010.secrets.auth-thu.enable = true;
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";

@@ -9,5 +9,5 @@
       
     ];
   };
-  boot.supportedFilesystems = ["nfts"];
+  boot.supportedFilesystems = ["ntfs"];
 }
