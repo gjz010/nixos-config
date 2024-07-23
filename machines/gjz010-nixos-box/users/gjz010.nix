@@ -9,7 +9,7 @@
     neededForUsers = true;
   };
   home-manager.users."gjz010" = { pkgs, ... }: {
-    home.packages = with pkgs; [ cowsay vscodium zotero_7 ];
+    home.packages = with pkgs; [ cowsay vscodium zotero_7 ripgrep gjz010.pkgs.proxychains-wrapper gjz010.pkgs.icalinguapp ];
     programs.bash.enable = true;
 
     # The state version is required and should stay at the version you
