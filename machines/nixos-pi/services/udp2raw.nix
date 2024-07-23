@@ -39,7 +39,7 @@ in
     family = "ip";
     content = 
     ''
-        include "/run/secrets-rendered/udp2raw-var.nft"
+        include "${config.sops.templates."udp2raw-var.nft".path}"
         chain user_post_input {
             type filter hook input priority 1; policy accept;
             ip saddr $udp2raw_peer icmp type echo-reply drop;

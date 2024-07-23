@@ -63,6 +63,14 @@ creation_rules:
       - *admin_gjz010_nixos_desktop
       - *admin_gjz010_nixos_pi
       - *server_gjz010_nixos_pi
+  - path_regex: secrets/router/auththu.yaml$
+    key_groups:
+    - age:
+      - *admin_gjz010_nixos_desktop
+      - *admin_gjz010_nixos_pi
+      - *server_gjz010_nixos_pi
+      - *admin_gjz010_nixos_box
+      - *server_gjz010_nixos_box
   - path_regex: secrets/router/.*$
     key_groups:
     - age:
