@@ -179,4 +179,12 @@ in
         '';
     };
   };
+  programs.neovim = {
+    enable = true;
+    plugins = with pkgs.vimPlugins; [
+      nvim-tree-lua
+      rustaceanvim
+      rust-vim
+    ];
+  };
 }

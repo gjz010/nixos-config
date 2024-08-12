@@ -248,6 +248,10 @@
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   services.guix.enable = true;
+
+  programs.appimage.enable = true;
+  programs.appimage.binfmt = true;
+
   #  environment.sessionVariables = {
   #      GTK_IM_MODULE = "fcitx";
   #      QT_IM_MODULE = "fcitx";
