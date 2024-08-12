@@ -11,7 +11,7 @@ in
         description = "Configuration for auth-thu.";
       };
       package = lib.mkOption {
-        default = inputs.gjz010.packages."${config.nixpkgs.system}".goauthing;
+        default = self.packages."${config.nixpkgs.system}".goauthing;
         description = "Specify which GoAuthing to use";
         type = lib.types.package;
       };

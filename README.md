@@ -24,7 +24,7 @@ Use as Nixpkgs overlay
 {
     description = "Some Nix Flake configuration, for example, the one for home-manager.";
     inputs.gjz010={
-        url = "github:gjz010/nix-channel";
+        url = "github:gjz010/nixos-config";
         inputs.nixpkgs.follows = "nixpkgs";
     };
     outputs = { self, nixpkgs, gjz010 }: let
