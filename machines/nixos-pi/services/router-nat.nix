@@ -114,6 +114,8 @@ in
   services.dnsmasq = {
     enable = true;
     extraConfig = ''
+      server=114.114.114.114
+      no-resolv
       # Only listen to routers' LAN NIC.  Doing so opens up tcp/udp port 53 to
       # localhost and udp port 67 to world:
       interface=${wifi}
@@ -135,8 +137,9 @@ in
       interface-name=${config.networking.hostName},${ethInternal}
       interface-name=${config.networking.hostName},${vpn-dev}
     '';
+    resolveLocalQueries = false;
   };
-
+  networking.nameservers = ["::1"];
 
   networking.nftables.enable = true;
   networking.nftables.tables."nat-udp-broadcast-forward" = {
