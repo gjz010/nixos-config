@@ -1,0 +1,23 @@
+{
+  "name": "hello",
+  "version": "1.0.0",
+  "description": "Hello, world!",
+  "main": "index.js",
+  "scripts": {
+    "build": "rollup -c"
+  },
+  "bin": {
+    "hello": "./build/bin/index.js"
+  },
+  "author": "gjz010",
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@types/node": "^20.11.30",
+    "rollup": "^4.13.1",
+    "rollup-plugin-auto-external": "^2.0.0",
+    "rollup-plugin-shebang-bin": "^0.0.6",
+    "tslib": "^2.6.2",
+    "typescript": "^5.4.3"
+  }
+}

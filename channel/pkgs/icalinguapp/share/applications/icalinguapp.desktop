@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Name=Icalingua++
+Comment=Open source QQ client.
+Type=Application
+Terminal=false
+Exec=icalinguapp
+StartupNotify=true
+Icon=icalingua
+Categories=Network;
+Keywords=qq;icalingua;network;
+StartupWMClass=icalingua
