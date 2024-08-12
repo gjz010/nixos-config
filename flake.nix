@@ -10,10 +10,6 @@
     sops-nix = {
       url = "github:Mic92/sops-nix";
     };
-    gjz010 = {
-      url = "github:gjz010/nix-channel";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     disko = {
       url = "github:nix-community/disko";
     };
@@ -24,19 +20,43 @@
     nixos-hardware = {
       url = "github:NixOS/nixos-hardware";
     };
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
-  outputs = inputs@{ self, nixpkgs, home-manager, flake-parts, nixos-wsl, sops-nix, gjz010, ... }:
+  outputs = inputs@{ self, nixpkgs, home-manager, flake-parts, nixos-wsl, sops-nix, rust-overlay, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
+      imports = [
+        ./flakemodules/bundlers.nix
+      ];
       perSystem = { config, pkgs, system, ... }: {
+
+        _module.args.pkgs = import inputs.nixpkgs {
+          inherit system;
+          overlays = [
+            self.overlays.default
+          ];
+          config = { };
+        };
+
         formatter = pkgs.nixpkgs-fmt;
+        packages = pkgs.gjz010.packages;
+        bundlers = pkgs.gjz010.bundlers;
         devShells.default = pkgs.mkShell {
           nativeBuildInputs = [ pkgs.bashInteractive pkgs.sops pkgs.age pkgs.ssh-to-age ];
           EDITOR = ./scripts/editor.sh;
         };
       };
       flake = {
+        flakeModules = {
+          bundler = ./flakemodules/bundlers.nix;
+        };
         nixosConfigurations = import ./machines inputs;
         nixosModules = import ./modules { inherit self inputs; };
+        overlays.single = import ./channel/overlay.nix { gjz010Flake = self; };
+        overlays.default = nixpkgs.lib.composeExtensions rust-overlay.overlays.default self.overlays.single;
+        templates = import ./channel/templates;
       };
       systems = [ "x86_64-linux" "aarch64-linux" ];
     };

@@ -23,6 +23,10 @@ in
 {
   gjz010 = {
     pkgs = packages // { inherit examples; };
+    inherit packages;
     lib = final.callPackage ./pkgs/lib { };
+    bundlers = {
+      toTarball = final.gjz010.lib.tarballBundler;
+    };
   };
 }

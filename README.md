@@ -1,7 +1,5 @@
-gjz010's Nix channel
+gjz010's Nix channel & NixOS configuration
 ==============
-
-
 
 
 Use packages
