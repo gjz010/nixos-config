@@ -167,6 +167,7 @@
     git-crypt
     kitty
     kdePackages.ark
+    miraclecast
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -187,6 +188,7 @@
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 2222 5001 5201 5900 5901 33333 22333 8000 3389 22000 ];
   networking.firewall.allowedUDPPorts = [ 55400 22000 21027 ];
+  networking.networkmanager.unmanaged = [ "wlp11s0" ];
   services.syncthing = {
     enable = true;
     user = "gjz010";
@@ -216,8 +218,14 @@
 
   };
   i18n.inputMethod = {
+    #type = "fcitx5";
+    #enable = true;
     enabled = "fcitx5";
-    fcitx5.addons = with pkgs; [ fcitx5-rime fcitx5-chinese-addons fcitx5-configtool ];
+    fcitx5 = {
+        waylandFrontend = true;
+        plasma6Support = true;
+        addons = with pkgs; [ fcitx5-rime fcitx5-chinese-addons fcitx5-configtool fcitx5-mozc fcitx5-gtk kdePackages.fcitx5-qt  ];
+    };
   };
   fonts.packages = with pkgs; [
     wqy_zenhei
@@ -251,6 +259,7 @@
 
   programs.appimage.enable = true;
   programs.appimage.binfmt = true;
+  programs.fish.enable = true;
 
   #  environment.sessionVariables = {
   #      GTK_IM_MODULE = "fcitx";

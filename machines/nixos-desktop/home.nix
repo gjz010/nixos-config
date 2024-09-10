@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 with pkgs;
 let
+  electron = pkgs.gjz010.pkgs.electron_33-bin;
   symbols-nerd-font = (stdenv.mkDerivation {
     pname = "symbols-nerd-font";
     version = "2.2.0";
@@ -42,7 +43,7 @@ in
   home.username = "gjz010";
   home.homeDirectory = "/home/gjz010";
   home.packages = [
-    gjz010.pkgs.icalinguapp
+    (gjz010.pkgs.icalinguapp.override {inherit electron;})
     spectacle
     gjz010.pkgs.proxychains-wrapper
     x11vnc
@@ -102,6 +103,7 @@ in
     xdo
     xdotool
     libnotify
+    xournalpp
   ];
   programs.waybar.enable = true;
   fonts.fontconfig.enable = true;
@@ -118,15 +120,17 @@ in
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
   programs.bash.enable = true;
-  i18n.inputMethod = {
-    enabled = "fcitx5";
-    fcitx5.addons = with pkgs; [ fcitx5-rime fcitx5-chinese-addons fcitx5-configtool ];
-  };
+  #i18n.inputMethod = {
+  #  enabled = "fcitx5";
+  #  fcitx5.addons = with pkgs; [ fcitx5-rime fcitx5-chinese-addons fcitx5-configtool fcitx5-mozc ];
+  #};
   services.dunst = {
-    enable = true;
+    enable = false;
     settings = {
       global = {
         origin = "bottom-right";
+        monitor = 1;
+        follow = "mouse";
       };
     };
   };
@@ -187,4 +191,15 @@ in
       rust-vim
     ];
   };
+  programs.fish.enable = true;
+  programs.bash = {
+    bashrcExtra = ''
+      if [[ $(${pkgs.procps}/bin/ps --no-header --pid=$PPID --format=comm) != "fish" && -z ''${BASH_EXECUTION_STRING} ]]
+      then
+        shopt -q login_shell && LOGIN_OPTION='--login' || LOGIN_OPTION=""
+        exec ${pkgs.fish}/bin/fish $LOGIN_OPTION
+      fi
+    '';
+  };
+  programs.wezterm.enable = true;
 }
