@@ -4,6 +4,9 @@
     isNormalUser = true;
     extraGroups = [ "networkmanager" "wheel" ];
     hashedPasswordFile = config.sops.secrets."shadow/gjz010-nixos-miniserver-fr/gjz010".path;
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDZWElmcCzJ4GYjtfERufOXeIZFBeF9YVqYnNU+sPdpg gjz010@nixos-desktop"
+    ];
   };
   sops.secrets."shadow/gjz010-nixos-miniserver-fr/gjz010" = {
     neededForUsers = true;

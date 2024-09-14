@@ -26,5 +26,15 @@ flake@{ inputs, self, ... }:
       nix.settings.experimental-features = [ "nix-command" "flakes" ];
       nix.settings.flake-registry = "";
       system.configurationRevision = self.rev or self.dirtyRev or "dirty";
+      # Allow `nixos-rebuild` switch from an ssh session:
+      # 1. Allow using ssh public key for sudo-authentication.
+      # 2. Allow all wheel users (sudoers) to be trusted by nix-daemon.
+      # TODO: will this affect behaviour of http proxy?
+      security.pam = {
+        sshAgentAuth.enable = true;
+        services.sudo.sshAgentAuth = true;
+      };
+      programs.ssh.startAgent=true;
+      nix.settings.trusted-users = [ "@wheel" ];
     };
 }
