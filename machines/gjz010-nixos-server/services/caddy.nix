@@ -22,6 +22,10 @@
       respond /.well-known/matrix/server `{"m.server": "matrix-bridge.gjz010.com:443"}`
       respond /.well-known/matrix/client `{"m.homeserver":{"base_url":"https://matrix-bridge.gjz010.com"}}`
     '';
+    virtualHosts."pedantic-wozniak.gjz010.com".extraConfig = ''
+      encode gzip
+      reverse_proxy http://127.0.0.1:3000
+    '';
   };
   networking.firewall.allowedTCPPorts = [ 80 443 8448 ];
 }

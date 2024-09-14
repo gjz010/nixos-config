@@ -9,7 +9,7 @@
     neededForUsers = true;
   };
   home-manager.users."gjz010" = { pkgs, ... }: {
-    home.packages = [ pkgs.cowsay ];
+    home.packages = [ pkgs.cowsay pkgs.tmux pkgs.screen ];
     programs.bash.enable = true;
 
     # The state version is required and should stay at the version you
