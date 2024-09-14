@@ -51,6 +51,16 @@ inputs@{ nixpkgs, self, ... }:
       })
     ];
   };
+  "gjz010-nixos-miniserver-fr" = nixpkgs.lib.nixosSystem {
+    system = "x86_64-linux";
+    specialArgs = { inherit inputs; };
+    modules = (builtins.attrValues self.nixosModules) ++ [
+      ./gjz010-nixos-miniserver-fr
+      ({ lib, ... }: {
+        networking.hostName = "gjz010-nixos-miniserver-fr";
+      })
+    ];
+  };
   "gjz010-nixos-box" = nixpkgs.lib.nixosSystem {
     system = "x86_64-linux";
     specialArgs = { inherit inputs; };

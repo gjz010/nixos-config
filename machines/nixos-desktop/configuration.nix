@@ -74,10 +74,10 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   #services.xserver.videoDrivers = ["amdgpu"];
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
+    #driSupport = true;
+    #driSupport32Bit = true;
     extraPackages = with pkgs; [
       rocm-opencl-icd
       rocm-opencl-runtime
@@ -100,7 +100,7 @@
   services.transmission.enable = true;
   services.transmission.openPeerPorts = true;
   # Enable sound with pipewire.
-  sound.enable = true;
+  #sound.enable = true;
   #hardware.pulseaudio.enable = true;
   #hardware.pulseaudio.support32Bit = true;
   #nixpkgs.config.pulseaudio = true;
@@ -128,7 +128,7 @@
 
 
   # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
+  services.libinput.enable = true;
   #programs.bash.enable = true;
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.extraGroups.docker.members = [ "gjz010" ];
@@ -154,7 +154,7 @@
     #  wget
     nfs-utils
     docker-compose
-    transmission-qt
+    transmission_3-qt
     virt-manager
     dconf
     #virtiofsd
@@ -218,9 +218,9 @@
 
   };
   i18n.inputMethod = {
-    #type = "fcitx5";
-    #enable = true;
-    enabled = "fcitx5";
+    type = "fcitx5";
+    enable = true;
+    #enabled = "fcitx5";
     fcitx5 = {
         waylandFrontend = true;
         plasma6Support = true;

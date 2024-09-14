@@ -54,7 +54,7 @@ in
     gnumake
     cfssl
     openssl
-    fluffychat
+    #fluffychat
     vscodium
     element-desktop
     prismlauncher

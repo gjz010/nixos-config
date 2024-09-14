@@ -24,8 +24,12 @@
       url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-anywhere = {
+      url = "github:nix-community/nixos-anywhere";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
-  outputs = inputs@{ self, nixpkgs, home-manager, flake-parts, nixos-wsl, sops-nix, rust-overlay, ... }:
+  outputs = inputs@{ self, nixpkgs, home-manager, flake-parts, nixos-wsl, sops-nix, rust-overlay, nixos-anywhere, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         ./flakemodules/bundlers.nix
@@ -44,7 +48,13 @@
         packages = pkgs.gjz010.packages;
         bundlers = pkgs.gjz010.bundlers;
         devShells.default = pkgs.mkShell {
-          nativeBuildInputs = [ pkgs.bashInteractive pkgs.sops pkgs.age pkgs.ssh-to-age ];
+          nativeBuildInputs = [
+            pkgs.bashInteractive
+            pkgs.sops
+            pkgs.age
+            pkgs.ssh-to-age
+            nixos-anywhere.packages."${system}".nixos-anywhere
+          ];
           EDITOR = ./scripts/editor.sh;
         };
       };
