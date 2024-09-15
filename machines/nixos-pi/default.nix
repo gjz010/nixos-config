@@ -12,6 +12,7 @@
     ./services/transmission.nix
     ./services/udp2raw.nix
     ./services/v2ray.nix
+    ./services/phantun.nix
     ./users/gjz010.nix
   ];
 }
