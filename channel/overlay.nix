@@ -15,6 +15,7 @@ let
     kcptun-bin = final.callPackage ./pkgs/kcptun-bin { };
     goauthing = final.callPackage ./pkgs/goauthing { };
     electron_33-bin = final.callPackage ./pkgs/electron_33-bin { };
+    phantun = final.callPackage ./pkgs/phantun { };
   };
   examples = {
     egui-test = final.callPackage ./pkgs/examples/egui-test { };

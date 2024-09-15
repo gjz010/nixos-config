@@ -84,11 +84,15 @@ let
           tag = "direct";
         }
         {
-          port = 18888;
-          listen = config.sops.placeholder."tunnel_fr/directAddr";
           protocol = "vmess";
           settings = {
-            inherit clientsFr;
+            vnext = [
+              {
+                port = 18888;
+                address = config.sops.placeholder."tunnel_fr/directAddr";
+                users = clientsFr;
+              }
+            ];
           };
           tag = "tunnel-fr-out";
           inherit streamSettings;

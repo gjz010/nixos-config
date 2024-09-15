@@ -20,9 +20,7 @@ in
   systemd.services.udp2raw = {
     enable = true;
     description = "udp2raw-client";
-    unitConfig = {
-      after = [ "network.target" "nss-lookup.target" ];
-    };
+    after = [ "network.target" "nss-lookup.target" ];
     serviceConfig = {
       ExecStart = udp2rawClientScript;
       EnvironmentFile = config.sops.templates."udp2raw-client.env".path;

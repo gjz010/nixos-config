@@ -34,9 +34,7 @@ in
         {
           enable = true;
           description = "auth-thu from GoAuthing.";
-          unitConfig = {
-            After = [ "network.target" "nss-lookup.target" ];
-          };
+          after = [ "network.target" "nss-lookup.target" ];
           serviceConfig = {
             ExecStartPre = [
               "-${auth-thu}/bin/auth-thu -c ${thuconfig} -D auth"

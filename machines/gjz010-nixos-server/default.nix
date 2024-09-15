@@ -11,6 +11,7 @@
     ./services/caddy.nix
     ./services/conduit.nix
     ./services/qqbridge.nix
+    ./services/phantun.nix
   ];
 }
 
