@@ -52,4 +52,10 @@ in
     '';
   };
   networking.firewall.allowedTCPPorts = [ 19000 ];
+  # FIXME: Docker by default uses FORWARD drop for ip6tables.
+  # switch to Podman to avoid the workaround.
+  # https://github.com/moby/moby/issues/48365
+  virtualisation.docker.daemon.settings = {
+    ip6tables = false;
+  };
 }
