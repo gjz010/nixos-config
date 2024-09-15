@@ -52,4 +52,8 @@ in
       }
     '';
   };
+  boot.kernel.sysctl = {
+    "net.ipv4.conf.tun1.forwarding" = true;
+    "net.ipv6.conf.tun1.forwarding" = true;
+  };
 }

@@ -92,7 +92,8 @@ in
     "net.ipv6.conf.${wifi}.forwarding" = true;
     "net.ipv4.conf.${ethInternal}.forwarding" = true;
     "net.ipv6.conf.${ethInternal}.forwarding" = true;
-
+    "net.ipv4.conf.${vpn-dev}.forwarding" = true;
+    "net.ipv6.conf.${vpn-dev}.forwarding" = true;
   };
   systemd.services.hostapd = {
     description = "hostapd wireless AP";
