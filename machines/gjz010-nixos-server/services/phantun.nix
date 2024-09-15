@@ -47,7 +47,7 @@ in
       include "${config.sops.templates."phantun-server.nft".path}";
       chain prerouting {
         type nat hook prerouting priority dstnat; policy accept;
-        ip6 daddr $phantun_server tcp dport counter $phantun_port dnat to ${phantunServer6Tun};
+        ip6 daddr $phantun_server tcp dport $phantun_port counter dnat to ${phantunServer6Tun};
       }
     '';
   };
