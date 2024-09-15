@@ -54,21 +54,7 @@ let
               {
                 users = [ clientAuth ];
                 address = "127.0.0.1";
-                port = 30084;
-              }
-            ];
-          };
-          inherit streamSettings;
-        }
-        {
-          tag = "direct";
-          protocol = "vmess";
-          settings = {
-            vnext = [
-              {
-                users = [ clientAuth ];
-                address = "127.0.0.1";
-                port = 30084;
+                port = 19000;
               }
             ];
           };
