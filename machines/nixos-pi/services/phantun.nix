@@ -8,8 +8,9 @@ let
     sopsFile = "${config.passthru.gjz010.secretRoot}/tunnel-config/config.yaml";
   };
   phantunClientScript = pkgs.writeShellScript "phantun-client-launch" ''
-    exec ${pkgs.gjz010.pkgs.phantun}/bin/phantun-client --local 127.0.0.1:19000 --remote $listenAddr:$port
+    exec ${pkgs.gjz010.pkgs.phantun}/bin/phantun-client --local 127.0.0.1:19000 --remote $listenAddr:$port --tun ${phantunDev}
   '';
+  phantunDev = "phantun";
 in
 {
 
@@ -42,18 +43,18 @@ in
   };
   #networking.nftables.checkRuleset = false;
   networking.nftables.tables."phantun-client" = {
-    family = "inet";
+    family = "ip6";
     content = 
     ''
       include "${config.sops.templates."phantun-client.nft".path}"
       chain postrouting {
           type nat hook postrouting priority srcnat; policy accept;
-          iifname tun1 oifname end0 masquerade
+          iifname ${phantunDev} oifname end0 masquerade
       }
     '';
   };
   boot.kernel.sysctl = {
-    "net.ipv4.conf.tun1.forwarding" = true;
-    "net.ipv6.conf.tun1.forwarding" = true;
+    "net.ipv4.conf.${phantunDev}.forwarding" = true;
+    "net.ipv6.conf.${phantunDev}.forwarding" = true;
   };
 }
