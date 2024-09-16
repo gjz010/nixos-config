@@ -54,6 +54,7 @@
             pkgs.age
             pkgs.ssh-to-age
             nixos-anywhere.packages."${system}".nixos-anywhere
+            pkgs.just
           ];
           EDITOR = ./scripts/editor.sh;
         };
