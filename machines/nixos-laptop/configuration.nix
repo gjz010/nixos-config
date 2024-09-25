@@ -18,7 +18,8 @@
 
   programs.dconf.enable = true;
 
-  nix.settings.substituters = [ "https://mirrors.cernet.edu.cn/nix-channels/store" ];
+  nix.settings.substituters = [ "http://192.168.1.7:5000" "https://mirrors.cernet.edu.cn/nix-channels/store" ];
+  nix.settings.trusted-public-keys = [ "arc-ci-1:iWsbPCXrMJQhFceSM49QKB76d54taXMdd049a8RssbE=" ];
   nix.settings.trusted-users = [ "gjz010" ];
 
   imports =
@@ -64,7 +65,9 @@
     open = true;
     };
   */
+  #gjz010.drivers.nvk.enable = true;
   gjz010.drivers.nvidia-proprietary.enable = true;
+  gjz010.drivers.nvidia-proprietary.driverPkg = config.boot.kernelPackages.nvidiaPackages.stable;
   networking.networkmanager.enable = true;
   networking.networkmanager.plugins = [ pkgs.networkmanager-openvpn ];
   # Set your time zone.
@@ -237,7 +240,7 @@
     enable = true;
     enableSSHSupport = true;
   };
-
+  programs.nix-ld.enable = true;
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
