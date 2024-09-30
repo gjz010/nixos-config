@@ -97,6 +97,7 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
+  services.printing.drivers = with pkgs; [gutenprint];
   services.transmission.enable = true;
   services.transmission.openPeerPorts = true;
   # Enable sound with pipewire.

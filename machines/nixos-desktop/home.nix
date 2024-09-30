@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, specialArgs, ... }:
 with pkgs;
 let
   electron = pkgs.gjz010.pkgs.electron_33-bin;
@@ -202,4 +202,5 @@ in
     '';
   };
   programs.wezterm.enable = true;
+  programs.wezterm.package = specialArgs.inputs.wezterm.packages.${pkgs.system}.default;
 }
