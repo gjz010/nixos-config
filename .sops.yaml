@@ -97,6 +97,7 @@ creation_rules:
       - *server_gjz010_nixos_miniserver_fr
       - *server_gjz010_nixos_wsl
       - *server_gjz010_nixos_laptop
+      - *server_gjz010_nixos_server
   # TODO: this is not really safe.
   # A safer way is to have every device only its own permission.
   - path_regex: ^secrets/nebula/certs/ca.crt$
