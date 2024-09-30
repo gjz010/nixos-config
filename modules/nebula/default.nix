@@ -103,7 +103,7 @@ makeNebulaService = {netName, settings}:
                         ${config.sops.secrets."${keySopsFile}".path} \
                         ''${RUNTIME_DIRECTORY}/nebula.config
                 '';
-                ExecStart = "${pkgs.nebula}/bin/nebula -config 	$RUNTIME_DIRECTORY/nebula.config";
+                ExecStart = "${pkgs.nebula}/bin/nebula -config ''${RUNTIME_DIRECTORY}/nebula.config";
                 UMask = "0027";
                 CapabilityBoundingSet = "CAP_NET_ADMIN";
                 AmbientCapabilities = "CAP_NET_ADMIN";
