@@ -51,7 +51,7 @@ makeNebulaService = {netName, settings}:
             sopsFile = "${settings.certRoot}/keys/${hostName}.key";
             owner = "${netUserName}";
         };
-        networking.firewall.allowedTCPPorts = [4242];
+        networking.firewall.allowedUDPPorts = [4242];
         users.users."${netUserName}" = {
             group = netUserName;
             description = "Nebula service user for network ${netName}, with sops.";
