@@ -11,6 +11,9 @@
   home-manager.users."gjz010" = { pkgs, ... }: {
     home.packages = with pkgs; [ cowsay vscodium zotero_7 ripgrep gjz010.pkgs.proxychains-wrapper
         gjz010.pkgs.icalinguapp kdePackages.spectacle
+        #yesplaymusic
+        gjz010.pkgs.yesplaymusic-osd
+        osdlyrics
         kdePackages.polkit-kde-agent-1 flameshot hyprpaper rofi-wayland
         (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
         font-awesome grimblast hyprlock grim imagemagick pavucontrol qpwgraph
