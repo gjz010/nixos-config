@@ -150,7 +150,7 @@ pub fn recursive_merge(a: &mut serde_yml::Mapping, b: &serde_yml::Mapping)->(){
 }
 
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Debug)]
 pub struct SingleFile<'a>{
     data: Cow<'a, str>
 }
@@ -158,7 +158,7 @@ pub fn read_sops_encrypted<P: AsRef<Path>>(path: P)->anyhow::Result<String>{
     // invoke sops
     let mut output = std::process::Command::new("sops").arg("-d").arg(path.as_ref()).stdout(Stdio::piped()).spawn()?;
     let mut stdout_pipe = output.stdout.as_mut().unwrap();
-    let s: SingleFile<'static> = serde_yml::from_reader(&mut stdout_pipe)?;
+    let s: SingleFile<'static> = SingleFile{data: serde_yml::from_reader(&mut stdout_pipe)?};
     output.wait()?;
     Ok(s.data.into_owned())
 }
@@ -167,7 +167,7 @@ pub fn write_sops_encrypted<'a, P: AsRef<Path>>(path: P, s: &'a str)->anyhow::Re
     let s = SingleFile{
         data: Cow::Borrowed(s)
     };
-    serde_yml::to_writer(&mut f, &s)?;
+    serde_yml::to_writer(&mut f, &s.data)?;
     drop(f);
     // invoke sops
     std::process::Command::new("sops").arg("-e").arg("--in-place").arg(path.as_ref()).spawn()?.wait()?.exit_ok()?;
