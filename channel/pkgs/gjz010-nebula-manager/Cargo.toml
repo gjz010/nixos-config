@@ -1,0 +1,15 @@
+[package]
+name = "gjz010-nebula-manager"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = { version = "1.0.89", features = ["backtrace"] }
+cidr = { version = "0.2.3", features = ["serde"] }
+clap = { version = "4.5.18", features = ["derive"] }
+itertools = "0.13.0"
+serde = { version = "1.0.210", features = ["derive"] }
+serde_json = "1.0.128"
+serde_yml = "0.0.12"

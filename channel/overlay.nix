@@ -17,6 +17,7 @@ let
     electron_33-bin = final.callPackage ./pkgs/electron_33-bin { };
     phantun = final.callPackage ./pkgs/phantun { };
     yesplaymusic-osd = final.callPackage ./pkgs/yesplaymusic-osd {};
+    gjz010-nebula-manager = final.callPackage ./pkgs/gjz010-nebula-manager {};
   };
   examples = {
     egui-test = final.callPackage ./pkgs/examples/egui-test { };

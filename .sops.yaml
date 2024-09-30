@@ -87,3 +87,50 @@ creation_rules:
       - *admin_gjz010_nixos_desktop
       - *admin_gjz010_nixos_pi
       - *server_gjz010_nixos_pi
+  - path_regex: ^secrets/nebula/network_secrets.yaml$
+    key_groups:
+    - age: 
+      - *admin_gjz010_nixos_box
+      - *admin_gjz010_nixos_desktop
+      - *server_gjz010_nixos_pi
+      - *server_gjz010_nixos_box
+      - *server_gjz010_nixos_miniserver_fr
+      - *server_gjz010_nixos_wsl
+      - *server_gjz010_nixos_laptop
+  # TODO: this is not really safe.
+  # A safer way is to have every device only its own permission.
+  - path_regex: ^secrets/nebula/certs/ca.crt$
+    key_groups:
+    - age:
+      - *admin_gjz010_nixos_box
+      - *admin_gjz010_nixos_desktop
+      - *server_gjz010_nixos_pi
+      - *server_gjz010_nixos_box
+      - *server_gjz010_nixos_miniserver_fr
+      - *server_gjz010_nixos_wsl
+      - *server_gjz010_nixos_laptop
+  - path_regex: ^secrets/nebula/certs/ca.key$
+    key_groups:
+    - age:
+      - *admin_gjz010_nixos_box
+      - *admin_gjz010_nixos_desktop
+  - path_regex: ^secrets/nebula/certs/certs/.*\.crt$
+    key_groups:
+    - age:
+      - *admin_gjz010_nixos_box
+      - *admin_gjz010_nixos_desktop
+      - *server_gjz010_nixos_pi
+      - *server_gjz010_nixos_box
+      - *server_gjz010_nixos_miniserver_fr
+      - *server_gjz010_nixos_wsl
+      - *server_gjz010_nixos_laptop
+  - path_regex: ^secrets/nebula/certs/certs/.*\.key$
+    key_groups:
+    - age:
+      - *admin_gjz010_nixos_box
+      - *admin_gjz010_nixos_desktop
+      - *server_gjz010_nixos_pi
+      - *server_gjz010_nixos_box
+      - *server_gjz010_nixos_miniserver_fr
+      - *server_gjz010_nixos_wsl
+      - *server_gjz010_nixos_laptop
