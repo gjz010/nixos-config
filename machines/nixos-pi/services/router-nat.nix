@@ -15,6 +15,8 @@ let
   ip6ServedAddressRange1 = "fd56:7142:ec69::3,fd56:7142:ec69::150,ra-names,24h";
   ssid = "gjz010-nixos-pi";
   vpn-dev = "tun0";
+  vpn-dev-tcp = "tun1";
+  nebula-dev = "nebula.nebula-g";
 in
 {
   sops.templates."router-hostapd.conf".content = ''
@@ -38,11 +40,11 @@ in
   sops.secrets."router/wifiPassword" = {
     sopsFile = "${config.passthru.gjz010.secretRoot}/router/router.yaml";
   };
-  networking.firewall.trustedInterfaces = [ wifi ethInternal vpn-dev ];
-  networking.networkmanager.unmanaged = [ wifi ethInternal vpn-dev ];
+  networking.firewall.trustedInterfaces = [ wifi ethInternal vpn-dev vpn-dev-tcp nebula-dev ];
+  networking.networkmanager.unmanaged = [ wifi ethInternal vpn-dev vpn-dev-tcp nebula-dev ];
   networking.nat = {
     enable = true;
-    internalInterfaces = [ wifi ethInternal vpn-dev ];
+    internalInterfaces = [ wifi ethInternal vpn-dev vpn-dev-tcp nebula-dev ];
     externalInterface = eth;
     enableIPv6 = true;
   };
@@ -94,6 +96,10 @@ in
     "net.ipv6.conf.${ethInternal}.forwarding" = true;
     "net.ipv4.conf.${vpn-dev}.forwarding" = true;
     "net.ipv6.conf.${vpn-dev}.forwarding" = true;
+    "net.ipv4.conf.${vpn-dev-tcp}.forwarding" = true;
+    "net.ipv6.conf.${vpn-dev-tcp}.forwarding" = true;
+    "net.ipv4.conf.${nebula-dev}.forwarding" = true;
+    "net.ipv6.conf.${nebula-dev}.forwarding" = true;
   };
   systemd.services.hostapd = {
     description = "hostapd wireless AP";
@@ -137,6 +143,7 @@ in
       interface-name=${config.networking.hostName},${wifi}
       interface-name=${config.networking.hostName},${ethInternal}
       interface-name=${config.networking.hostName},${vpn-dev}
+      interface-name=${config.networking.hostName},${vpn-dev-tcp}
     '';
     resolveLocalQueries = false;
   };

@@ -250,6 +250,7 @@
     iptables -A nixos-fw --source 192.168.76.0/24 -j nixos-fw-accept
     iptables -A nixos-fw --source 192.168.77.0/24 -j nixos-fw-accept
     iptables -A nixos-fw --source 192.168.78.0/24 -j nixos-fw-accept
+    iptables -A nixos-fw --source 192.168.79.0/24 -j nixos-fw-accept
   '';
   networking.firewall.trustedInterfaces = [ "enp0s20f0u4c2" "virbr0" ];
   # gjz010.services.nixos-cache-local.enable = true;
