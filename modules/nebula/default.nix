@@ -97,7 +97,7 @@ makeNebulaService = {netName, settings}:
                         ${config.sops.secrets."${caSopsFile}".path} \
                         ${config.sops.secrets."${certSopsFile}".path} \
                         ${config.sops.secrets."${keySopsFile}".path} \
-                        $RUNTIME_DIRECTORY/nebula.config
+                        ''${RUNTIME_DIRECTORY}/nebula.config
                 '';
                 ExecStart = "${pkgs.nebula}/bin/nebula -config 	$RUNTIME_DIRECTORY/nebula.config";
                 UMask = "0027";
