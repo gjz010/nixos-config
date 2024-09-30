@@ -16,9 +16,10 @@ makeNebulaService = {netName, settings}:
     hostName = config.networking.hostName;
     ddnsLauncher = pkgs.writeShellScript "cfddns-launcher" ''
         export PATH=${pkgs.lib.makeBinPath [pkgs.yq pkgs.sops]}:$PATH
-        domainRoot=$(sops -d ${config.sops.secrets."${settingsSopsFile}".path} | yq .data -r | yq ".\"nebula-secrets-global\".domainRoot")
-        domainPart=$(sops -d secrets/nebula/network_secrets.yaml | yq .data -r | yq ".\"nebula-secrets-nodes\".\"${hostName}\".secretDomain")
-        export CLOUDFLARE_API_TOKEN=$(sops -d secrets/nebula/network_secrets.yaml | yq .data -r | yq ".\"nebula-secrets-global\".\"cloudflare-dyndns-token\"")
+        secretYaml=${config.sops.secrets."${settingsSopsFile}".path}
+        domainRoot=$(sops -d $secretYaml | yq .data -r | yq ".\"nebula-secrets-global\".domainRoot")
+        domainPart=$(sops -d $secretYaml  | yq .data -r | yq ".\"nebula-secrets-nodes\".\"${hostName}\".secretDomain")
+        export CLOUDFLARE_API_TOKEN=$(sops -d $secretYaml | yq .data -r | yq ".\"nebula-secrets-global\".\"cloudflare-dyndns-token\"")
         if [ "$1" = "v4" ] ; then
             export CLOUDFLARE_DOMAINS="$domainRoot.$domainPart"
             exec ${pkgs.cloudflare-dyndns}/bin/cloudflare-dyndns --cache-file $STATE_DIRECTORY/ip.cache -4 -no-6 --delete-missing
@@ -128,7 +129,7 @@ defaultNetwork = makeNebulaService {
     netName = nebulaConfig.network_name;
     settings = {
         publicConfig = "${config.passthru.gjz010.secretRoot}/nebula/network.yaml";
-        secretConfig = "${config.passthru.gjz010.secretRoot}/nebula/network_secrets.yaml";
+        secretConfig = "${config.passthru.gjz010.secretRoot}/nebula/network_secrets.yaml.enc";
         certRoot = "${config.passthru.gjz010.secretRoot}/nebula/certs";
     };
 };

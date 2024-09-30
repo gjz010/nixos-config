@@ -87,7 +87,7 @@ creation_rules:
       - *admin_gjz010_nixos_desktop
       - *admin_gjz010_nixos_pi
       - *server_gjz010_nixos_pi
-  - path_regex: ^secrets/nebula/network_secrets.yaml$
+  - path_regex: ^secrets/nebula/network_secrets.yaml.enc$
     key_groups:
     - age: 
       - *admin_gjz010_nixos_box
