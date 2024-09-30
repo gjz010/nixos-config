@@ -7,26 +7,26 @@ nebulaConfig = builtins.fromJSON (builtins.readFile ./network.json);
 makeNebulaService = {netName, settings}:
     let
     settingsSopsFile = "nebula-sops-${netName}.yaml";
-    caSopsFile = "ca.crt";
-    certSopsFile = "cert.crt";
-    keySopsFile = "key.key";
+    caSopsFile = "nebula-sops-${netName}-ca.crt";
+    certSopsFile = "nebula-sops-${netName}-cert.crt";
+    keySopsFile = "nebula-sops-${netName}-key.key";
     netUserName = "nebula-sops-${netName}";
     ddnsV4File = "nebula-cfddns-v4-${netName}";
     ddnsV6File = "nebula-cfddns-v6-${netName}";
     hostName = config.networking.hostName;
     ddnsLauncher = pkgs.writeShellScript "cfddns-launcher" ''
-        export PATH=${pkgs.lib.makeBinPath [pkgs.yq pkgs.sops]}:$PATH
+        export PATH=${pkgs.lib.makeBinPath [pkgs.yq]}:$PATH
         secretYaml=${config.sops.secrets."${settingsSopsFile}".path}
-        domainRoot=$(sops -d $secretYaml | yq .data -r | yq ".\"nebula-secrets-global\".domainRoot")
-        domainPart=$(sops -d $secretYaml  | yq .data -r | yq ".\"nebula-secrets-nodes\".\"${hostName}\".secretDomain")
-        export CLOUDFLARE_API_TOKEN=$(sops -d $secretYaml | yq .data -r | yq ".\"nebula-secrets-global\".\"cloudflare-dyndns-token\"")
+        domainRoot=$(cat $secretYaml | yq -r ".\"nebula-secrets-global\".domainRoot")
+        domainPart=$(cat $secretYaml | yq -r ".\"nebula-secrets-nodes\".\"${hostName}\".secretDomain")
+        export CLOUDFLARE_API_TOKEN=$(cat $secretYaml | yq -r ".\"nebula-secrets-global\".\"cloudflare-dyndns-token\"")
         if [ "$1" = "v4" ] ; then
-            export CLOUDFLARE_DOMAINS="$domainRoot.$domainPart"
-            exec ${pkgs.cloudflare-dyndns}/bin/cloudflare-dyndns --cache-file $STATE_DIRECTORY/ip.cache -4 -no-6 --delete-missing
+            export CLOUDFLARE_DOMAINS="$domainPart.$domainRoot"
+            exec ${pkgs.cloudflare-dyndns}/bin/cloudflare-dyndns --cache-file $STATE_DIRECTORY/ipv4.cache -4 -no-6 --delete-missing
         fi
         if [ "$1" = "v6" ] ; then
-            export CLOUDFLARE_DOMAINS="ipv6.$domainRoot.$domainPart"
-            exec ${pkgs.cloudflare-dyndns}/bin/cloudflare-dyndns --cache-file $STATE_DIRECTORY/ip.cache -6 -no-4 --delete-missing
+            export CLOUDFLARE_DOMAINS="ipv6.$domainPart.$domainRoot"
+            exec ${pkgs.cloudflare-dyndns}/bin/cloudflare-dyndns --cache-file $STATE_DIRECTORY/ipv6.cache -6 -no-4 --delete-missing
         fi
     '';
     in
@@ -65,7 +65,8 @@ makeNebulaService = {netName, settings}:
             startAt = "*:0/5";
             serviceConfig = {
                 Type = "simple";
-                DynamicUser = true;
+                User = netUserName;
+                Group = netUserName;
                 StateDirectory = "cloudflare-dyndns-ipv4@${netName}";
                 ExecStart = "${ddnsLauncher} v4";
             };
@@ -77,7 +78,8 @@ makeNebulaService = {netName, settings}:
             startAt = "*:0/5";
             serviceConfig = {
                 Type = "simple";
-                DynamicUser = true;
+                User = netUserName;
+                Group = netUserName;
                 StateDirectory = "cloudflare-dyndns-ipv6@${netName}";
                 ExecStart = "${ddnsLauncher} v6";
             };
