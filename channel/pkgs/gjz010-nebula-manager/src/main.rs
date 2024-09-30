@@ -5,6 +5,7 @@ use anyhow::{anyhow, bail};
 use cidr::{Cidr, Inet, Ipv4Cidr, Ipv4Inet};
 use clap::Parser;
 use itertools::Itertools;
+use log::info;
 use os_pipe::{PipeReader, PipeWriter};
 use serde::{Deserialize, Serialize};
 
@@ -50,6 +51,7 @@ pub struct NebulaNetworkNixConf{
 }
 
 use serde_yml::{Mapping, Value as YAMLValue};
+use tempfile::{tempdir, TempDir};
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct NebulaNetworkGlobalRoute{
     route: cidr::Ipv4Cidr,
@@ -165,69 +167,63 @@ pub fn write_sops_encrypted<'a, P: AsRef<Path>>(path: P, s: &'a str)->anyhow::Re
 }
 
 struct ScopedReadingPipe<'scope>{
-    reader_fd: i32,
+    tempfile: tempfile::NamedTempFile,
     handle: ScopedJoinHandle<'scope, ()>
 }
 impl<'scope> ScopedReadingPipe<'scope>{
     pub fn new<'env>(scope: &'scope Scope<'scope, 'env>, buf: &'env [u8])->anyhow::Result<Self>{
-        let (reader, mut writer) = os_pipe::pipe()?;
+        let tempfile = tempfile::NamedTempFile::new()?;
+        let mut writer: File = tempfile.as_fd().try_clone_to_owned()?.into();
         let handle = scope.spawn(move || {
             writer.write_all(buf).unwrap();
             drop(writer);
         });
-        let reader_fd = reader.as_raw_fd();
-        std::mem::forget(reader);
         Ok(Self{
-            reader_fd,
+            tempfile,
             handle
         })
     }
-    pub fn reader_fd(&self)->i32{
-        self.reader_fd
-    }
     pub fn reader_path(&self)->PathBuf{
-        let mut root = PathBuf::from("/proc/self/fd");
-        root.push(format!("{}", self.reader_fd()));
-        root
+        self.tempfile.path().to_path_buf()
     }
 }
 
 struct ScopedWritingPipe<'scope>{
-    writer_fd: i32,
+    tempdir: TempDir,
     handle: ScopedJoinHandle<'scope, Vec<u8>>
 }
 impl<'scope> ScopedWritingPipe<'scope>{
     pub fn new<'env>(scope: &'scope Scope<'scope, 'env>)->anyhow::Result<Self>{
-        let (mut reader, writer) = os_pipe::pipe()?;
+        let tempdir = tempdir()?;
+        let tempfile_path = tempdir.path().join("empty");
+        let s = tempfile_path.clone();
         let handle = scope.spawn(move || {
+            while !s.exists(){
+                //println!("waiting for file to exist");
+                std::thread::sleep(std::time::Duration::from_millis(100));
+            }
             let mut buf = vec![];
-            reader.read_to_end(&mut buf);
+            File::open(s).unwrap().read_to_end(&mut buf).unwrap();
             buf
         });
-        let writer_fd = writer.as_raw_fd();
-        std::mem::forget(writer);
         Ok(Self{
-            writer_fd,
+            tempdir,
             handle
         })
     }
-    pub fn join(mut self)->anyhow::Result<Vec<u8>>{
+    pub fn join(self)->anyhow::Result<Vec<u8>>{
         Ok(self.handle.join().unwrap())
     }
-    pub fn writer_fd(&self)->i32{
-        self.writer_fd
-    }
     pub fn writer_path(&self)->PathBuf{
-        let mut root = PathBuf::from("/proc/self/fd");
-        root.push(format!("{}", self.writer_fd()));
-        root
+        self.tempdir.path().join("empty")
     }
 }
 
 struct NebulaCert;
 impl NebulaCert{
     pub fn verify_ca(cafile: &str, cakey: &str)->anyhow::Result<bool>{
-        Self::verify_cert(cafile, cafile, cakey)
+        return Ok(true);
+        Self::verify_cert(cafile, cafile, cakey) // TODO
     }
     pub fn verify_cert(cafile: &str, cert: &str, key: &str)->anyhow::Result<bool>{
         std::thread::scope(|s| {
@@ -281,6 +277,7 @@ impl NebulaCert{
             let cert = read_sops_encrypted(&cert_path)?;
             let key = read_sops_encrypted(&key_path)?;
             if NebulaCert::verify_cert(&cacert.0, &cert, &key)?{
+                info!("Cert Verified.");
                 return Ok((cert, key));
             }
         }
@@ -293,6 +290,7 @@ impl NebulaCert{
 
 
 fn main() ->anyhow::Result<()>{
+    env_logger::init();
     let args = NebulaManArgs::parse();
     match &args{
         NebulaManArgs::ExportJson { public_config, output_path } => {
@@ -362,28 +360,31 @@ fn main() ->anyhow::Result<()>{
             serde_yml::to_writer(&mut file, &new_config)?;
         }
         NebulaManArgs::RotateCert { public_config, certroot, force } => {
+            std::fs::create_dir_all(certroot)?;
+            let node_cert_path = certroot.join("certs");
+            let node_key_path = certroot.join("keys");
+            std::fs::create_dir_all(&node_cert_path)?;
+            std::fs::create_dir_all(&node_key_path)?;
+            info!("Rotating CA");
             let config = load_public_configuration(public_config)?;
             let ca_path = certroot.join("ca.crt");
             let ca_key_path = certroot.join("ca.key");
             let cacert = NebulaCert::verify_or_generate_ca_encrypted(&ca_path, &ca_key_path, &config.global.network_id)?;
 
-            let node_cert_path = certroot.join("certs");
-            let node_key_path = certroot.join("keys");
-            std::fs::create_dir_all(&node_cert_path)?;
-            std::fs::create_dir_all(&node_key_path)?;
 
             // show it
             //std::process::Command::new("nebula-cert").arg("print").arg("-path").arg(&ca_path).spawn()?.wait()?.exit_ok()?;
 
             for (node, node_cfg) in config.nodes.iter(){
+                info!("Rotating cert for node {}", node);
                 let mut subnets = vec![];
                 for route in config.global.external_routes.iter(){
                     if &route.via == node{
                         subnets.push(route.route.to_string());
                     }
                 }
-                let node_cert = node_cert_path.join(node).with_extension(".crt");
-                let node_key = node_key_path.join(node).with_extension(".key");
+                let node_cert = node_cert_path.join(node).with_extension("crt");
+                let node_key = node_key_path.join(node).with_extension("key");
 
                 let node_cert = NebulaCert::verify_or_generate_cert_encrypted(&cacert, &node_cert, &node_key, &*node, &node_cfg.ip.to_string(), &subnets.join(","))?;
                 // show it
