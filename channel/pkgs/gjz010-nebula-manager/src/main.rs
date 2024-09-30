@@ -1,4 +1,5 @@
 #![feature(exit_status_error)]
+#![feature(try_blocks)]
 use std::{borrow::Cow, collections::BTreeMap, fs::File, io::{Read, Write}, net::Ipv4Addr, os::fd::{AsFd, AsRawFd}, path::{Path, PathBuf}, process::Stdio, thread::{JoinHandle, Scope, ScopedJoinHandle}};
 
 use anyhow::{anyhow, bail};
@@ -332,6 +333,7 @@ fn main() ->anyhow::Result<()>{
             ].into_iter().map(|x| (x.0.to_owned().into(), x.1.to_owned().into())).collect::<Mapping>().into());
             // connect all nodes to all lighthouses
             let mut lighthouse_connections = default_yamlvalue();
+            
             for (lighthouse, node_cfg) in public_config.nodes.iter().filter(|x| x.1.lighthouse && x.0 != hostname){
                 let domain = format!("{}:4242", private_config.secret_domain(lighthouse));
                 let domainv6 = format!("ipv6.{}:4242", private_config.secret_domain(lighthouse));
@@ -346,22 +348,36 @@ fn main() ->anyhow::Result<()>{
             new_config.insert("lighthouse".into(), lighthouse_cfg.into_iter().collect::<Mapping>().into());
             new_config.insert("static_host_map".into(), lighthouse_connections.into());
             // relays
-            new_config.insert("relay".into(), vec![
-                ("am_relay".into(), curr_node.relay.into())
-            ].into_iter().collect::<Mapping>().into());
+            if curr_node.relay{
+                // a relay
+                new_config.insert("relay".into(), vec![
+                    ("am_relay".into(), true.into())
+                ].into_iter().collect::<Mapping>().into());
+            }else{
+                let mut relays: Vec<String> = vec![];
+                for (_relay, node_cfg) in public_config.nodes.iter().filter(|x| x.1.relay){
+                    relays.push(node_cfg.ip.address().to_string().into());
+                }
+                new_config.insert("relay".into(), vec![
+                    ("am_relay".into(), false.into()),
+                    ("relays".into(), relays.into())
+                ].into_iter().collect::<Mapping>().into());
+            }
+
             
             // unsafe_routes
             let internal_routes: Vec<BTreeMap<&'static str, String>> = public_config.global.external_routes.iter().filter(|y| y.via != *hostname).map(|y| {
-                [   
+                let x: anyhow::Result<BTreeMap<&'static str, String>> = try{([
                     ("route", y.route.to_string()),
-                    ("via", y.via.to_owned())
-                ].into_iter().collect()
-            }).collect();
+                    ("via", public_config.nodes.get(y.via.as_str()).ok_or_else(| | anyhow!("Host {} not found", hostname))?.ip.address().to_string())
+                ]).into_iter().collect()};
+                x
+            }).collect::<anyhow::Result<_>>()?;
 
             // listen
             new_config.insert("listen".into(), vec![
                 ("host".into(), "::".into()),
-                ("port".into(), format!("{}", 4242).into())
+                ("port".into(), 4242.into())
             ].into_iter().collect::<Mapping>().into());
             
             new_config.insert("tun".into(), vec![

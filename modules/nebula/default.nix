@@ -89,14 +89,16 @@ makeNebulaService = {netName, settings}:
                 Restart = "always";
                 RuntimeDirectory = "nebula-sops/${netName}";
                 RuntimeDirectoryMode = "0755";
-                ExecStartPre = "${pkgs.gjz010.pkgs.gjz010-nebula-manager}/bin/gjz010-nebula-manager \
-                ${settings.publicConfig} \
-                ${config.sops.secrets."${settingsSopsFile}".path} \
-                ${hostName} \
-                ${config.sops.secrets."${caSopsFile}".path} \
-                ${config.sops.secrets."${certSopsFile}".path} \
-                ${config.sops.secrets."${keySopsFile}".path} \
-                $RUNTIME_DIRECTORY/nebula.config";
+                ExecStartPre = ''
+                    ${pkgs.gjz010.pkgs.gjz010-nebula-manager}/bin/gjz010-nebula-manager merge-config \
+                        ${settings.publicConfig} \
+                        ${config.sops.secrets."${settingsSopsFile}".path} \
+                        ${hostName} \
+                        ${config.sops.secrets."${caSopsFile}".path} \
+                        ${config.sops.secrets."${certSopsFile}".path} \
+                        ${config.sops.secrets."${keySopsFile}".path} \
+                        $RUNTIME_DIRECTORY/nebula.config
+                '';
                 ExecStart = "${pkgs.nebula}/bin/nebula -config 	$RUNTIME_DIRECTORY/nebula.config";
                 UMask = "0027";
                 CapabilityBoundingSet = "CAP_NET_ADMIN";
