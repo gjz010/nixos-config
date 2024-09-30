@@ -47,6 +47,7 @@ pub struct NebulaNetworkNixNodeConf{
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct NebulaNetworkNixConf{
     network_name: String,
+    tun_name: String,
     nodes: BTreeMap<String, NebulaNetworkNixNodeConf>
 }
 
@@ -78,7 +79,9 @@ pub fn default_yamlvalue()->serde_yml::Mapping{
 }
 #[derive(Serialize, Deserialize, Debug)]
 pub struct NebulaNetworkYaml{
+    #[serde(rename = "nebula-global")]
     global: NebulaNetworkGlobal,
+    #[serde(rename = "nebula-nodes")]
     nodes: BTreeMap<String, NebulaNetworkNode>
 }
 impl NebulaNetworkYaml{
@@ -90,7 +93,9 @@ impl NebulaNetworkYaml{
 #[derive(Serialize, Deserialize, Debug)]
 pub struct NebulaNetworkSecretGlobal{
     #[serde(rename = "domainRoot")]
-    domain_root: String
+    domain_root: String,
+    #[serde(rename = "cloudflare-dyndns-token")]
+    cloudflare_dyndns_token: String
 }
 #[derive(Serialize, Deserialize, Debug)]
 pub struct NebulaNetworkSecretNode{
@@ -100,7 +105,9 @@ pub struct NebulaNetworkSecretNode{
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct NebulaNetworkSecretYaml{
+    #[serde(rename = "nebula-secrets-global")]
     global: NebulaNetworkSecretGlobal,
+    #[serde(rename = "nebula-secrets-nodes")]
     nodes: BTreeMap<String, NebulaNetworkSecretNode>
 }
 impl NebulaNetworkSecretYaml{
@@ -303,9 +310,11 @@ fn main() ->anyhow::Result<()>{
                     relay: node_cfg.relay,
                 });
             }
+            let tun_name = config.tun_name();
             let out_config = NebulaNetworkNixConf{
                 network_name: config.global.network_id,
-                nodes
+                nodes,
+                tun_name
             };
             let mut file = std::fs::File::create(output_path)?;
             serde_json::to_writer_pretty(&mut file, &out_config)?;
@@ -348,6 +357,12 @@ fn main() ->anyhow::Result<()>{
                     ("via", y.via.to_owned())
                 ].into_iter().collect()
             }).collect();
+
+            // listen
+            new_config.insert("listen".into(), vec![
+                ("host".into(), "::".into()),
+                ("port".into(), format!("{}", 4242).into())
+            ].into_iter().collect::<Mapping>().into());
             
             new_config.insert("tun".into(), vec![
                 ("dev".into(), public_config.tun_name().into()),

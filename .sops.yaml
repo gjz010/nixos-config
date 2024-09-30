@@ -124,7 +124,7 @@ creation_rules:
       - *server_gjz010_nixos_miniserver_fr
       - *server_gjz010_nixos_wsl
       - *server_gjz010_nixos_laptop
-  - path_regex: ^secrets/nebula/certs/certs/.*\.key$
+  - path_regex: ^secrets/nebula/certs/keys/.*\.key$
     key_groups:
     - age:
       - *admin_gjz010_nixos_box

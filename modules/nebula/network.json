@@ -1,0 +1,31 @@
+{
+  "network_name": "nebula-gjz010",
+  "tun_name": "nebula.nebula-gjz010",
+  "nodes": {
+    "gjz010-nixos-box": {
+      "local_ip": "192.168.80.4",
+      "lighthouse": true,
+      "relay": true
+    },
+    "gjz010-nixos-miniserver-fr": {
+      "local_ip": "192.168.80.3",
+      "lighthouse": true,
+      "relay": false
+    },
+    "gjz010-nixos-server": {
+      "local_ip": "192.168.80.2",
+      "lighthouse": true,
+      "relay": false
+    },
+    "nixos-laptop": {
+      "local_ip": "192.168.80.5",
+      "lighthouse": false,
+      "relay": false
+    },
+    "nixos-pi": {
+      "local_ip": "192.168.80.1",
+      "lighthouse": true,
+      "relay": true
+    }
+  }
+}
