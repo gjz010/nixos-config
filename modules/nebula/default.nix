@@ -34,18 +34,22 @@ makeNebulaService = {netName, settings}:
         sops.secrets."${settingsSopsFile}" = {
             format = "binary";
             sopsFile = settings.secretConfig;
+            owner = "${netUserName}";
         };
         sops.secrets."${caSopsFile}" = {
             format = "binary";
             sopsFile = "${settings.certRoot}/ca.crt";
+            owner = "${netUserName}";
         };
         sops.secrets."${certSopsFile}" = {
             format = "binary";
             sopsFile = "${settings.certRoot}/certs/${hostName}.crt";
+            owner = "${netUserName}";
         };
         sops.secrets."${keySopsFile}" = {
             format = "binary";
             sopsFile = "${settings.certRoot}/keys/${hostName}.key";
+            owner = "${netUserName}";
         };
         networking.firewall.allowedTCPPorts = [4242];
         users.users."${netUserName}" = {
