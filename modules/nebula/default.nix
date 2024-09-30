@@ -1,4 +1,4 @@
-flake{ inputs, self}:
+flake@{ inputs, self}:
 {config, lib, pkgs, ...}:
 let
 nebulaConfig = builtins.fromJSON (builtins.readFile ./network.json);
@@ -16,7 +16,7 @@ makeNebulaService = {netName, settings}:
     hostName = config.networking.hostName;
     ddnsLauncher = pkgs.writeShellScript "cfddns-launcher" ''
         export PATH=${pkgs.lib.makeBinPath [pkgs.yq pkgs.sops]}:$PATH
-        domainRoot=$(sops -d settings.secretConfig | yq .data -r | yq ".\"nebula-secrets-global\".domainRoot")
+        domainRoot=$(sops -d ${config.sops.secrets."${settingsSopsFile}".path} | yq .data -r | yq ".\"nebula-secrets-global\".domainRoot")
         domainPart=$(sops -d secrets/nebula/network_secrets.yaml | yq .data -r | yq ".\"nebula-secrets-nodes\".\"${hostName}\".secretDomain")
         export CLOUDFLARE_API_TOKEN=$(sops -d secrets/nebula/network_secrets.yaml | yq .data -r | yq ".\"nebula-secrets-global\".\"cloudflare-dyndns-token\"")
         if [ "$1" = "v4" ] ; then
@@ -46,16 +46,13 @@ makeNebulaService = {netName, settings}:
             format = "binary";
             sopsFile = "${settings.certRoot}/keys/${hostName}.key";
         };
-        sops.templates."${ddnsV4File}".content = ''
-            CLOUDFLARE_DOMAINS=${config.sops.placeholder."tunnel/udp2raw"}
-        '';
         networking.firewall.allowedTCPPorts = [4242];
-        user.users."${netUserName}" = {
+        users.users."${netUserName}" = {
             group = netUserName;
             description = "Nebula service user for network ${netName}, with sops.";
             isSystemUser = true;
         };
-        user.groups."${netUserName}" = {};
+        users.groups."${netUserName}" = {};
         systemd.services."cloudflare-dyndns-ipv4@${netName}" = {
             description = "Nebula DNSv4 for ${netName}";
             after = [ "network.target" ];
@@ -93,7 +90,7 @@ makeNebulaService = {netName, settings}:
                 RuntimeDirectoryMode = "0755";
                 ExecStartPre = "${pkgs.gjz010.pkgs.gjz010-nebula-manager}/bin/gjz010-nebula-manager \
                 ${settings.publicConfig} \
-                ${settings.secretConfig} \
+                ${config.sops.secrets."${settingsSopsFile}".path} \
                 ${hostName} \
                 ${config.sops.secrets."${caSopsFile}".path} \
                 ${config.sops.secrets."${certSopsFile}".path} \
@@ -129,21 +126,24 @@ makeNebulaService = {netName, settings}:
     };
 defaultNetwork = makeNebulaService {
     netName = nebulaConfig.network_name;
-    publicConfig = "${config.passthru.gjz010.secretRoot}/nebula/network.yaml";
-    secretConfig = "${config.passthru.gjz010.secretRoot}/nebula/network_secrets.yaml";
-    certRoot = "${config.passthru.gjz010.secretRoot}/nebula/certs";
+    settings = {
+        publicConfig = "${config.passthru.gjz010.secretRoot}/nebula/network.yaml";
+        secretConfig = "${config.passthru.gjz010.secretRoot}/nebula/network_secrets.yaml";
+        certRoot = "${config.passthru.gjz010.secretRoot}/nebula/certs";
+    };
 };
 in
 {
     options.gjz010.nebula = {
-        enable = "Nebula network";
-        default = lib.hasAttr config.networking.hostName nebulaConfig.nebula-nodes-global;
+        enable = lib.mkOption{
+            description = "Nebula network";
+            default = lib.hasAttr config.networking.hostName nebulaConfig.nodes;
+            type = lib.types.bool;
+        };
     };
 
-    config = lib.mkIf options.gjz010.nebula.enable (lib.mkMerge [
+    config = lib.mkIf config.gjz010.nebula.enable (lib.mkMerge [
         # Lighthouse setup and DNS.
-        (lib.mkIf config.gjz010.nebula.lighthouse.enable {
-            imports = [defaultNetwork];
-        })
-    ])
+        defaultNetwork
+    ]);
 }
