@@ -134,7 +134,7 @@
   # services.printing.enable = true;
 
   # Enable sound.
-  sound.enable = true;
+  #sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -238,7 +238,7 @@
   programs.mtr.enable = true;
   programs.gnupg.agent = {
     enable = true;
-    enableSSHSupport = true;
+    #enableSSHSupport = true;
   };
   programs.nix-ld.enable = true;
   # List services that you want to enable:

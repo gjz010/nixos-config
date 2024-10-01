@@ -33,7 +33,7 @@ flake@{ inputs, self }:
         nvidiaSettings = true;
         package = config.gjz010.drivers.nvidia-proprietary.driverPkg;
       };
-      hardware.opengl.driSupport = false;
+      #hardware.opengl.driSupport = false;
       hardware.opengl.package = config.gjz010.drivers.nvidia-proprietary.driverPkg;
     })
   ];
