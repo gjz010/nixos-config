@@ -2,9 +2,13 @@ default:
     just --list
 updatekeys:
     find secrets -type f -exec sops updatekeys -y {} \;
-autocommit:
+autocommit reason:
     git add .
-    git commit -m "Autocommit from `hostname` on `date`"
+    reason="{{reason}}"; \
+    if [ -n "$reason" ]; then \
+    reason=": $reason"; \
+    fi; \
+    git commit -m "Autocommit from `hostname` on `date`$reason"
 nebula-rotate-cert:
     RUST_LOG=info nix run .#gjz010-nebula-manager rotate-cert ./secrets/nebula/network.yaml ./secrets/nebula/certs
 nebula-export-json:

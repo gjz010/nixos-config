@@ -494,6 +494,26 @@
         "type": "github"
       }
     },
+    "nm2nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1717063723,
+        "narHash": "sha256-H/8jeRQbSNNaemN3Rl/mtuyf9mFIdu8qqrmHgUthEkw=",
+        "owner": "Janik-Haag",
+        "repo": "nm2nix",
+        "rev": "6b3f8f554af6e5d8e392ef00865e0e136ccfdb61",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Janik-Haag",
+        "repo": "nm2nix",
+        "type": "github"
+      }
+    },
     "pre-commit-hooks": {
       "inputs": {
         "flake-compat": [
@@ -558,6 +578,7 @@
         "nixos-hardware": "nixos-hardware",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_3",
+        "nm2nix": "nm2nix",
         "prismlauncher": "prismlauncher",
         "rust-overlay": "rust-overlay",
         "sops-nix": "sops-nix",

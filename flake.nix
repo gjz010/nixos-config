@@ -32,6 +32,10 @@
       url = "github:wez/wezterm/main?dir=nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nm2nix = {
+      url = "github:Janik-Haag/nm2nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = inputs@{ self, nixpkgs, home-manager, flake-parts, nixos-wsl, sops-nix, rust-overlay, nixos-anywhere, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
@@ -62,6 +66,7 @@
             pkgs.jq
             pkgs.yq-go
             pkgs.yq
+            inputs.nm2nix.packages."${system}".default
           ];
           EDITOR = ./scripts/editor.sh;
         };

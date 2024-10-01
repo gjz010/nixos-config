@@ -62,8 +62,7 @@
     "net.bridge.bridge-nf-call-iptables" = 0;
     "net.bridge.bridge-nf-call-arptables" = 0;
   };
-  # Enable networking
-  networking.networkmanager.enable = true;
+
   #services.gnome.gnome-remote-desktop.enable = true;
   # Set your time zone.
   time.timeZone = "Asia/Shanghai";
@@ -261,6 +260,11 @@
   programs.appimage.enable = true;
   programs.appimage.binfmt = true;
   programs.fish.enable = true;
+
+  #networking.interfaces.enp10s0.wakeOnLan.enable = true;
+  # Enable networking
+  networking.networkmanager.enable = true;
+  networking.networkmanager.ensureProfiles.profiles = import ./nm.nix;
 
   #  environment.sessionVariables = {
   #      GTK_IM_MODULE = "fcitx";
