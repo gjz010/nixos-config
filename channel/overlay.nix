@@ -23,6 +23,10 @@ let
     egui-test = final.callPackage ./pkgs/examples/egui-test { };
     completion-test = final.callPackage ./pkgs/examples/completion-test { };
   };
+  linuxPackages = (self: super: {
+    tuxedo-drivers = if final.lib.versionAtLeast self.kernel.version "6.7" then self.callPackage ./pkgs/kernel/tuxedo-drivers { } else null;
+    tuxedo-keyboard = null;
+  });
 in
 {
   gjz010 = {
@@ -33,4 +37,5 @@ in
       toTarball = final.gjz010.lib.tarballBundler;
     };
   };
+  linuxPackages_latest = prev.linuxPackages_latest.extend linuxPackages;
 }
