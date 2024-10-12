@@ -67,6 +67,7 @@
   */
   #gjz010.drivers.nvk.enable = true;
   gjz010.drivers.nvidia-proprietary.enable = true;
+  gjz010.drivers.nvidia-proprietary.openKernelDriver = true;
   gjz010.drivers.nvidia-proprietary.driverPkg = config.boot.kernelPackages.nvidiaPackages.stable;
   networking.networkmanager.enable = true;
   networking.networkmanager.plugins = [ pkgs.networkmanager-openvpn ];
