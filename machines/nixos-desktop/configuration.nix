@@ -188,7 +188,7 @@
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 2222 5001 5201 5900 5901 33333 22333 8000 3389 22000 ];
   networking.firewall.allowedUDPPorts = [ 55400 22000 21027 ];
-  networking.networkmanager.unmanaged = [ "wlp11s0" ];
+  #networking.networkmanager.unmanaged = [ "wlp11s0" ];
   services.syncthing = {
     enable = true;
     user = "gjz010";
