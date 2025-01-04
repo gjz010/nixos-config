@@ -96,8 +96,8 @@
     #driSupport = true;
     #driSupport32Bit = true;
     extraPackages = with pkgs; [
-      rocm-opencl-icd
-      rocm-opencl-runtime
+      rocmPackages.clr.icd
+      amdvlk
     ];
   };
 
@@ -189,7 +189,7 @@
     git-crypt
     kitty
     kdePackages.ark
-    miraclecast
+    #miraclecast
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -305,7 +305,7 @@
   virtualisation.spiceUSBRedirection.enable = true;
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
-  services.guix.enable = true;
+  #services.guix.enable = true;
 
   programs.appimage.enable = true;
   programs.appimage.binfmt = true;
@@ -314,7 +314,7 @@
     enable = true;
     models = "/mnt/zhitai-data/ollama-models";
     acceleration = "rocm";
-    rocmOverrideGfx = "10.3.0";
+    rocmOverrideGfx = "11.0.0";
   };
   services.nextjs-ollama-llm-ui = {
     enable = true;

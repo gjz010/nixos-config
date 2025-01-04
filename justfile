@@ -37,7 +37,9 @@ update-git-rev:
 # Update nixos-pi configuration remotely.
 switch-nixos-pi: update-git-rev
     NIX_SSHOPTS="-p 2222" nixos-rebuild switch --flake .#nixos-pi --use-remote-sudo --target-host nixos-pi {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
-switch: update-git-rev
+nixos-build: update-git-rev
+    nixos-rebuild build --flake . {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
+nixos-switch: update-git-rev
     sudo nixos-rebuild switch --flake . {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
 encrypt:
     ./scripts/secrets-embedded.ts --encrypt
