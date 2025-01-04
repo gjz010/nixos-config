@@ -1,18 +1,19 @@
-{ stdenvNoCC
-, lib
-, electron_19
-, dpkg
-, lsb-release
-, bubblewrap
-, procps
-, bash
-, coreutils
-, scrot
-, fetchurl
-, buildFHSUserEnv
-, openssl_1_1
-, dbus
-, nettools
+{
+  stdenvNoCC,
+  lib,
+  electron_19,
+  dpkg,
+  lsb-release,
+  bubblewrap,
+  procps,
+  bash,
+  coreutils,
+  scrot,
+  fetchurl,
+  buildFHSUserEnv,
+  openssl_1_1,
+  dbus,
+  nettools,
 }:
 let
   electron = electron_19; # https://aur.archlinux.org/packages/wechat-uos
@@ -31,7 +32,12 @@ let
       sha256 = "0sdx5mdybx4y489dhhc8505mjfajscggxvymlcpqzdd5q5wh0xjk";
       meta.license = lib.licenses.unfree;
     };
-    buildInputs = [ electron dpkg lsb-release bubblewrap ];
+    buildInputs = [
+      electron
+      dpkg
+      lsb-release
+      bubblewrap
+    ];
     inherit bubblewrap;
     lsb_release = lsb-release;
     inherit procps;
@@ -39,7 +45,10 @@ let
     inherit coreutils;
     inherit electron;
     inherit scrot;
-    phases = [ "unpackPhase" "installPhase" ];
+    phases = [
+      "unpackPhase"
+      "installPhase"
+    ];
     unpackPhase = ''
       echo $electron
       echo "  -> Extracting the deb package..."
@@ -96,6 +105,16 @@ buildFHSUserEnv {
     ln -s ${wechat.outPath}/share/applications/wechat-uos.desktop $out/share/applications
     cp -r ${wechat.outPath}/share/icons/ $out/share/icons
   '';
-  targetPkgs = pkgs: [ wechat-uos-env openssl dbus nettools ];
-  extraOutputsToInstall = [ "usr" "var/lib/uos" "var/uos" "etc" ];
+  targetPkgs = pkgs: [
+    wechat-uos-env
+    openssl
+    dbus
+    nettools
+  ];
+  extraOutputsToInstall = [
+    "usr"
+    "var/lib/uos"
+    "var/uos"
+    "etc"
+  ];
 }

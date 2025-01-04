@@ -1,4 +1,8 @@
-{ stdenvNoCC, busybox, makeWrapper }:
+{
+  stdenvNoCC,
+  busybox,
+  makeWrapper,
+}:
 stdenvNoCC.mkDerivation {
   name = "completion-test";
   phases = [ "installPhase" ];

@@ -4,7 +4,13 @@
 
 # NixOS-WSL specific options are documented on the NixOS-WSL repository:
 # https://github.com/nix-community/NixOS-WSL
-{ config, lib, pkgs, specialArgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  specialArgs,
+  ...
+}:
 
 {
   imports = [
@@ -15,10 +21,9 @@
 
   # /bin/bash is good for WSL
   # https://discourse.nixos.org/t/add-bin-bash-to-avoid-unnecessary-pain/5673/10
-  system.activationScripts.binbash =
-    ''
-      mkdir -m 0755 -p /bin
-      ln -sfn /run/current-system/sw/bin/bash /bin/.bash.tmp
-      mv /bin/.bash.tmp /bin/bash # atomically replace /usr/bin/env
-    '';
+  system.activationScripts.binbash = ''
+    mkdir -m 0755 -p /bin
+    ln -sfn /run/current-system/sw/bin/bash /bin/.bash.tmp
+    mv /bin/.bash.tmp /bin/bash # atomically replace /usr/bin/env
+  '';
 }

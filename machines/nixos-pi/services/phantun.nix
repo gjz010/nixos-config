@@ -1,8 +1,13 @@
-{pkgs, lib, config, ...}:
-let 
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+let
   phantunClientTun = "192.168.200.2";
   phantunClient6Tun = "fcc8::2";
-  phantunServerTun =  "192.168.201.2";
+  phantunServerTun = "192.168.201.2";
   phantunServer6Tun = "fcc9::2";
   sopsConfig = {
     sopsFile = "${config.passthru.gjz010.secretRoot}/tunnel-config/config.yaml";
@@ -30,7 +35,10 @@ in
     enable = true;
     description = "Phantun client";
     wantedBy = [ "multi-user.target" ];
-    after = [ "network.target" "nss-lookup.target" ];
+    after = [
+      "network.target"
+      "nss-lookup.target"
+    ];
     serviceConfig = {
       ExecStart = phantunClientScript;
       EnvironmentFile = config.sops.templates."phantun-client.env".path;
@@ -44,8 +52,7 @@ in
   #networking.nftables.checkRuleset = false;
   networking.nftables.tables."phantun-client" = {
     family = "ip6";
-    content = 
-    ''
+    content = ''
       include "${config.sops.templates."phantun-client.nft".path}"
       chain postrouting {
           type nat hook postrouting priority srcnat; policy accept;

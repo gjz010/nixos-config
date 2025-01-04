@@ -16,7 +16,6 @@ in
   sops.secrets."udp2raw-qqbridge/kcpKey" = sopsConfig;
   sops.secrets."udp2raw-qqbridge/key" = sopsConfig;
 
-
   sops.templates."udp2raw-qqbridge.env".content = ''
     remote_addr=${config.sops.placeholder."udp2raw-qqbridge/remoteAddr"}
     key=${config.sops.placeholder."udp2raw-qqbridge/key"}
@@ -25,12 +24,14 @@ in
     KCPTUN_KEY=${config.sops.placeholder."udp2raw-qqbridge/kcpKey"}
   '';
 
-
   systemd.services.kcptun-qqbridge = {
     enable = true;
     description = "Kcptun Client connecting to QQBridge";
     wantedBy = [ "multi-user.target" ];
-    after = [ "network.target" "nss-lookup.target" ];
+    after = [
+      "network.target"
+      "nss-lookup.target"
+    ];
     serviceConfig = {
       ExecStart = "${pkgs.gjz010.pkgs.kcptun-bin}/bin/kcptun-client -l 127.0.0.1:${qqbridge_port} -r 127.0.0.1:${kcptun_udp2raw_port} --mode fast3";
       EnvironmentFile = config.sops.templates."kcptun-qqbridge.env".path;
@@ -42,7 +43,10 @@ in
     enable = true;
     description = "UDP2Raw Client connecting to QQBridge";
     wantedBy = [ "multi-user.target" ];
-    after = [ "network.target" "nss-lookup.target" ];
+    after = [
+      "network.target"
+      "nss-lookup.target"
+    ];
     serviceConfig = {
       ExecStart = udp2rawScript;
       EnvironmentFile = config.sops.templates."udp2raw-qqbridge.env".path;

@@ -1,11 +1,12 @@
-{ stdenvNoCC
-, callPackage
-, mpv
-, ffmpeg-full
-, makeWrapper
-, lib
-, enableMPV ? false
-, enableFFPlay ? false
+{
+  stdenvNoCC,
+  callPackage,
+  mpv,
+  ffmpeg-full,
+  makeWrapper,
+  lib,
+  enableMPV ? false,
+  enableFFPlay ? false,
 }:
 let
   node-packages = callPackage ./node-packages { };

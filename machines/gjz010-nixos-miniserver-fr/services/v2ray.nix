@@ -1,7 +1,10 @@
 { config, pkgs, ... }:
 let
   clients = [
-    { id = config.sops.placeholder."tunnel_fr/users/user_fr"; alterId = 0; }
+    {
+      id = config.sops.placeholder."tunnel_fr/users/user_fr";
+      alterId = 0;
+    }
   ];
   streamSettings = {
     network = "mkcp";
@@ -14,31 +17,30 @@ let
       };
     };
   };
-  serverConfig =
-    {
-      log = {
-        loglevel = "debug";
-      };
-      inbounds = [
-        {
-          port = 18888;
-          listen = config.sops.placeholder."tunnel_fr/directAddr";
-          protocol = "vmess";
-          settings = {
-            inherit clients;
-          };
-          tag = "tunnel";
-          inherit streamSettings;
-        }
-      ];
-      outbounds = [
-        {
-          protocol = "freedom";
-          settings = { };
-          tag = "direct";
-        }
-      ];
+  serverConfig = {
+    log = {
+      loglevel = "debug";
     };
+    inbounds = [
+      {
+        port = 18888;
+        listen = config.sops.placeholder."tunnel_fr/directAddr";
+        protocol = "vmess";
+        settings = {
+          inherit clients;
+        };
+        tag = "tunnel";
+        inherit streamSettings;
+      }
+    ];
+    outbounds = [
+      {
+        protocol = "freedom";
+        settings = { };
+        tag = "direct";
+      }
+    ];
+  };
   sopsConfig = {
     sopsFile = "${config.passthru.gjz010.secretRoot}/tunnel-config/config-miniserver-fr.yaml";
   };
@@ -46,7 +48,6 @@ in
 {
   sops.secrets."tunnel_fr/directAddr" = sopsConfig;
   sops.secrets."tunnel_fr/users/user_fr" = sopsConfig;
-
 
   sops.templates."tunnel.yaml".content = builtins.toJSON serverConfig;
   sops.templates."tunnel.yaml".owner = "v2ray";
@@ -73,7 +74,5 @@ in
 
   networking.firewall.allowedTCPPorts = [ 18888 ];
   networking.firewall.allowedUDPPorts = [ 18888 ];
-
-
 
 }

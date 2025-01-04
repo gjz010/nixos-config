@@ -1,8 +1,10 @@
-{ config
-, lib
-, dream2nix
-, ...
-}: {
+{
+  config,
+  lib,
+  dream2nix,
+  ...
+}:
+{
   imports = [
     dream2nix.modules.dream2nix.nodejs-package-lock-v3
     dream2nix.modules.dream2nix.nodejs-granular-v3

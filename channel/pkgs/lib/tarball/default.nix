@@ -1,10 +1,16 @@
 { pkgs }:
 with pkgs;
-{ name, drv, entry, tarballPrefix ? name }:
+{
+  name,
+  drv,
+  entry,
+  tarballPrefix ? name,
+}:
 let
   inherit (gjz010.pkgs) nix-user-chroot;
   drv_path = (builtins.toString drv);
-  maketar = { targets }:
+  maketar =
+    { targets }:
     let
       entryScriptPath = writeScript "${name}-entry" ''
         #!/bin/sh
@@ -15,7 +21,10 @@ let
     stdenvNoCC.mkDerivation {
       name = "${tarballPrefix}-tarball.tar.gz";
       buildInputs = [ perl ];
-      exportReferencesGraph = map (x: [ ("closure-" + baseNameOf x) x ]) targets;
+      exportReferencesGraph = map (x: [
+        ("closure-" + baseNameOf x)
+        x
+      ]) targets;
       buildCommand = ''
         storePaths=$(perl ${pathsFromGraph} ./closure-*)
         cp ${entryScriptPath} /build/${name}
@@ -30,4 +39,9 @@ let
       '';
     };
 in
-maketar { targets = [ drv nix-user-chroot ]; }
+maketar {
+  targets = [
+    drv
+    nix-user-chroot
+  ];
+}

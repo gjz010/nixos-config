@@ -1,5 +1,11 @@
 flake@{ inputs, self, ... }:
-{ config, pkgs, lib, specialArgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  specialArgs,
+  ...
+}:
 {
   imports = [
     inputs.home-manager.nixosModules.home-manager

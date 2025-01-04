@@ -7,4 +7,3 @@
     ./samsung.nix
   ];
 }
-

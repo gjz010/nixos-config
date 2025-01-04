@@ -1,10 +1,11 @@
-{ writeShellScriptBin
-, nixos-install-tools
-, nix
-, git
-, mkpasswd
-, gnused
-, gjz010Flake
+{
+  writeShellScriptBin,
+  nixos-install-tools,
+  nix,
+  git,
+  mkpasswd,
+  gnused,
+  gjz010Flake,
 }:
 writeShellScriptBin "nixos-with-flake-init" ''
   export PATH=${nix}/bin:${nixos-install-tools}/bin:${git}/bin:${mkpasswd}/bin:${gnused}/bin:$PATH
@@ -20,7 +21,7 @@ writeShellScriptBin "nixos-with-flake-init" ''
     echo "==================================================="
     exit 1
   fi
-  
+
   echo "==================================================="
   echo "What will be the hostname of your system?"
   read -p "Hostname (default: nixos): " installation_hostname

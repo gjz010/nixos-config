@@ -2,10 +2,9 @@
 {
   boot.supportedFilesystems.zfs = lib.mkForce false;
   nixpkgs.overlays = [
-      (final: super: {
-        makeModulesClosure = x:
-          super.makeModulesClosure (x // { allowMissing = true; });
-      })
+    (final: super: {
+      makeModulesClosure = x: super.makeModulesClosure (x // { allowMissing = true; });
+    })
   ];
   sdImage.compressImage = false;
   imports = [

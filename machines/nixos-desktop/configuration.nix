@@ -2,15 +2,20 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, nixpkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  nixpkgs,
+  inputs,
+  ...
+}:
 
 {
-  imports =
-    [
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      #      "${nixpkgs}/nixos/modules/virtualisation/qemu-vm.nix"
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    #      "${nixpkgs}/nixos/modules/virtualisation/qemu-vm.nix"
+  ];
   services.udev.packages = [
     pkgs.android-udev-rules
   ];
@@ -41,15 +46,28 @@
     }
   '';
   boot.tmp.useTmpfs = false;
-  boot.initrd.kernelModules = [ "nfs" "v4l2loopback" "vfio_pci" "vfio" "vfio_iommu_type1" ];
+  boot.initrd.kernelModules = [
+    "nfs"
+    "v4l2loopback"
+    "vfio_pci"
+    "vfio"
+    "vfio_iommu_type1"
+  ];
   boot.extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
   boot.kernelModules = [ "v4l2loopback" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelParams = [ "amdgpu.sg_display=0" "amd_iommu=on" "vfio-pci.ids=1022:15b8" ];
+  boot.kernelParams = [
+    "amdgpu.sg_display=0"
+    "amd_iommu=on"
+    "vfio-pci.ids=1022:15b8"
+  ];
   boot.supportedFilesystems = [ "ntfs" ];
   #hardware.firmware = [(import ./firmware/amdgpu {})];
   networking.hostName = "nixos-desktop"; # Define your hostname.
-  boot.binfmt.emulatedSystems = [ "riscv64-linux" "aarch64-linux" ];
+  boot.binfmt.emulatedSystems = [
+    "riscv64-linux"
+    "aarch64-linux"
+  ];
   hardware.bluetooth.enable = true;
   #  virtualisation.memorySize = 8192;
   #  virtualisation.cores = 8;
@@ -83,8 +101,6 @@
     ];
   };
 
-
-
   # Enable the KDE Plasma Desktop Environment.
   #services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
@@ -96,7 +112,7 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
-  services.printing.drivers = with pkgs; [gutenprint];
+  services.printing.drivers = with pkgs; [ gutenprint ];
   services.transmission.enable = true;
   services.transmission.openPeerPorts = true;
   # Enable sound with pipewire.
@@ -126,7 +142,6 @@
   #    "-display gtk,gl=on"
   #  ];
 
-
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
   #programs.bash.enable = true;
@@ -135,7 +150,14 @@
   users.users.gjz010 = {
     isNormalUser = true;
     description = "gjz010";
-    extraGroups = [ "networkmanager" "wheel" "libvirtd" "docker" "transmission" "adbusers" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "libvirtd"
+      "docker"
+      "transmission"
+      "adbusers"
+    ];
     packages = with pkgs; [
       #  thunderbird
     ];
@@ -183,11 +205,29 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-  services.openssh.ports = [ 2222 22 ];
+  services.openssh.ports = [
+    2222
+    22
+  ];
   services.openssh.settings.X11Forwarding = true;
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 2222 5001 5201 5900 5901 33333 22333 8000 3389 22000 ];
-  networking.firewall.allowedUDPPorts = [ 55400 22000 21027 ];
+  networking.firewall.allowedTCPPorts = [
+    2222
+    5001
+    5201
+    5900
+    5901
+    33333
+    22333
+    8000
+    3389
+    22000
+  ];
+  networking.firewall.allowedUDPPorts = [
+    55400
+    22000
+    21027
+  ];
   #networking.networkmanager.unmanaged = [ "wlp11s0" ];
   services.syncthing = {
     enable = true;
@@ -222,9 +262,16 @@
     enable = true;
     #enabled = "fcitx5";
     fcitx5 = {
-        waylandFrontend = true;
-        plasma6Support = true;
-        addons = with pkgs; [ fcitx5-rime fcitx5-chinese-addons fcitx5-configtool fcitx5-mozc fcitx5-gtk kdePackages.fcitx5-qt  ];
+      waylandFrontend = true;
+      plasma6Support = true;
+      addons = with pkgs; [
+        fcitx5-rime
+        fcitx5-chinese-addons
+        fcitx5-configtool
+        fcitx5-mozc
+        fcitx5-gtk
+        kdePackages.fcitx5-qt
+      ];
     };
   };
   fonts.packages = with pkgs; [
@@ -250,7 +297,10 @@
   #virtualisation.lxd.enable = true;
   virtualisation.waydroid.enable = true;
   virtualisation.libvirtd.qemu.ovmf.enable = true;
-  virtualisation.libvirtd.qemu.ovmf.packages = [ pkgs.OVMFFull.fd pkgs.pkgsCross.aarch64-multiplatform.OVMF.fd ];
+  virtualisation.libvirtd.qemu.ovmf.packages = [
+    pkgs.OVMFFull.fd
+    pkgs.pkgsCross.aarch64-multiplatform.OVMF.fd
+  ];
   virtualisation.libvirtd.qemu.swtpm.enable = true;
   virtualisation.spiceUSBRedirection.enable = true;
   environment.sessionVariables.NIXOS_OZONE_WL = "1";

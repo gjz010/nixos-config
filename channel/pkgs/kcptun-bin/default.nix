@@ -1,4 +1,9 @@
-{ autoPatchelfHook, stdenvNoCC, lib, unar }:
+{
+  autoPatchelfHook,
+  stdenvNoCC,
+  lib,
+  unar,
+}:
 let
   inherit (builtins) fetchurl;
   kcptunBinaries = {
@@ -21,7 +26,9 @@ let
       server = "server_linux_arm64";
     };
   };
-  kcptunBinary = kcptunBinaries."${stdenvNoCC.hostPlatform.system}" or (throw "Unsupported system: ${stdenvNoCC.hostPlatform.system}");
+  kcptunBinary =
+    kcptunBinaries."${stdenvNoCC.hostPlatform.system}"
+      or (throw "Unsupported system: ${stdenvNoCC.hostPlatform.system}");
 in
 stdenvNoCC.mkDerivation {
   pname = "kcptun-bin";
@@ -40,7 +47,6 @@ stdenvNoCC.mkDerivation {
     cp -r $TMP/kcptun/${kcptunBinary.server} $out/bin/kcptun-server
     chmod +x $out/bin/kcptun-*
   '';
-
 
   meta = with lib; {
     description = "A Stable & Secure Tunnel Based On KCP with N:M Multiplexing & FEC";

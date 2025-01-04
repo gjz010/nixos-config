@@ -1,12 +1,24 @@
 { config, pkgs, ... }:
 let
   clients = [
-    { id = config.sops.placeholder."tunnel/users/user1"; alterId = 0; }
-    { id = config.sops.placeholder."tunnel/users/user2"; alterId = 0; }
-    { id = config.sops.placeholder."tunnel/users/user3"; alterId = 0; }
+    {
+      id = config.sops.placeholder."tunnel/users/user1";
+      alterId = 0;
+    }
+    {
+      id = config.sops.placeholder."tunnel/users/user2";
+      alterId = 0;
+    }
+    {
+      id = config.sops.placeholder."tunnel/users/user3";
+      alterId = 0;
+    }
   ];
   clientsFr = [
-    { id = config.sops.placeholder."tunnel_fr/users/user_fr"; alterId = 0; }
+    {
+      id = config.sops.placeholder."tunnel_fr/users/user_fr";
+      alterId = 0;
+    }
   ];
   streamSettings = {
     network = "mkcp";
@@ -19,100 +31,106 @@ let
       };
     };
   };
-  serverConfig =
-    {
-      log = {
-        loglevel = "debug";
-      };
-      inbounds = [
-        {
-          port = 18888;
-          listen = config.sops.placeholder."tunnel/directAddr";
-          protocol = "vmess";
-          settings = {
-            inherit clients;
-          };
-          tag = "tunnel-direct-ipv6";
-          inherit streamSettings;
-        }
-        # fr direct node
-        {
-          port = 19888;
-          listen = config.sops.placeholder."tunnel/directAddr";
-          protocol = "vmess";
-          settings = {
-            inherit clients;
-          };
-          tag = "tunnel-fr-direct-ipv6";
-          inherit streamSettings;
-        }
-        {
-          port = 18888;
-          listen = "127.0.0.1";
-          protocol = "vmess";
-          settings = {
-            inherit clients;
-          };
-          tag = "tunnel-udp2raw";
-          inherit streamSettings;
-        }
-        {
-          port = 18889;
-          listen = "127.0.0.1";
-          protocol = "vmess";
-          settings = {
-            inherit clients;
-          };
-          tag = "tunnel-websocket";
-          streamSettings = {
-            network = "ws";
-            security = "none";
-            wsSettings = {
-              path = config.sops.placeholder."tunnel/httpPath";
-            };
-          };
-          sniffing = {
-            enabled = true;
-            destOverride = [ "http" "tls" ];
-          };
-        }
-      ];
-      outbounds = [
-        {
-          protocol = "freedom";
-          settings = { };
-          tag = "direct";
-        }
-        {
-          protocol = "vmess";
-          settings = {
-            vnext = [
-              {
-                port = 18888;
-                address = config.sops.placeholder."tunnel_fr/directAddr";
-                users = clientsFr;
-              }
-            ];
-          };
-          tag = "tunnel-fr-out";
-          inherit streamSettings;
-        }
-      ];
-      routing = {
-        rules = [
-          {
-            type = "field";
-            inboundTag = [ "tunnel-direct-ipv6" "tunnel-udp2raw" "tunnel-websocket" ];
-            outboundTag = "direct";
-          }
-          {
-            type = "field";
-            inboundTag = [ "tunnel-fr-direct-ipv6" ];
-            outboundTag = "tunnel-fr-out";
-          }
-        ];
-      };
+  serverConfig = {
+    log = {
+      loglevel = "debug";
     };
+    inbounds = [
+      {
+        port = 18888;
+        listen = config.sops.placeholder."tunnel/directAddr";
+        protocol = "vmess";
+        settings = {
+          inherit clients;
+        };
+        tag = "tunnel-direct-ipv6";
+        inherit streamSettings;
+      }
+      # fr direct node
+      {
+        port = 19888;
+        listen = config.sops.placeholder."tunnel/directAddr";
+        protocol = "vmess";
+        settings = {
+          inherit clients;
+        };
+        tag = "tunnel-fr-direct-ipv6";
+        inherit streamSettings;
+      }
+      {
+        port = 18888;
+        listen = "127.0.0.1";
+        protocol = "vmess";
+        settings = {
+          inherit clients;
+        };
+        tag = "tunnel-udp2raw";
+        inherit streamSettings;
+      }
+      {
+        port = 18889;
+        listen = "127.0.0.1";
+        protocol = "vmess";
+        settings = {
+          inherit clients;
+        };
+        tag = "tunnel-websocket";
+        streamSettings = {
+          network = "ws";
+          security = "none";
+          wsSettings = {
+            path = config.sops.placeholder."tunnel/httpPath";
+          };
+        };
+        sniffing = {
+          enabled = true;
+          destOverride = [
+            "http"
+            "tls"
+          ];
+        };
+      }
+    ];
+    outbounds = [
+      {
+        protocol = "freedom";
+        settings = { };
+        tag = "direct";
+      }
+      {
+        protocol = "vmess";
+        settings = {
+          vnext = [
+            {
+              port = 18888;
+              address = config.sops.placeholder."tunnel_fr/directAddr";
+              users = clientsFr;
+            }
+          ];
+        };
+        tag = "tunnel-fr-out";
+        inherit streamSettings;
+      }
+    ];
+    routing = {
+      rules = [
+        {
+          type = "field";
+          inboundTag = [
+            "tunnel-direct-ipv6"
+            "tunnel-udp2raw"
+            "tunnel-websocket"
+          ];
+          outboundTag = "direct";
+        }
+        {
+          type = "field";
+          inboundTag = [ "tunnel-fr-direct-ipv6" ];
+          outboundTag = "tunnel-fr-out";
+        }
+      ];
+    };
+  };
   sopsConfig = {
     sopsFile = "${config.passthru.gjz010.secretRoot}/tunnel-config/config.yaml";
   };
@@ -129,8 +147,6 @@ in
 
   sops.secrets."tunnel_fr/directAddr" = sopsConfigFr;
   sops.secrets."tunnel_fr/users/user_fr" = sopsConfigFr;
-
-
 
   sops.templates."tunnel.yaml".content = builtins.toJSON serverConfig;
   sops.templates."tunnel.yaml".owner = "v2ray";
@@ -155,9 +171,13 @@ in
     };
   };
 
-  networking.firewall.allowedTCPPorts = [ 18888 19888 ];
-  networking.firewall.allowedUDPPorts = [ 18888 19888 ];
-
-
+  networking.firewall.allowedTCPPorts = [
+    18888
+    19888
+  ];
+  networking.firewall.allowedUDPPorts = [
+    18888
+    19888
+  ];
 
 }

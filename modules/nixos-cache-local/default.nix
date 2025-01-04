@@ -1,4 +1,5 @@
-{ config, lib, ... }: {
+{ config, lib, ... }:
+{
   options.gjz010.services.nixos-cache-local = {
     enable = lib.mkEnableOption "nixos-cache-local";
     forwardTarget = lib.mkOption {
@@ -27,10 +28,9 @@
         ssl_verify_client on;
       '';
     };
-    networking.extraHosts =
-      ''
-        127.0.0.1 cache.nixos-cache.local
-      '';
+    networking.extraHosts = ''
+      127.0.0.1 cache.nixos-cache.local
+    '';
     security.pki.certificates = [ (builtins.readFile "${certs}/ca.pem") ];
   };
 }

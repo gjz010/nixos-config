@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 let
   sopsConfig = {
     sopsFile = "${config.passthru.gjz010.secretRoot}/tunnel-config/config.yaml";
@@ -18,7 +23,10 @@ in
   systemd.services.udp2raw = {
     enable = true;
     description = "udp2raw";
-    after = [ "network.target" "nss-lookup.target" ];
+    after = [
+      "network.target"
+      "nss-lookup.target"
+    ];
     serviceConfig = {
       ExecStart = udp2rawScript;
       EnvironmentFile = config.sops.templates."udp2raw.env".path;
@@ -27,7 +35,6 @@ in
     };
     wantedBy = [ "multi-user.target" ];
   };
-
 
   networking.nftables.tables."udp2raw-nftables" = {
     enable = true;

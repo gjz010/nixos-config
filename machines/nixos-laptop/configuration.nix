@@ -18,16 +18,18 @@
 
   programs.dconf.enable = true;
 
-  nix.settings.substituters = [ "http://192.168.1.7:5000" "https://mirrors.cernet.edu.cn/nix-channels/store" ];
+  nix.settings.substituters = [
+    "http://192.168.1.7:5000"
+    "https://mirrors.cernet.edu.cn/nix-channels/store"
+  ];
   nix.settings.trusted-public-keys = [ "arc-ci-1:iWsbPCXrMJQhFceSM49QKB76d54taXMdd049a8RssbE=" ];
   nix.settings.trusted-users = [ "gjz010" ];
 
-  imports =
-    [
-      ./hardware-configuration.nix
-      ./nix-direnv.nix
-      ./samba-win10.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    ./nix-direnv.nix
+    ./samba-win10.nix
+  ];
   home-manager.useGlobalPkgs = true;
   virtualisation.spiceUSBRedirection.enable = true;
   #virtualisation.podman = {
@@ -56,7 +58,7 @@
     #    "nouveau.debug=info,VBIOS=info,gsp=debug"
   ];
   /*
-    hardware.nvidia = 
+    hardware.nvidia =
     {
     powerManagement.enable = true;
     nvidiaSettings = true;
@@ -108,7 +110,10 @@
   #services.xrdp.defaultWindowManager = "startplasma-x11";
   i18n.inputMethod = {
     enabled = "fcitx5";
-    fcitx5.addons = with pkgs; [ fcitx5-rime fcitx5-chinese-addons ];
+    fcitx5.addons = with pkgs; [
+      fcitx5-rime
+      fcitx5-chinese-addons
+    ];
   };
 
   fonts.packages = with pkgs; [
@@ -153,7 +158,13 @@
   users.users.gjz010 = {
     isNormalUser = true;
     home = "/home/gjz010";
-    extraGroups = [ "wheel" "docker" "libvirtd" "vboxusers" "networkmanager" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "wheel"
+      "docker"
+      "libvirtd"
+      "vboxusers"
+      "networkmanager"
+    ]; # Enable ‘sudo’ for the user.
     hashedPasswordFile = config.sops.secrets."shadow/nixos-laptop/gjz010".path;
   };
   home-manager.users.gjz010 = import ./home.nix;
@@ -194,7 +205,6 @@
     vpnclient.enable = true;
   };
   services.printing.enable = true;
-
 
   #fileSystems."/export/gjz010" = {
   #  device = "/home/gjz010";
@@ -246,9 +256,15 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-  services.openssh.ports = [ 22 2222 ];
+  services.openssh.ports = [
+    22
+    2222
+  ];
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 2222 22333 ];
+  networking.firewall.allowedTCPPorts = [
+    2222
+    22333
+  ];
   networking.firewall.extraCommands = ''
     iptables -A nixos-fw -p tcp --source 192.168.122.0/24 --dport 445 -j nixos-fw-accept
     iptables -A nixos-fw --source 192.168.76.0/24 -j nixos-fw-accept
@@ -256,7 +272,10 @@
     iptables -A nixos-fw --source 192.168.78.0/24 -j nixos-fw-accept
     iptables -A nixos-fw --source 192.168.79.0/24 -j nixos-fw-accept
   '';
-  networking.firewall.trustedInterfaces = [ "enp0s20f0u4c2" "virbr0" ];
+  networking.firewall.trustedInterfaces = [
+    "enp0s20f0u4c2"
+    "virbr0"
+  ];
   # gjz010.services.nixos-cache-local.enable = true;
 
   boot.tmp.useTmpfs = true;
@@ -264,8 +283,9 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
   environment.sessionVariables = {
-    NIX_PROFILES =
-      "${builtins.concatStringsSep " " (pkgs.lib.reverseList config.environment.profiles)}";
+    NIX_PROFILES = "${builtins.concatStringsSep " " (
+      pkgs.lib.reverseList config.environment.profiles
+    )}";
     GTK_IM_MODULE = "fcitx";
     QT_IM_MODULE = "fcitx";
     XMODIFIERS = "@im=fcitx";
@@ -280,4 +300,3 @@
   system.stateVersion = "21.11"; # Did you read the comment?
 
 }
-

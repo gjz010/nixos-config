@@ -1,4 +1,8 @@
-{ proxychains, stdenvNoCC, makeWrapper }:
+{
+  proxychains,
+  stdenvNoCC,
+  makeWrapper,
+}:
 stdenvNoCC.mkDerivation {
   name = "proxychains-wrapper";
   nativeBuildInputs = [ makeWrapper ];

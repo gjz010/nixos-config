@@ -1,5 +1,11 @@
 flake@{ inputs, self }:
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   options.gjz010.drivers.nvk = {
     enable = lib.mkEnableOption "Enable NVK.";
   };

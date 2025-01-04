@@ -14,4 +14,3 @@ pkgsStatic.rustPlatform.buildRustPackage rec {
   };
   doCheck = false;
 }
-  

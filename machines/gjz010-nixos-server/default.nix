@@ -14,4 +14,3 @@
     ./services/phantun.nix
   ];
 }
-

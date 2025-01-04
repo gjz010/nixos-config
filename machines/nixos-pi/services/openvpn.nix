@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   certSecretName = crt: "openvpn-cert-${crt}";
   createCert = crt: {

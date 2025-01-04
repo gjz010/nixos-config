@@ -1,4 +1,9 @@
-{ lib, pkgs, config, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 let
   secrets = config.passthru.gjz010.secretsEmbedded.default.nixos-pi;
   domain = secrets.private-mumble-address;

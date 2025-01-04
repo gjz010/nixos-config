@@ -1,6 +1,12 @@
 flake@{ inputs, self }:
-{ config, lib, pkgs, ... }:
-let cfg = config.services.auth-thu;
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+let
+  cfg = config.services.auth-thu;
 in
 {
   options = {
@@ -34,7 +40,10 @@ in
         {
           enable = true;
           description = "auth-thu from GoAuthing.";
-          after = [ "network.target" "nss-lookup.target" ];
+          after = [
+            "network.target"
+            "nss-lookup.target"
+          ];
           serviceConfig = {
             ExecStartPre = [
               "-${auth-thu}/bin/auth-thu -c ${thuconfig} -D auth"

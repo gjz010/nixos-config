@@ -1,37 +1,44 @@
-{ config, pkgs, specialArgs, ... }:
+{
+  config,
+  pkgs,
+  specialArgs,
+  ...
+}:
 with pkgs;
 let
   electron = pkgs.gjz010.pkgs.electron_33-bin;
-  symbols-nerd-font = (stdenv.mkDerivation {
-    pname = "symbols-nerd-font";
-    version = "2.2.0";
-    src = fetchFromGitHub {
-      owner = "ryanoasis";
-      repo = "nerd-fonts";
-      rev = "v3.2.1";
-      hash = "sha256-lHnp4fPDZK4aPv6CZyBf03ylajGfxuqjhWzn7ubLlIU=";
-      sparseCheckout = [
-        "10-nerd-font-symbols.conf"
-        "patched-fonts/NerdFontsSymbolsOnly"
-      ];
-    };
-    dontConfigure = true;
-    dontBuild = true;
-    installPhase = ''
-      runHook preInstall
+  symbols-nerd-font = (
+    stdenv.mkDerivation {
+      pname = "symbols-nerd-font";
+      version = "2.2.0";
+      src = fetchFromGitHub {
+        owner = "ryanoasis";
+        repo = "nerd-fonts";
+        rev = "v3.2.1";
+        hash = "sha256-lHnp4fPDZK4aPv6CZyBf03ylajGfxuqjhWzn7ubLlIU=";
+        sparseCheckout = [
+          "10-nerd-font-symbols.conf"
+          "patched-fonts/NerdFontsSymbolsOnly"
+        ];
+      };
+      dontConfigure = true;
+      dontBuild = true;
+      installPhase = ''
+        runHook preInstall
 
-      fontconfigdir="$out/etc/fonts/conf.d"
-      install -d "$fontconfigdir"
-      install 10-nerd-font-symbols.conf "$fontconfigdir"
+        fontconfigdir="$out/etc/fonts/conf.d"
+        install -d "$fontconfigdir"
+        install 10-nerd-font-symbols.conf "$fontconfigdir"
 
-      fontdir="$out/share/fonts/truetype"
-      install -d "$fontdir"
-      install "patched-fonts/NerdFontsSymbolsOnly/complete/Symbols-2048-em Nerd Font Complete.ttf" "$fontdir"
+        fontdir="$out/share/fonts/truetype"
+        install -d "$fontdir"
+        install "patched-fonts/NerdFontsSymbolsOnly/complete/Symbols-2048-em Nerd Font Complete.ttf" "$fontdir"
 
-      runHook postInstall
-    '';
-    enableParallelBuilding = true;
-  });
+        runHook postInstall
+      '';
+      enableParallelBuilding = true;
+    }
+  );
 in
 {
   programs.direnv.enable = true;
@@ -43,7 +50,7 @@ in
   home.username = "gjz010";
   home.homeDirectory = "/home/gjz010";
   home.packages = [
-    (gjz010.pkgs.icalinguapp.override {inherit electron;})
+    (gjz010.pkgs.icalinguapp.override { inherit electron; })
     spectacle
     gjz010.pkgs.proxychains-wrapper
     x11vnc
@@ -75,13 +82,15 @@ in
     firefox
     jq
     unar
-    (yesplaymusic.overrideAttrs (final: prev: {
-      src = fetchurl {
-        url = "https://github.com/shih-liang/YesPlayMusicOSD/releases/download/v0.4.5/yesplaymusic_0.4.5_amd64.deb";
-        sha256 = "04yab3122wi5vxv4i0ygas4pf50rvqz4s1khkz2hlnhj5j2p2k8h";
-      };
-      version = "0.4.5";
-    }))
+    (yesplaymusic.overrideAttrs (
+      final: prev: {
+        src = fetchurl {
+          url = "https://github.com/shih-liang/YesPlayMusicOSD/releases/download/v0.4.5/yesplaymusic_0.4.5_amd64.deb";
+          sha256 = "04yab3122wi5vxv4i0ygas4pf50rvqz4s1khkz2hlnhj5j2p2k8h";
+        };
+        version = "0.4.5";
+      }
+    ))
     zk
     fzf
     krita
@@ -168,13 +177,14 @@ in
       Description = "X11VNC";
       After = [ "graphical-session.target" ];
     };
-    Install = { WantedBy = [ "graphical-session.target" ]; };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
     Service = {
       Type = "exec";
       ExecStart =
         let
-          systemctl =
-            "XDG_RUNTIME_DIR=\${XDG_RUNTIME_DIR:-/run/user/$UID} systemctl";
+          systemctl = "XDG_RUNTIME_DIR=\${XDG_RUNTIME_DIR:-/run/user/$UID} systemctl";
         in
         pkgs.writeScript "x11vnc-start" ''
           #! ${pkgs.runtimeShell} -el

@@ -1,4 +1,10 @@
-{ electron? pkgs.gjz010.pkgs.electron_33-bin, pkgs, stdenv, makeWrapper, bash }:
+{
+  electron ? pkgs.gjz010.pkgs.electron_33-bin,
+  pkgs,
+  stdenv,
+  makeWrapper,
+  bash,
+}:
 with pkgs;
 stdenv.mkDerivation rec {
   pname = "icalinguapp";
@@ -10,7 +16,7 @@ stdenv.mkDerivation rec {
     sha256 = "uhKcrd5rHEN1gXVY6hYbpmteQE5ySW7bZKnsZfx3y/4=";
   };
   buildInputs = [ electron ];
-  nativeBuildInputs = [makeWrapper];
+  nativeBuildInputs = [ makeWrapper ];
   phases = [ "installPhase" ];
   installPhase = ''
     mkdir -p $out/lib/icalinguapp

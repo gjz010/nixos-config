@@ -7,4 +7,3 @@
     ./services/v2ray.nix
   ];
 }
-

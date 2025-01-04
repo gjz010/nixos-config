@@ -1,6 +1,9 @@
 { configs, pkgs, ... }:
 {
-  environment.systemPackages = with pkgs; [ direnv nix-direnv ];
+  environment.systemPackages = with pkgs; [
+    direnv
+    nix-direnv
+  ];
   # nix options for derivations to persist garbage collection
   nix.extraOptions = ''
     keep-outputs = true

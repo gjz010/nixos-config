@@ -49,54 +49,73 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  outputs = inputs@{ self, nixpkgs, home-manager, flake-parts, nixos-wsl, sops-nix, rust-overlay, nixos-anywhere, ... }:
+  outputs =
+    inputs@{
+      self,
+      nixpkgs,
+      home-manager,
+      flake-parts,
+      nixos-wsl,
+      sops-nix,
+      rust-overlay,
+      nixos-anywhere,
+      ...
+    }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         inputs.git-hooks-nix.flakeModule
         ./flakemodules/bundlers.nix
       ];
-      perSystem = { config, pkgs, system, ... }: {
+      perSystem =
+        {
+          config,
+          pkgs,
+          system,
+          ...
+        }:
+        {
 
-        _module.args.pkgs = import inputs.nixpkgs {
-          inherit system;
-          overlays = [
-            self.overlays.default
-          ];
-          config = { };
-        };
-        pre-commit.check.enable = true;
-        pre-commit.settings.hooks = {
-          "sops-secrets-embedded-encrypt" = {
-            enable = true;
-            name = "sops-secrets-embedded";
-            entry = "./scripts/secrets-embedded.ts --encrypt --nonew";
-            pass_filenames = false;
+          _module.args.pkgs = import inputs.nixpkgs {
+            inherit system;
+            overlays = [
+              self.overlays.default
+            ];
+            config = { };
+          };
+          pre-commit.check.enable = true;
+          pre-commit.settings.hooks = {
+            "sops-secrets-embedded-encrypt" = {
+              enable = true;
+              name = "sops-secrets-embedded";
+              entry = "./scripts/secrets-embedded.ts --encrypt --nonew";
+              pass_filenames = false;
+            };
+            nixfmt-rfc-style.enable = true;
+          };
+          formatter = pkgs.nixpkgs-fmt;
+          packages = pkgs.gjz010.packages;
+          bundlers = pkgs.gjz010.bundlers;
+          devShells.default = pkgs.mkShell {
+            packages = [
+              pkgs.nixpkgs-fmt
+              pkgs.bashInteractive
+              pkgs.sops
+              pkgs.age
+              pkgs.ssh-to-age
+              nixos-anywhere.packages."${system}".nixos-anywhere
+              pkgs.just
+              pkgs.jq
+              pkgs.yq-go
+              pkgs.yq
+              pkgs.deno
+              inputs.nm2nix.packages."${system}".default
+            ];
+            shellHook = ''
+              ${config.pre-commit.installationScript}
+            '';
+            EDITOR = ./scripts/editor.sh;
           };
         };
-        formatter = pkgs.nixpkgs-fmt;
-        packages = pkgs.gjz010.packages;
-        bundlers = pkgs.gjz010.bundlers;
-        devShells.default = pkgs.mkShell {
-          packages = [
-            pkgs.nixpkgs-fmt
-            pkgs.bashInteractive
-            pkgs.sops
-            pkgs.age
-            pkgs.ssh-to-age
-            nixos-anywhere.packages."${system}".nixos-anywhere
-            pkgs.just
-            pkgs.jq
-            pkgs.yq-go
-            pkgs.yq
-            pkgs.deno
-            inputs.nm2nix.packages."${system}".default
-          ];
-          shellHook = ''
-            ${config.pre-commit.installationScript}
-          '';
-          EDITOR = ./scripts/editor.sh;
-        };
-      };
       flake = {
         flakeModules = {
           bundler = ./flakemodules/bundlers.nix;
@@ -107,7 +126,10 @@
         overlays.default = nixpkgs.lib.composeExtensions rust-overlay.overlays.default self.overlays.single;
         templates = import ./channel/templates;
       };
-      systems = [ "x86_64-linux" "aarch64-linux" ];
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
     };
 
 }

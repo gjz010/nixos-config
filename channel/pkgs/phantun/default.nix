@@ -1,4 +1,8 @@
-{rustPlatform, fetchFromGitHub, makeWrapper}:
+{
+  rustPlatform,
+  fetchFromGitHub,
+  makeWrapper,
+}:
 rustPlatform.buildRustPackage rec {
   pname = "phantun";
   version = "495bad10268de901759f3d763b878af8c236c82f";

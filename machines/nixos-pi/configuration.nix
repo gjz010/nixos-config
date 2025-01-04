@@ -5,17 +5,20 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Use the extlinux boot loader. (NixOS wants to enable GRUB by default)
   boot.loader.grub.enable = false;
   # Enables the generation of /boot/extlinux/extlinux.conf
   boot.loader.generic-extlinux-compatible.enable = true;
-  boot.initrd.availableKernelModules = [ "usbhid" "usb_storage" "hid_apple" ];
+  boot.initrd.availableKernelModules = [
+    "usbhid"
+    "usb_storage"
+    "hid_apple"
+  ];
   boot.kernelPackages = pkgs.linuxPackages_rpi4;
   boot.kernelParams = [
     "console=ttyAMA0,115200n8"
@@ -66,7 +69,6 @@
   #services.xserver.desktopManager.xterm.enable = false;
   nix.settings.substituters = [ "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store" ];
 
-
   #  boot.loader.raspberryPi = {
   #    enable = true;
   #    version = 4;
@@ -96,12 +98,10 @@
   services.openssh.ports = [ 2222 ];
   virtualisation.docker.enable = true;
 
-
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
   # accidentally delete configuration.nix.
   #system.copySystemConfiguration = true;
-
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

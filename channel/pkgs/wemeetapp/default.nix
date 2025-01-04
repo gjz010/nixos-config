@@ -1,11 +1,12 @@
-{ stdenv
-, lib
-, dpkg
-, fetchurl
-, buildFHSUserEnv
-, autoPatchelfHook
-, libsForQt515
-, librsvg
+{
+  stdenv,
+  lib,
+  dpkg,
+  fetchurl,
+  buildFHSUserEnv,
+  autoPatchelfHook,
+  libsForQt515,
+  librsvg,
 }:
 let
   libsForQt5 = libsForQt515;
@@ -23,8 +24,17 @@ let
       qtwebchannel
       qtx11extras
     ];
-    nativeBuildInputs = [ autoPatchelfHook libsForQt5.wrapQtAppsHook dpkg librsvg ];
-    phases = [ "unpackPhase" "installPhase" "fixupPhase" ];
+    nativeBuildInputs = [
+      autoPatchelfHook
+      libsForQt5.wrapQtAppsHook
+      dpkg
+      librsvg
+    ];
+    phases = [
+      "unpackPhase"
+      "installPhase"
+      "fixupPhase"
+    ];
     unpackPhase = ''
       echo "  -> Extracting the deb package..."
       dpkg -x $deb ./deb

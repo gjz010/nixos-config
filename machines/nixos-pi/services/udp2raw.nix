@@ -20,7 +20,10 @@ in
   systemd.services.udp2raw = {
     enable = true;
     description = "udp2raw-client";
-    after = [ "network.target" "nss-lookup.target" ];
+    after = [
+      "network.target"
+      "nss-lookup.target"
+    ];
     serviceConfig = {
       ExecStart = udp2rawClientScript;
       EnvironmentFile = config.sops.templates."udp2raw-client.env".path;
@@ -35,14 +38,13 @@ in
   networking.nftables.checkRuleset = false;
   networking.nftables.tables."udp2raw-v4" = {
     family = "ip";
-    content =
-      ''
-        include "${config.sops.templates."udp2raw-var.nft".path}"
-        chain user_post_input {
-            type filter hook input priority 1; policy accept;
-            ip saddr $udp2raw_peer icmp type echo-reply drop;
-            ct state new log prefix "Firewall4 accepted ingress: ";
-        }
-      '';
+    content = ''
+      include "${config.sops.templates."udp2raw-var.nft".path}"
+      chain user_post_input {
+          type filter hook input priority 1; policy accept;
+          ip saddr $udp2raw_peer icmp type echo-reply drop;
+          ct state new log prefix "Firewall4 accepted ingress: ";
+      }
+    '';
   };
 }

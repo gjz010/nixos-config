@@ -1,5 +1,10 @@
 flake@{ inputs, self, ... }:
-{ lib, pkgs, config, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 {
   nixpkgs.overlays = [ self.overlays.default ];
 }

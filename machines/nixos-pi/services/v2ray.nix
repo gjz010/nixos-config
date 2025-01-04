@@ -2,7 +2,10 @@
 let
   enableSniffing = {
     enabled = true;
-    destOverride = [ "http" "tls" ];
+    destOverride = [
+      "http"
+      "tls"
+    ];
   };
   streamSettings = {
     network = "mkcp";
@@ -15,130 +18,144 @@ let
       };
     };
   };
-  clientAuth = { id = config.sops.placeholder."tunnel/users/user1"; alterId = 0; };
-  clientConfig =
-    {
-      log = {
-        loglevel = "debug";
-      };
-      inbounds = [
-        {
-          port = 30086;
-          protocol = "http";
-          settings = {
-            ip = "192.168.76.1";
-          };
-          sniffing = enableSniffing;
-          tag = "proxy-http";
-        }
-        {
-          port = 30085;
-          listen = "192.168.76.1";
-          protocol = "socks";
-          settings = {
-            auth = "password";
-            accounts = [
-              { user = config.sops.placeholder."router/tunnel/socks/user"; pass = config.sops.placeholder."router/tunnel/socks/pass"; }
-            ];
-            udp = true;
-            ip = "192.168.76.1";
-          };
-          sniffing = enableSniffing;
-          tag = "proxy-socks";
-        }
-        {
-          port = 40086;
-          protocol = "http";
-          settings = {
-            ip = "192.168.76.1";
-          };
-          sniffing = enableSniffing;
-          tag = "proxy-http-phantun";
-        }
-        {
-          port = 40085;
-          listen = "192.168.76.1";
-          protocol = "socks";
-          settings = {
-            auth = "password";
-            accounts = [
-              { user = config.sops.placeholder."router/tunnel/socks/user"; pass = config.sops.placeholder."router/tunnel/socks/pass"; }
-            ];
-            udp = true;
-            ip = "192.168.76.1";
-          };
-          sniffing = enableSniffing;
-          tag = "proxy-socks-phantun";
-        }
-      ];
-      outbounds = [
-        {
-          tag = "direct";
-          protocol = "vmess";
-          settings = {
-            vnext = [
-              {
-                users = [ clientAuth ];
-                address = "127.0.0.1";
-                port = 30084;
-              }
-            ];
-          };
-          inherit streamSettings;
-        }
-        {
-          tag = "direct-phantun";
-          protocol = "vmess";
-          settings = {
-            vnext = [
-              {
-                users = [ clientAuth ];
-                address = "127.0.0.1";
-                port = 19000;
-              }
-            ];
-          };
-          inherit streamSettings;
-        }
-        {
-          tag = "blocked";
-          settings = { };
-          protocol = "blackhole";
-        }
-        {
-          tag = "dns-out";
-          protocol = "dns";
-        }
-      ];
-      routing = {
-        domainStrategy = "IPOnDemand";
-        rules = [
-          {
-            type = "field";
-            inboundTag = [ "proxy-http" "proxy-socks" ];
-            outboundTag = "direct";
-          }
-          {
-            type = "field";
-            inboundTag = [ "proxy-http-phantun" "proxy-socks-phantun" ];
-            outboundTag = "direct-phantun";
-          }
-          {
-            type = "field";
-            port = 53;
-            outboundTag = "dns-out";
-          }
-          {
-            type = "field";
-            domain = [ "geosite:category-ads" ];
-            outboundTag = "blocked";
-          }
-        ];
-      };
-      dns = {
-        servers = [ "https://1.0.0.1/dns-query" ];
-      };
+  clientAuth = {
+    id = config.sops.placeholder."tunnel/users/user1";
+    alterId = 0;
+  };
+  clientConfig = {
+    log = {
+      loglevel = "debug";
     };
+    inbounds = [
+      {
+        port = 30086;
+        protocol = "http";
+        settings = {
+          ip = "192.168.76.1";
+        };
+        sniffing = enableSniffing;
+        tag = "proxy-http";
+      }
+      {
+        port = 30085;
+        listen = "192.168.76.1";
+        protocol = "socks";
+        settings = {
+          auth = "password";
+          accounts = [
+            {
+              user = config.sops.placeholder."router/tunnel/socks/user";
+              pass = config.sops.placeholder."router/tunnel/socks/pass";
+            }
+          ];
+          udp = true;
+          ip = "192.168.76.1";
+        };
+        sniffing = enableSniffing;
+        tag = "proxy-socks";
+      }
+      {
+        port = 40086;
+        protocol = "http";
+        settings = {
+          ip = "192.168.76.1";
+        };
+        sniffing = enableSniffing;
+        tag = "proxy-http-phantun";
+      }
+      {
+        port = 40085;
+        listen = "192.168.76.1";
+        protocol = "socks";
+        settings = {
+          auth = "password";
+          accounts = [
+            {
+              user = config.sops.placeholder."router/tunnel/socks/user";
+              pass = config.sops.placeholder."router/tunnel/socks/pass";
+            }
+          ];
+          udp = true;
+          ip = "192.168.76.1";
+        };
+        sniffing = enableSniffing;
+        tag = "proxy-socks-phantun";
+      }
+    ];
+    outbounds = [
+      {
+        tag = "direct";
+        protocol = "vmess";
+        settings = {
+          vnext = [
+            {
+              users = [ clientAuth ];
+              address = "127.0.0.1";
+              port = 30084;
+            }
+          ];
+        };
+        inherit streamSettings;
+      }
+      {
+        tag = "direct-phantun";
+        protocol = "vmess";
+        settings = {
+          vnext = [
+            {
+              users = [ clientAuth ];
+              address = "127.0.0.1";
+              port = 19000;
+            }
+          ];
+        };
+        inherit streamSettings;
+      }
+      {
+        tag = "blocked";
+        settings = { };
+        protocol = "blackhole";
+      }
+      {
+        tag = "dns-out";
+        protocol = "dns";
+      }
+    ];
+    routing = {
+      domainStrategy = "IPOnDemand";
+      rules = [
+        {
+          type = "field";
+          inboundTag = [
+            "proxy-http"
+            "proxy-socks"
+          ];
+          outboundTag = "direct";
+        }
+        {
+          type = "field";
+          inboundTag = [
+            "proxy-http-phantun"
+            "proxy-socks-phantun"
+          ];
+          outboundTag = "direct-phantun";
+        }
+        {
+          type = "field";
+          port = 53;
+          outboundTag = "dns-out";
+        }
+        {
+          type = "field";
+          domain = [ "geosite:category-ads" ];
+          outboundTag = "blocked";
+        }
+      ];
+    };
+    dns = {
+      servers = [ "https://1.0.0.1/dns-query" ];
+    };
+  };
   sopsTunnelConfig = {
     sopsFile = "${config.passthru.gjz010.secretRoot}/tunnel-config/config.yaml";
   };
