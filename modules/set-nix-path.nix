@@ -25,7 +25,7 @@ flake@{ inputs, self, ... }:
       nix.nixPath = map (input: "${input}=${inputs."${input}"}") registryInputs;
       nix.settings.experimental-features = [ "nix-command" "flakes" ];
       nix.settings.flake-registry = "";
-      system.configurationRevision = self.rev or self.dirtyRev or "dirty";
+      system.configurationRevision = self.dirtyRev or self.rev or (lib.strings.trim (builtins.readFile "${inputs.gitRevision}"));
       # Allow `nixos-rebuild` switch from an ssh session:
       # 1. Allow using ssh public key for sudo-authentication.
       # 2. Allow all wheel users (sudoers) to be trusted by nix-daemon.
@@ -34,7 +34,7 @@ flake@{ inputs, self, ... }:
         sshAgentAuth.enable = true;
         services.sudo.sshAgentAuth = true;
       };
-      programs.ssh.startAgent=true;
+      programs.ssh.startAgent = true;
       nix.settings.trusted-users = [ "@wheel" ];
     };
 }

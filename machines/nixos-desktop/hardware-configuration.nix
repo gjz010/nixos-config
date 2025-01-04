@@ -25,6 +25,18 @@
       device = "/dev/disk/by-uuid/785D-04FA";
       fsType = "vfat";
     };
+  # sudo mount -o subvol=nix,compress=zstd,noatime /dev/disk/by-id/nvme-ZHITAI_TiPlus7100_4TB_ZTA54T0AB234828VB0-part1 /nix
+  fileSystems."/nix" = {
+    device = "/dev/disk/by-id/nvme-ZHITAI_TiPlus7100_4TB_ZTA54T0AB234828VB0-part1";
+    fsType = "btrfs";
+    neededForBoot = true;
+    options = [ "subvol=nix" "compress=zstd" "noatime" ];
+  };
+  fileSystems."/mnt/zhitai-data" = {
+    device = "/dev/disk/by-id/nvme-ZHITAI_TiPlus7100_4TB_ZTA54T0AB234828VB0-part1";
+    fsType = "btrfs";
+    options = [ "subvol=data" "compress=zstd" "noatime" "rw" ];
+  };
 
   swapDevices =
     [{ device = "/dev/disk/by-uuid/30986930-4d55-4c9f-857e-2bfb7cfd0f87"; }];

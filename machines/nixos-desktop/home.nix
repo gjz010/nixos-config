@@ -70,7 +70,6 @@ in
     (wrapOBS { plugins = with pkgs.obs-studio-plugins; [ obs-multi-rtmp ]; })
     renderdoc
     electron
-    gcc
     httplib
     vlc
     firefox

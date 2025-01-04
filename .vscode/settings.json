@@ -1,0 +1,8 @@
+{
+    "deno.enable": true,
+    "editor.formatOnSave": true,
+    "nix.formatterPath": "nixpkgs-fmt",
+    "[typescript]": {
+        "editor.defaultFormatter": "denoland.vscode-deno"
+    },
+}

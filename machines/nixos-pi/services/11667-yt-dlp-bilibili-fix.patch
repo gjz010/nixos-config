@@ -1,0 +1,34 @@
+From e92dcf0077bc1c243dae9e96a3591d27af77524b Mon Sep 17 00:00:00 2001
+From: grqx_wsl <173253225+grqx@users.noreply.github.com>
+Date: Thu, 28 Nov 2024 22:28:41 +1300
+Subject: [PATCH] [ie/bilibili] provide fallback for playinfo extraction
+
+---
+ yt_dlp/extractor/bilibili.py | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/yt_dlp/extractor/bilibili.py b/yt_dlp/extractor/bilibili.py
+index 02ea67707fcd..7de609a6ced3 100644
+--- a/yt_dlp/extractor/bilibili.py
++++ b/yt_dlp/extractor/bilibili.py
+@@ -644,7 +644,8 @@ def _real_extract(self, url):
+             video_data = initial_state['videoInfo']
+         else:
+             play_info_obj = self._search_json(
+-                r'window\.__playinfo__\s*=', webpage, 'play info', video_id, fatal=False)
++                r'window\.__playinfo__\s*=', webpage, 'play info', video_id, default=None)
++            play_info = None
+             if not play_info_obj:
+                 if traverse_obj(initial_state, ('error', 'trueCode')) == -403:
+                     self.raise_login_required()
+@@ -652,7 +653,9 @@ def _real_extract(self, url):
+                     raise ExtractorError(
+                         'This video may be deleted or geo-restricted. '
+                         'You might want to try a VPN or a proxy server (with --proxy)', expected=True)
+-            play_info = traverse_obj(play_info_obj, ('data', {dict}))
++                play_info = self._download_playinfo(video_id, initial_state['cid'], headers=headers)
++            else:
++                play_info = traverse_obj(play_info_obj, ('data', {dict}))
+             if not play_info:
+                 if traverse_obj(play_info_obj, 'code') == 87007:
+                     toast = get_element_by_class('tips-toast', webpage) or ''

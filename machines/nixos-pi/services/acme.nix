@@ -3,6 +3,7 @@ let
   cloudflare = {
     sopsFile = "${config.passthru.gjz010.secretRoot}/router/router.yaml";
   };
+  secrets = config.passthru.gjz010.secretsEmbedded.default.nixos-pi;
 in
 {
   sops.secrets."router/cloudflare/email" = cloudflare;
@@ -18,8 +19,8 @@ in
     # TODO: this module is not enabled for two reasons:
     # 1. This exposes public ip of router.
     # 2. ACME module is not working with sops, specifically the email field.
-    defaults.email = "REDACTED";
-    certs."REDACTED" = {
+    defaults.email = "${secrets.acme-email}";
+    certs."${secrets.private-mumble-address}" = {
       dnsProvider = "cloudflare";
       credentialsFile = config.sops.templates."acme-cloudflare".path;
       group = config.services.caddy.group;

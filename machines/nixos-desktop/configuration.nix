@@ -260,6 +260,15 @@
   programs.appimage.enable = true;
   programs.appimage.binfmt = true;
   programs.fish.enable = true;
+  services.ollama = {
+    enable = true;
+    models = "/mnt/zhitai-data/ollama-models";
+    acceleration = "rocm";
+    rocmOverrideGfx = "10.3.0";
+  };
+  services.nextjs-ollama-llm-ui = {
+    enable = true;
+  };
 
   #networking.interfaces.enp10s0.wakeOnLan.enable = true;
   # Enable networking

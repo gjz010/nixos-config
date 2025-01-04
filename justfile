@@ -25,3 +25,23 @@ nebula-show-config hostname:
     | yq ".pki.ca = load_str(\""<(sops -d secrets/nebula/certs/ca.crt)"\")" /dev/stdin \
     | yq ".pki.cert = load_str(\""<(sops -d secrets/nebula/certs/certs/{{hostname}}.crt)"\")" /dev/stdin \
     | yq ".pki.key = load_str(\""<(sops -d secrets/nebula/certs/keys/{{hostname}}.key)"\")" /dev/stdin
+
+tmpdir := `mktemp -d`
+NIX_INJECT_FLAKE_INPUT_GIT_REV_FILE := tmpdir / ".gitrev"
+NIX_INJECT_FLAKE_INPUT_FLAGS := "--override-input secretsEmbedded path:" + justfile_directory() + "/.secrets-embedded --override-input gitRevision path:" + NIX_INJECT_FLAKE_INPUT_GIT_REV_FILE
+
+
+update-git-rev:
+    git rev-parse HEAD > {{NIX_INJECT_FLAKE_INPUT_GIT_REV_FILE}}
+
+# Update nixos-pi configuration remotely.
+switch-nixos-pi: update-git-rev
+    NIX_SSHOPTS="-p 2222" nixos-rebuild switch --flake .#nixos-pi --use-remote-sudo --target-host nixos-pi {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
+switch: update-git-rev
+    sudo nixos-rebuild switch --flake . {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
+encrypt:
+    ./scripts/secrets-embedded.ts --encrypt
+decrypt:
+    ./scripts/secrets-embedded.ts --decrypt
+encrypt_check:
+    ./scripts/secrets-embedded.ts --encrypt --nonew

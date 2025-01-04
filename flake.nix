@@ -1,5 +1,13 @@
 {
   inputs = {
+    secretsEmbedded = {
+      url = "file+file:///dev/null";
+      flake = false;
+    };
+    gitRevision = {
+      url = "file+file:///dev/null";
+      flake = false;
+    };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager";
     flake-parts.url = "github:hercules-ci/flake-parts";
@@ -36,10 +44,15 @@
       url = "github:Janik-Haag/nm2nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    git-hooks-nix = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = inputs@{ self, nixpkgs, home-manager, flake-parts, nixos-wsl, sops-nix, rust-overlay, nixos-anywhere, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
+        inputs.git-hooks-nix.flakeModule
         ./flakemodules/bundlers.nix
       ];
       perSystem = { config, pkgs, system, ... }: {
@@ -51,12 +64,21 @@
           ];
           config = { };
         };
-
+        pre-commit.check.enable = true;
+        pre-commit.settings.hooks = {
+          "sops-secrets-embedded-encrypt" = {
+            enable = true;
+            name = "sops-secrets-embedded";
+            entry = "./scripts/secrets-embedded.ts --encrypt --nonew";
+            pass_filenames = false;
+          };
+        };
         formatter = pkgs.nixpkgs-fmt;
         packages = pkgs.gjz010.packages;
         bundlers = pkgs.gjz010.bundlers;
         devShells.default = pkgs.mkShell {
-          nativeBuildInputs = [
+          packages = [
+            pkgs.nixpkgs-fmt
             pkgs.bashInteractive
             pkgs.sops
             pkgs.age
@@ -66,8 +88,12 @@
             pkgs.jq
             pkgs.yq-go
             pkgs.yq
+            pkgs.deno
             inputs.nm2nix.packages."${system}".default
           ];
+          shellHook = ''
+            ${config.pre-commit.installationScript}
+          '';
           EDITOR = ./scripts/editor.sh;
         };
       };

@@ -1,0 +1,24 @@
+diff --git a/mumbleBot.py b/mumbleBot.py
+index 0e3fd85..25a1c8c 100644
+--- a/mumbleBot.py
++++ b/mumbleBot.py
+@@ -118,6 +118,7 @@ class MumbleBot:
+                                       stereo=self.stereo,
+                                       debug=var.config.getboolean('debug', 'mumble_connection'),
+                                       certfile=certificate)
++        self.mumble.set_receive_sound(True)
+         self.mumble.callbacks.set_callback(pymumble.constants.PYMUMBLE_CLBK_TEXTMESSAGERECEIVED, self.message_received)
+ 
+         self.mumble.set_codec_profile("audio")
+diff --git a/util.py b/util.py
+index 01bbd20..89662de 100644
+--- a/util.py
++++ b/util.py
+@@ -389,6 +389,7 @@ def parse_time(human):
+ 
+ 
+ def format_time(seconds):
++    seconds = int(seconds)
+     hours = seconds // 3600
+     seconds = seconds % 3600
+     minutes = seconds // 60
