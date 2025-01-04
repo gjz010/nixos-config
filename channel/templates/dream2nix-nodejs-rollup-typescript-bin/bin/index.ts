@@ -1,6 +1,6 @@
 import { sayHelloTo } from "../lib/hello";
 
-function main(){
+function main() {
     sayHelloTo("World");
 }
 

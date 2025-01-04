@@ -61,7 +61,7 @@ async function encryptAllFiles(nonew: boolean) {
             });
             const s = subproc.spawn();
             const stdout = await s.output();
-            const st = await s.status;
+            await s.status;
 
             /*
             if (!st.success) {

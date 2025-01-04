@@ -1,3 +1,3 @@
-export function sayHelloTo(name: string){
-    console.log(`Hello, ${name}!`);
+export function sayHelloTo(name: string) {
+  console.log(`Hello, ${name}!`);
 }

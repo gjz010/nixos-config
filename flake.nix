@@ -91,6 +91,10 @@
               pass_filenames = false;
             };
             nixfmt-rfc-style.enable = true;
+            #rustfmt.enable = true;
+            #clippy.enable = true;
+            denofmt.enable = true;
+            denolint.enable = true;
           };
           formatter = pkgs.nixpkgs-fmt;
           packages = pkgs.gjz010.packages;

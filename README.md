@@ -1,9 +1,6 @@
-gjz010's Nix channel & NixOS configuration
-==============
+# gjz010's Nix channel & NixOS configuration
 
-
-Use packages
---------------
+## Use packages
 
 I've packaged a few software, free and proprietary.
 
@@ -16,10 +13,10 @@ NIXPKGS_ALLOW_UNFREE=1 NIXPKGS_ALLOW_INSECURE=1 nix run github:gjz010/nix-channe
 NIXPKGS_ALLOW_UNFREE=1 nix run github:gjz010/nix-channel#wemeetapp --impure
 ```
 
-Use as Nixpkgs overlay
---------------
+## Use as Nixpkgs overlay
 
 ### Flake users
+
 ```nix
 {
     description = "Some Nix Flake configuration, for example, the one for home-manager.";
@@ -36,9 +33,7 @@ Use as Nixpkgs overlay
             };
         };
 }
-
 ```
-
 
 ### Non-Flake users
 
@@ -48,24 +43,17 @@ nix-channel --update gjz010
 nix-build -E "let pkgs = import <nixpkgs> {overlays = [(import <gjz010>)];}; in pkgs.gjz010.pkgs.icalinguapp"
 ```
 
-
-Tar closure bundler
---------------
+## Tar closure bundler
 
 ```bash
 nix bundle --bundler github:gjz010/nix-channel#toTarball nixpkgs#hello
 ```
 
-
-
-Flake templates
---------------
+## Flake templates
 
 Usage: `nix flake init -t github:gjz010/nix-channel#<TEMPLATE>`.
 
-
-| Template                                   | Description                                                            |
-| ------------------------------------------ | ---------------------------------------------------------------------- |
-| dream2nix-nodejs-rollup-typescript-bin     | Using dream2nix to package a binary built using rollup and Typescript. |
-| nixos-with-flake                           | A NixOS configuration using Flake and home-manager. See [here](https://www.gjz010.com/articles/nixos-with-flake-init-tutorial.html) |
-
+| Template                               | Description                                                                                                                         |
+| -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| dream2nix-nodejs-rollup-typescript-bin | Using dream2nix to package a binary built using rollup and Typescript.                                                              |
+| nixos-with-flake                       | A NixOS configuration using Flake and home-manager. See [here](https://www.gjz010.com/articles/nixos-with-flake-init-tutorial.html) |
