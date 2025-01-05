@@ -2,6 +2,7 @@
   lib,
   pkgs,
   config,
+  inputs,
   ...
 }:
 let
@@ -15,19 +16,18 @@ let
                 pname = "pymumble";
                 version = "1.7.0";
                 src = pkgs.fetchFromGitHub {
-                  owner = "azlux";
+                  owner = "LaikaBridge";
                   repo = "pymumble";
-                  rev = "a560e6013dfbccb3666ce8756e1ca6b790bf05c8";
-                  hash = "sha256-vEglX5qu9ZzarTv49nUSlt8z2tQSLNZorLXWgcYuSfI=";
+                  rev = "1c3bd8af2ef150873a7b28a1b6673434ce5fcfa4";
+                  hash = "sha256-rB6QV0RuY/ivGBavFobKkyEyA6jmWVOg0hv22+6cHeY=";
                 };
-
               })
             );
-            yt-dlp = (
-              pysuper.yt-dlp.overrideAttrs (old: {
-                patches = [ ./11667-yt-dlp-bilibili-fix.patch ];
-              })
-            );
+            #yt-dlp = (
+            #  pysuper.yt-dlp.overrideAttrs (old: {
+            #    patches = [ ./11667-yt-dlp-bilibili-fix.patch ];
+            #  })
+            #);
           };
         }).pkgs;
     }).overrideAttrs

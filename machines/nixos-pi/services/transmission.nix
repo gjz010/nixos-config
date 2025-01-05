@@ -1,7 +1,12 @@
 let
   transmissionRoot = "/mnt/downloads/transmission/";
 in
-{ lib, pkgs, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 {
   services.transmission.enable = true;
   services.transmission.settings = {
@@ -31,13 +36,20 @@ in
   # Disable all incoming traffic.
   services.transmission.openPeerPorts = false;
   # Only allows IPv6 traffic for transmission.
-  systemd.services.transmission.serviceConfig.RestrictAddressFamilies = lib.mkForce "AF_UNIX AF_INET6";
+  systemd.services.transmission.serviceConfig.RestrictAddressFamilies =
+    lib.mkForce "AF_UNIX AF_INET6";
   services.caddy = {
     enable = true;
-    virtualHosts."http://192.168.76.1:9091".extraConfig = ''
-      bind 192.168.76.1
-      reverse_proxy unix//var/lib/transmission/transmission-rpc.socket
-    '';
+    virtualHosts."caddy-transmission" = {
+      extraConfig = ''
+        bind 192.168.76.1
+        reverse_proxy unix//var/lib/transmission/transmission-rpc.socket
+      '';
+      logFormat = ''
+        output file ${config.services.caddy.logDir}/access-caddy-transmission.log
+      '';
+      hostName = "http://192.168.76.1:9091";
+    };
   };
   users.users.caddy.extraGroups = [ "transmission" ];
 }

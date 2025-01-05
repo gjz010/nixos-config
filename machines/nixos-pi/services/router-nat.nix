@@ -151,31 +151,39 @@ in
   };
   services.dnsmasq = {
     enable = true;
-    extraConfig = ''
-      server=114.114.114.114
-      no-resolv
+    settings = {
+      server = [ "114.114.114.114" ];
+      no-resolv = true;
       # Only listen to routers' LAN NIC.  Doing so opens up tcp/udp port 53 to
       # localhost and udp port 67 to world:
-      interface=${wifi}
-      interface=${ethInternal}
-      enable-ra
+      interface = [
+        wifi
+        ethInternal
+      ];
+      enable-ra = true;
       # Explicitly specify the address to listen on
-      listen-address=${ipAddress}
-      listen-address=${ip6Address}
-      listen-address=${ipAddress1}
-      listen-address=${ip6Address1}
+      listen-address = [
+        ipAddress
+        ip6Address
+        ipAddress1
+        ip6Address1
+      ];
       # Dynamic range of IPs to make available to LAN PC and the lease time.
       # Ideally set the lease time to 5m only at first to test everything works okay before you set long-lasting records.
-      dhcp-range=${servedAddressRange}
-      dhcp-range=${ip6ServedAddressRange}
-      dhcp-range=${servedAddressRange1}
-      dhcp-range=${ip6ServedAddressRange1}
-      localise-queries
-      interface-name=${config.networking.hostName},${wifi}
-      interface-name=${config.networking.hostName},${ethInternal}
-      interface-name=${config.networking.hostName},${vpn-dev}
-      interface-name=${config.networking.hostName},${vpn-dev-tcp}
-    '';
+      dhcp-range = [
+        servedAddressRange
+        ip6ServedAddressRange
+        servedAddressRange1
+        ip6ServedAddressRange1
+      ];
+      localise-queries = true;
+      interface-name = [
+        "${config.networking.hostName},${wifi}"
+        "${config.networking.hostName},${ethInternal}"
+        "${config.networking.hostName},${vpn-dev}"
+        "${config.networking.hostName},${vpn-dev-tcp}"
+      ];
+    };
     resolveLocalQueries = false;
   };
   networking.nameservers = [ "::1" ];
