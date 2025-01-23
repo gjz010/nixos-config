@@ -23,16 +23,8 @@ in
     port-forwarding-enabled = false;
     rpc-host-whitelist-enabled = false;
   };
-  #  services.transmission.package = pkgs.transmission_4.overrideAttrs (final: prev: {
-  #    version = "4.0.5";
-  #    src = pkgs.fetchFromGitHub {
-  #      owner = "transmission";
-  #      repo = "transmission";
-  #      rev = final.version;
-  #      hash = "sha256-gd1LGAhMuSyC/19wxkoE2mqVozjGPfupIPGojKY0Hn4=";
-  #      fetchSubmodules = true;
-  #    };
-  #  });
+  #services.transmission.package = pkgs.transmission_4;
+  services.transmission.package = pkgs.gjz010.pkgs.transmission-4-0-5;
   # Disable all incoming traffic.
   services.transmission.openPeerPorts = false;
   # Only allows IPv6 traffic for transmission.

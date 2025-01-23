@@ -23,6 +23,8 @@
     ./services/phantun.nix
     ./services/murmur.nix
     ./services/jitsi.nix
+    ./services/web.nix
+    ./services/wake-on-lan.nix
     ./users/gjz010.nix
   ];
 }

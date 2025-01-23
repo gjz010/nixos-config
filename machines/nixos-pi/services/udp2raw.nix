@@ -43,8 +43,8 @@ in
       chain user_post_input {
           type filter hook input priority 1; policy accept;
           ip saddr $udp2raw_peer icmp type echo-reply drop;
-          ct state new log prefix "Firewall4 accepted ingress: ";
       }
     '';
   };
+  #ct state new log prefix "Firewall4 accepted ingress: ";
 }

@@ -68,6 +68,7 @@
     "riscv64-linux"
     "aarch64-linux"
   ];
+  boot.binfmt.preferStaticEmulators = true;
   hardware.bluetooth.enable = true;
   #  virtualisation.memorySize = 8192;
   #  virtualisation.cores = 8;
@@ -313,8 +314,8 @@
   services.ollama = {
     enable = true;
     models = "/mnt/zhitai-data/ollama-models";
-    acceleration = "rocm";
-    rocmOverrideGfx = "11.0.0";
+    #acceleration = "rocm";
+    #rocmOverrideGfx = "11.0.0";
   };
   services.nextjs-ollama-llm-ui = {
     enable = true;

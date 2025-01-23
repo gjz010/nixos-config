@@ -37,6 +37,19 @@ update-git-rev:
 # Update nixos-pi configuration remotely.
 switch-nixos-pi: update-git-rev
     NIX_SSHOPTS="-p 2222" nixos-rebuild switch --flake .#nixos-pi --use-remote-sudo --target-host nixos-pi {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
+switch-server: update-git-rev
+    NIX_SSHOPTS="-p 22" nixos-rebuild switch --flake .#gjz010-nixos-server --use-remote-sudo --target-host server.gjz010.com {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
+
+nixos-switch-remote system hostname: update-git-rev
+    nixos-rebuild switch --flake .#{{system}} --use-remote-sudo --target-host {{hostname}} {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
+
+build-pi-sdimage: update-git-rev
+    nix build .#nixosConfigurations.nixos-pi.config.system.build.sdImage {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
+build-nixos-drv system: update-git-rev
+    nix build .#nixosConfigurations.{{system}}.config.system.build.toplevel {{NIX_INJECT_FLAKE_INPUT_FLAGS}} -o result-nixos
+    nix build .#nixosConfigurations.{{system}}.config.system.build.diskoScript {{NIX_INJECT_FLAKE_INPUT_FLAGS}} -o result-disko
+
+
 nixos-build: update-git-rev
     nixos-rebuild build --flake . {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
 nixos-switch: update-git-rev

@@ -6,66 +6,7 @@
   ...
 }:
 let
-  botamusique_pkg =
-    (pkgs.botamusique.override {
-      python3Packages =
-        (pkgs.python3.override {
-          packageOverrides = pyself: pysuper: {
-            pymumble = (
-              pysuper.pymumble.overrideAttrs (old: {
-                pname = "pymumble";
-                version = "1.7.0";
-                src = pkgs.fetchFromGitHub {
-                  owner = "LaikaBridge";
-                  repo = "pymumble";
-                  rev = "1c3bd8af2ef150873a7b28a1b6673434ce5fcfa4";
-                  hash = "sha256-rB6QV0RuY/ivGBavFobKkyEyA6jmWVOg0hv22+6cHeY=";
-                };
-              })
-            );
-            #yt-dlp = (
-            #  pysuper.yt-dlp.overrideAttrs (old: {
-            #    patches = [ ./11667-yt-dlp-bilibili-fix.patch ];
-            #  })
-            #);
-          };
-        }).pkgs;
-    }).overrideAttrs
-      (
-        f: p: rec {
-          src = pkgs.fetchFromGitHub {
-            owner = "azlux";
-            repo = "botamusique";
-            rev = "2760a14f01004216ec1411c33f953b10c51bca09";
-            hash = "sha256-WJgli+yDr3gF4LnnBv97PlEhxXBQENafpDPD2o5CBHM=";
-          };
-          npmDeps = pkgs.fetchNpmDeps {
-            src = "${src}/web";
-            hash = "sha256-Pq+2L28Zj5/5RzbgQ0AyzlnZIuRZz2/XBYuSU+LGh3I=";
-          };
-          buildPhase =
-            let
-              buildPython = pkgs.python3Packages.python.withPackages (ps: [ ps.jinja2 ]);
-            in
-            ''
-              runHook preBuild
-
-              # Generates artifacts in ./static
-              (
-                cd web
-                npm run build
-              )
-
-              # Fills out http templates
-              ${buildPython}/bin/python scripts/translate_templates.py --lang-dir lang/ --template-dir web/templates/
-
-              runHook postBuild
-            '';
-          patches =
-            (builtins.filter (p: !(lib.strings.hasInfix "catch-invalid-versions" "${p}")) p.patches)
-            ++ [ ./botamusique.patch ];
-        }
-      );
+  botamusique_pkg = pkgs.gjz010.pkgs.botamusique;
   secrets = config.passthru.gjz010.secretsEmbedded.default.nixos-pi;
   domain = secrets.private-mumble-address;
   cert_sops_path = config.sops.secrets."private-mumble-cert".path;
@@ -73,7 +14,7 @@ in
 {
   sops.secrets."private-mumble-cert" = {
     format = "binary";
-    sopsFile = "${config.passthru.gjz010.secretRoot}/router/botamusique.pem";
+    sopsFile = "${config.passthru.gjz010.secretRoot}/botamusique/botamusique.pem";
   };
   services.murmur.enable = true;
   services.murmur.openFirewall = true;
@@ -104,7 +45,8 @@ in
     internalInterfaces = [ "ve-*" ];
     #enableIPv6 = true;
   };
-  containers.botamusique-remote = {
+  /*
+    containers.botamusique-remote = {
     autoStart = true;
     privateNetwork = true;
     hostAddress = "192.168.201.1";
@@ -118,11 +60,10 @@ in
       "--load-credential=botamusique-container.pem:${cert_sops_path}"
     ];
     config =
-      {
-        config,
-        pkgs,
-        lib,
-        ...
+      { config
+      , pkgs
+      , lib
+      , ...
       }:
       {
         services.botamusique = {
@@ -152,5 +93,6 @@ in
         services.resolved.enable = true;
         system.stateVersion = "24.11";
       };
-  };
+    };
+  */
 }

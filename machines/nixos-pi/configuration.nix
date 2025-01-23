@@ -96,8 +96,13 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
   services.openssh.ports = [ 2222 ];
-  virtualisation.docker.enable = true;
-
+  virtualisation.docker = {
+    enable = true;
+    daemon.settings = {
+      ipv6 = false;
+      ip6tables = false;
+    };
+  };
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
   # accidentally delete configuration.nix.

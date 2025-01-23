@@ -18,15 +18,30 @@ let
     phantun = final.callPackage ./pkgs/phantun { };
     yesplaymusic-osd = final.callPackage ./pkgs/yesplaymusic-osd { };
     gjz010-nebula-manager = final.callPackage ./pkgs/gjz010-nebula-manager { };
+    transmission-4-1 = final.callPackage ./pkgs/transmission-4-1 {
+      fmt = final.fmt_9;
+      libutp = final.libutp_3_4;
+    };
+    transmission-4-0-5 = final.callPackage ./pkgs/transmission-4-0-5 {
+      fmt = final.fmt_9;
+      libutp = final.libutp_3_4;
+    };
+    botamusique = final.callPackage ./pkgs/botamusique { };
   };
   examples = {
     egui-test = final.callPackage ./pkgs/examples/egui-test { };
     completion-test = final.callPackage ./pkgs/examples/completion-test { };
   };
-  linuxPackages = (self: super: {
-    tuxedo-drivers = if final.lib.versionAtLeast self.kernel.version "6.7" then self.callPackage ./pkgs/kernel/tuxedo-drivers { } else null;
-    tuxedo-keyboard = null;
-  });
+  linuxPackages = (
+    self: super: {
+      tuxedo-drivers =
+        if final.lib.versionAtLeast self.kernel.version "6.7" then
+          self.callPackage ./pkgs/kernel/tuxedo-drivers { }
+        else
+          null;
+      tuxedo-keyboard = null;
+    }
+  );
 in
 {
   gjz010 = {

@@ -1,159 +1,184 @@
 keys:
-  - &admin_gjz010_nixos_wsl age1q2gzuu8xsn2xvcqpdmftt8yyjthgrzq0r4uv952d5aj0c7v29cussp8s0c
-  - &admin_gjz010_nixos_laptop age1vgcerrxut6mxwm249x6yagz9j9y86pq4csunnp3f6sc52c62yuzsdqpvjx
-  - &admin_gjz010_nixos_server age16s7awqlufm0r3cj5wfhympp683aqr6t8zpfpsyxvs8vdpyh8ypxs2wh0jx
-  - &admin_gjz010_nixos_desktop age12fa2tnhpsntzy6qe9g2ugxvje26nmg6v7ekgr6wymkmjyytrhqnqxwa980
-  - &admin_gjz010_nixos_box age1qrvxhwk50zkas9u06cauxlhtwn2hh9cj878nl0u8aae64pkmdves4r8dwz
-  - &admin_gjz010_nixos_pi age1jjzm9y562w3yajyuccn8ykgac0qsd5jarulgreqxtht3kx2jw37sv48zfh
-  - &server_gjz010_nixos_wsl age13n42wjj3kvmj3wk7ms3h7wgdsdpj225lyxvlutg5yd9ja5l433wqelpe7x
-  - &server_gjz010_nixos_laptop age1velfazv9dlx4jqkanmcjv4hf6x6twxjme7n83nvym22txyscmssscjusar
-  - &server_gjz010_nixos_server age13jmg2t7nxng36x0xqq5dvst0k9v55q733pu9w8z9xfvp9d2q33xqe4vj6n
-  - &server_gjz010_nixos_desktop age1nd74ktldahmyq9x8ycc4d6em37csgp4mfm84rk87vsmxxd7d6ydqalv8v4
-  - &server_gjz010_nixos_box age1wl8npxnyfd6vllvheqqgt9fqygerczrpmfsnlp7w7x2lemfd9f5qzltda4
-  - &server_gjz010_nixos_pi age17qtkl0apngrggynk6dg6jag6hvgkud7l03em0qrwy9j7ev2hha6qenxrar
-  - &server_gjz010_nixos_miniserver_fr age1xsmhk62kql4j9hjvs0vgs86fx43husegddfzzegsvlaryu3kqssqx970z4
+    - &admin_gjz010_nixos_wsl age1q2gzuu8xsn2xvcqpdmftt8yyjthgrzq0r4uv952d5aj0c7v29cussp8s0c
+    - &admin_gjz010_nixos_laptop age1vgcerrxut6mxwm249x6yagz9j9y86pq4csunnp3f6sc52c62yuzsdqpvjx
+    - &admin_gjz010_nixos_server age16s7awqlufm0r3cj5wfhympp683aqr6t8zpfpsyxvs8vdpyh8ypxs2wh0jx
+    - &admin_gjz010_nixos_desktop age12fa2tnhpsntzy6qe9g2ugxvje26nmg6v7ekgr6wymkmjyytrhqnqxwa980
+    - &admin_gjz010_nixos_box age1qrvxhwk50zkas9u06cauxlhtwn2hh9cj878nl0u8aae64pkmdves4r8dwz
+    - &admin_gjz010_nixos_pi age1jjzm9y562w3yajyuccn8ykgac0qsd5jarulgreqxtht3kx2jw37sv48zfh
+    - &server_gjz010_nixos_wsl age13n42wjj3kvmj3wk7ms3h7wgdsdpj225lyxvlutg5yd9ja5l433wqelpe7x
+    - &server_gjz010_nixos_laptop age1velfazv9dlx4jqkanmcjv4hf6x6twxjme7n83nvym22txyscmssscjusar
+    - &server_gjz010_nixos_server age13jmg2t7nxng36x0xqq5dvst0k9v55q733pu9w8z9xfvp9d2q33xqe4vj6n
+    - &server_gjz010_nixos_desktop age1nd74ktldahmyq9x8ycc4d6em37csgp4mfm84rk87vsmxxd7d6ydqalv8v4
+    - &server_gjz010_nixos_box age1wl8npxnyfd6vllvheqqgt9fqygerczrpmfsnlp7w7x2lemfd9f5qzltda4
+    - &server_gjz010_nixos_pi age17qtkl0apngrggynk6dg6jag6hvgkud7l03em0qrwy9j7ev2hha6qenxrar
+    - &server_gjz010_nixos_miniserver_fr age1xsmhk62kql4j9hjvs0vgs86fx43husegddfzzegsvlaryu3kqssqx970z4
+    - &server_gjz010_nixos_miniserver_cn age1rf90y55dd3zrtqnvuasppllrglszm3lte5ffrd2l7crqezxg0gms0rzlnh
 stores:
     json:
         indent: 4
 creation_rules:
-  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
-    key_groups:
-    - age:
-      - *admin_gjz010_nixos_wsl
-      - *server_gjz010_nixos_wsl
-      - *admin_gjz010_nixos_laptop
-      - *server_gjz010_nixos_laptop
-      - *admin_gjz010_nixos_server
-      - *server_gjz010_nixos_server
-      - *admin_gjz010_nixos_desktop
-      - *server_gjz010_nixos_desktop
-      - *admin_gjz010_nixos_box
-      - *server_gjz010_nixos_box
-      - *admin_gjz010_nixos_pi
-      - *server_gjz010_nixos_pi
-      - *server_gjz010_nixos_miniserver_fr
-  - path_regex: secrets/embedded/[^/]+\.(yaml|json)$
-    key_groups:
-    - age:
-      - *admin_gjz010_nixos_wsl
-      - *server_gjz010_nixos_wsl
-      - *admin_gjz010_nixos_laptop
-      - *server_gjz010_nixos_laptop
-      - *admin_gjz010_nixos_server
-      - *server_gjz010_nixos_server
-      - *admin_gjz010_nixos_desktop
-      - *server_gjz010_nixos_desktop
-      - *admin_gjz010_nixos_box
-      - *server_gjz010_nixos_box
-      - *admin_gjz010_nixos_pi
-      - *server_gjz010_nixos_pi
-      - *server_gjz010_nixos_miniserver_fr
-  - path_regex: secrets/nixos-cache-local-certs/.*\.pem$
-    key_groups:
-    - age:
-      - *admin_gjz010_nixos_wsl
-      - *server_gjz010_nixos_wsl
-      - *admin_gjz010_nixos_laptop
-      - *server_gjz010_nixos_laptop
-      - *admin_gjz010_nixos_desktop
-      - *server_gjz010_nixos_desktop
-  - path_regex: secrets/tunnel-config/config.yaml$
-    key_groups:
-    - age:
-      - *admin_gjz010_nixos_wsl
-      - *admin_gjz010_nixos_laptop
-      - *admin_gjz010_nixos_server
-      - *admin_gjz010_nixos_desktop
-      - *server_gjz010_nixos_server
-      - *admin_gjz010_nixos_pi
-      - *server_gjz010_nixos_pi
-  - path_regex: secrets/tunnel-config/config-miniserver-fr.yaml$
-    key_groups:
-    - age:
-      - *admin_gjz010_nixos_desktop
-      - *server_gjz010_nixos_miniserver_fr
-      - *admin_gjz010_nixos_pi
-      - *server_gjz010_nixos_pi
-      - *server_gjz010_nixos_server
-  - path_regex: secrets/tunnel-config/client.json$
-    key_groups:
-    - age:
-      - *admin_gjz010_nixos_wsl
-      - *admin_gjz010_nixos_laptop
-  - path_regex: secrets/openvpn/certs/[^/]+\.(pem|key)$
-    key_groups:
-    - age:
-      - *admin_gjz010_nixos_desktop
-      - *admin_gjz010_nixos_pi
-      - *server_gjz010_nixos_pi
-  - path_regex: secrets/openvpn/[^/]+\.(yaml|json|env|ini)$
-    key_groups:
-    - age:
-      - *admin_gjz010_nixos_desktop
-      - *admin_gjz010_nixos_pi
-      - *server_gjz010_nixos_pi
-  - path_regex: secrets/router/auththu.yaml$
-    key_groups:
-    - age:
-      - *admin_gjz010_nixos_desktop
-      - *admin_gjz010_nixos_pi
-      - *server_gjz010_nixos_pi
-      - *admin_gjz010_nixos_box
-      - *server_gjz010_nixos_box
-  - path_regex: secrets/router/.*$
-    key_groups:
-    - age:
-      - *admin_gjz010_nixos_desktop
-      - *admin_gjz010_nixos_pi
-      - *server_gjz010_nixos_pi
-  - path_regex: ^secrets/nebula/network_secrets.yaml.enc$
-    key_groups:
-    - age: 
-      - *admin_gjz010_nixos_box
-      - *admin_gjz010_nixos_desktop
-      - *server_gjz010_nixos_pi
-      - *server_gjz010_nixos_box
-      - *server_gjz010_nixos_miniserver_fr
-      - *server_gjz010_nixos_wsl
-      - *server_gjz010_nixos_laptop
-      - *server_gjz010_nixos_server
-  # TODO: this is not really safe.
-  # A safer way is to have every device only its own permission.
-  - path_regex: ^secrets/nebula/certs/ca.crt$
-    key_groups:
-    - age:
-      - *admin_gjz010_nixos_box
-      - *admin_gjz010_nixos_desktop
-      - *server_gjz010_nixos_pi
-      - *server_gjz010_nixos_box
-      - *server_gjz010_nixos_miniserver_fr
-      - *server_gjz010_nixos_wsl
-      - *server_gjz010_nixos_laptop
-      - *server_gjz010_nixos_server
-  - path_regex: ^secrets/nebula/certs/ca.key$
-    key_groups:
-    - age:
-      - *admin_gjz010_nixos_box
-      - *admin_gjz010_nixos_desktop
-  - path_regex: ^secrets/nebula/certs/certs/.*\.crt$
-    key_groups:
-    - age:
-      - *admin_gjz010_nixos_box
-      - *admin_gjz010_nixos_desktop
-      - *server_gjz010_nixos_pi
-      - *server_gjz010_nixos_box
-      - *server_gjz010_nixos_miniserver_fr
-      - *server_gjz010_nixos_wsl
-      - *server_gjz010_nixos_laptop
-      - *server_gjz010_nixos_server
-  - path_regex: ^secrets/nebula/certs/keys/.*\.key$
-    key_groups:
-    - age:
-      - *admin_gjz010_nixos_box
-      - *admin_gjz010_nixos_desktop
-      - *server_gjz010_nixos_pi
-      - *server_gjz010_nixos_box
-      - *server_gjz010_nixos_miniserver_fr
-      - *server_gjz010_nixos_wsl
-      - *server_gjz010_nixos_laptop
-      - *server_gjz010_nixos_server
+    - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+      key_groups:
+          - age:
+                - *admin_gjz010_nixos_wsl
+                - *server_gjz010_nixos_wsl
+                - *admin_gjz010_nixos_laptop
+                - *server_gjz010_nixos_laptop
+                - *admin_gjz010_nixos_server
+                - *server_gjz010_nixos_server
+                - *admin_gjz010_nixos_desktop
+                - *server_gjz010_nixos_desktop
+                - *admin_gjz010_nixos_box
+                - *server_gjz010_nixos_box
+                - *admin_gjz010_nixos_pi
+                - *server_gjz010_nixos_pi
+                - *server_gjz010_nixos_miniserver_fr
+                - *server_gjz010_nixos_miniserver_cn
+    - path_regex: secrets/embedded/[^/]+\.(yaml|json)$
+      key_groups:
+          - age:
+                - *admin_gjz010_nixos_wsl
+                - *server_gjz010_nixos_wsl
+                - *admin_gjz010_nixos_laptop
+                - *server_gjz010_nixos_laptop
+                - *admin_gjz010_nixos_server
+                - *server_gjz010_nixos_server
+                - *admin_gjz010_nixos_desktop
+                - *server_gjz010_nixos_desktop
+                - *admin_gjz010_nixos_box
+                - *server_gjz010_nixos_box
+                - *admin_gjz010_nixos_pi
+                - *server_gjz010_nixos_pi
+                - *server_gjz010_nixos_miniserver_fr
+    - path_regex: secrets/nixos-cache-local-certs/.*\.pem$
+      key_groups:
+          - age:
+                - *admin_gjz010_nixos_wsl
+                - *server_gjz010_nixos_wsl
+                - *admin_gjz010_nixos_laptop
+                - *server_gjz010_nixos_laptop
+                - *admin_gjz010_nixos_desktop
+                - *server_gjz010_nixos_desktop
+    - path_regex: secrets/tunnel-config/config.yaml$
+      key_groups:
+          - age:
+                - *admin_gjz010_nixos_wsl
+                - *admin_gjz010_nixos_laptop
+                - *admin_gjz010_nixos_server
+                - *admin_gjz010_nixos_desktop
+                - *server_gjz010_nixos_server
+                - *admin_gjz010_nixos_pi
+                - *server_gjz010_nixos_pi
+    - path_regex: secrets/tunnel-config/config-miniserver-fr.yaml$
+      key_groups:
+          - age:
+                - *admin_gjz010_nixos_desktop
+                - *server_gjz010_nixos_miniserver_fr
+                - *admin_gjz010_nixos_pi
+                - *server_gjz010_nixos_pi
+                - *server_gjz010_nixos_server
+    - path_regex: secrets/tunnel-config/client.json$
+      key_groups:
+          - age:
+                - *admin_gjz010_nixos_wsl
+                - *admin_gjz010_nixos_laptop
+    - path_regex: secrets/openvpn/certs/[^/]+\.(pem|key)$
+      key_groups:
+          - age:
+                - *admin_gjz010_nixos_desktop
+                - *admin_gjz010_nixos_pi
+                - *server_gjz010_nixos_pi
+    - path_regex: secrets/openvpn/[^/]+\.(yaml|json|env|ini)$
+      key_groups:
+          - age:
+                - *admin_gjz010_nixos_desktop
+                - *admin_gjz010_nixos_pi
+                - *server_gjz010_nixos_pi
+    - path_regex: secrets/router/auththu.yaml$
+      key_groups:
+          - age:
+                - *admin_gjz010_nixos_desktop
+                - *admin_gjz010_nixos_pi
+                - *server_gjz010_nixos_pi
+                - *admin_gjz010_nixos_box
+                - *server_gjz010_nixos_box
+    - path_regex: secrets/router/.*$
+      key_groups:
+          - age:
+                - *admin_gjz010_nixos_desktop
+                - *admin_gjz010_nixos_pi
+                - *server_gjz010_nixos_pi
+    - path_regex: secrets/botamusique/.*$
+      key_groups:
+          - age:
+                - *admin_gjz010_nixos_desktop
+                - *admin_gjz010_nixos_pi
+                - *server_gjz010_nixos_pi
+                - *server_gjz010_nixos_miniserver_cn
+    - path_regex: ^secrets/nebula/network_secrets.yaml.enc$
+      key_groups:
+          - age:
+                - *admin_gjz010_nixos_box
+                - *admin_gjz010_nixos_desktop
+                - *server_gjz010_nixos_pi
+                - *server_gjz010_nixos_box
+                - *server_gjz010_nixos_miniserver_fr
+                - *server_gjz010_nixos_wsl
+                - *server_gjz010_nixos_laptop
+                - *server_gjz010_nixos_server
+                - *server_gjz010_nixos_miniserver_cn
+    # TODO: this is not really safe.
+    # A safer way is to have every device only its own permission.
+    - path_regex: ^secrets/nebula/certs/ca.crt$
+      key_groups:
+          - age:
+                - *admin_gjz010_nixos_box
+                - *admin_gjz010_nixos_desktop
+                - *server_gjz010_nixos_pi
+                - *server_gjz010_nixos_box
+                - *server_gjz010_nixos_miniserver_fr
+                - *server_gjz010_nixos_wsl
+                - *server_gjz010_nixos_laptop
+                - *server_gjz010_nixos_server
+                - *server_gjz010_nixos_miniserver_cn
+    - path_regex: ^secrets/nebula/certs/ca.key$
+      key_groups:
+          - age:
+                - *admin_gjz010_nixos_box
+                - *admin_gjz010_nixos_desktop
+    - path_regex: ^secrets/nebula/certs/certs/.*\.crt$
+      key_groups:
+          - age:
+                - *admin_gjz010_nixos_box
+                - *admin_gjz010_nixos_desktop
+                - *server_gjz010_nixos_pi
+                - *server_gjz010_nixos_box
+                - *server_gjz010_nixos_miniserver_fr
+                - *server_gjz010_nixos_wsl
+                - *server_gjz010_nixos_laptop
+                - *server_gjz010_nixos_server
+                - *server_gjz010_nixos_miniserver_cn
+    - path_regex: ^secrets/nebula/certs/keys/gjz010-nixos-miniserver-cn\.key$
+      key_groups:
+          - age:
+                - *admin_gjz010_nixos_box
+                - *admin_gjz010_nixos_desktop
+                - *server_gjz010_nixos_pi
+                - *server_gjz010_nixos_box
+                - *server_gjz010_nixos_miniserver_fr
+                - *server_gjz010_nixos_wsl
+                - *server_gjz010_nixos_laptop
+                - *server_gjz010_nixos_server
+                - *server_gjz010_nixos_miniserver_cn
+
+    - path_regex: ^secrets/nebula/certs/keys/.*\.key$
+      key_groups:
+          - age:
+                - *admin_gjz010_nixos_box
+                - *admin_gjz010_nixos_desktop
+                - *server_gjz010_nixos_pi
+                - *server_gjz010_nixos_box
+                - *server_gjz010_nixos_miniserver_fr
+                - *server_gjz010_nixos_wsl
+                - *server_gjz010_nixos_laptop
+                - *server_gjz010_nixos_server
