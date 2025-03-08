@@ -42,6 +42,9 @@ switch-server: update-git-rev
 
 nixos-switch-remote system hostname: update-git-rev
     nixos-rebuild switch --flake .#{{system}} --use-remote-sudo --target-host {{hostname}} {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
+nixos-boot-remote system hostname: update-git-rev
+    nixos-rebuild boot --flake .#{{system}} --use-remote-sudo --target-host {{hostname}} {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
+
 
 build-pi-sdimage: update-git-rev
     nix build .#nixosConfigurations.nixos-pi.config.system.build.sdImage {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
@@ -53,7 +56,7 @@ build-nixos-drv system: update-git-rev
 nixos-build: update-git-rev
     nixos-rebuild build --flake . {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
 nixos-switch: update-git-rev
-    sudo nixos-rebuild switch --flake . {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
+    sudo proxychains4 nixos-rebuild switch --flake . {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
 encrypt:
     ./scripts/secrets-embedded.ts --encrypt
 decrypt:

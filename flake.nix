@@ -113,6 +113,7 @@
               pkgs.yq
               pkgs.deno
               inputs.nm2nix.packages."${system}".default
+              pkgs.nebula
             ];
             shellHook = ''
               ${config.pre-commit.installationScript}

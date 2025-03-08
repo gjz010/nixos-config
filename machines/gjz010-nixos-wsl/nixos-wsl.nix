@@ -26,4 +26,18 @@
     ln -sfn /run/current-system/sw/bin/bash /bin/.bash.tmp
     mv /bin/.bash.tmp /bin/bash # atomically replace /usr/bin/env
   '';
+
+  #nixpkgs.overlays = [
+  #  (final: prev: {
+  #    mesa = prev.mesa.override {
+  #      galliumDrivers = [ "d3d12" "swrast" "i915" "lima" ];
+  #    };
+  #  })
+  #];
+  environment.enableDebugInfo = true;
+  environment.systemPackages = [
+    pkgs.mesa
+    pkgs.gdb
+  ];
+  wsl.useWindowsDriver = true;
 }

@@ -21,6 +21,7 @@ in
   services.murmur.clientCertRequired = true;
   services.murmur.registerHostname = "${domain}";
   services.murmur.password = "${secrets.public-mumble-password}";
+  services.murmur.bandwidth = 558000;
   services.murmur.extraConfig = ''
     ice="tcp -h 127.0.0.1 -p 6502"
     icesecretread=${secrets.public-mumble-ice-secret-read}
@@ -47,6 +48,6 @@ in
     };
   };
   networking.firewall.trustedInterfaces = [
-    "nebula.nebula-g"
+    "nebula.gjz010"
   ];
 }

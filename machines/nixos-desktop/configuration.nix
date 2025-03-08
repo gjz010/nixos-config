@@ -223,6 +223,7 @@
     8000
     3389
     22000
+    7860
   ];
   networking.firewall.allowedUDPPorts = [
     55400
@@ -306,7 +307,22 @@
   virtualisation.spiceUSBRedirection.enable = true;
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
-  #services.guix.enable = true;
+  services.guix.enable = true;
+  nixpkgs.overlays = [
+    (final: prev: {
+      guile-lzlib = prev.guile-lzlib.overrideAttrs (
+        f2: p2: {
+          patches = [
+            # fix support for gcc14
+            (final.fetchpatch {
+              url = "https://notabug.org/guile-lzlib/guile-lzlib/commit/3fd524d1f0e0b9beeca53c514620b970a762e3da.patch";
+              hash = "sha256-I1SSdygNixjx5LL/UPOgEGLILWWYKKfOGoCvXM5Sp/E=";
+            })
+          ];
+        }
+      );
+    })
+  ];
 
   programs.appimage.enable = true;
   programs.appimage.binfmt = true;
@@ -314,11 +330,36 @@
   services.ollama = {
     enable = true;
     models = "/mnt/zhitai-data/ollama-models";
-    #acceleration = "rocm";
-    #rocmOverrideGfx = "11.0.0";
+    acceleration = "rocm";
+    rocmOverrideGfx = "11.0.0";
+    environmentVariables = {
+      OLLAMA_ORIGINS = "*";
+      OLLAMA_CONTEXT_LENGTH = "131072";
+    };
   };
   services.nextjs-ollama-llm-ui = {
     enable = true;
+  };
+  services.owncast = {
+    port = 7860;
+    listen = "0.0.0.0";
+    openFirewall = true;
+    enable = true;
+  };
+  services.open-webui = {
+    enable = true;
+    port = 8889;
+    environment = {
+      OLLAMA_API_BASE_URL = "http://127.0.0.1:11434";
+      ANONYMIZED_TELEMETRY = "False";
+      DO_NOT_TRACK = "True";
+      SCARF_NO_ANALYTICS = "True";
+      ENABLE_OPENAI_API = "False";
+      HTTP_PROXY = "http://192.168.76.1:30086";
+      HTTPS_PROXY = "http://192.168.76.1:30086";
+      http_proxy = "http://192.168.76.1:30086";
+      https_proxy = "http://192.168.76.1:30086";
+    };
   };
 
   #networking.interfaces.enp10s0.wakeOnLan.enable = true;

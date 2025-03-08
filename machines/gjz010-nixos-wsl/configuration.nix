@@ -19,6 +19,13 @@
   programs.nix-ld.enable = true;
   programs.direnv.enable = true;
   services.openssh.enable = true;
+  services.openssh.ports = [
+    22
+    2223
+  ];
+  nix = {
+    settings.trusted-users = [ "gjz010" ];
+  };
   system.stateVersion = "24.05";
 
 }

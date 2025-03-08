@@ -5,6 +5,7 @@
     extraGroups = [
       "networkmanager"
       "wheel"
+      "video"
     ];
     hashedPasswordFile = config.sops.secrets."shadow/gjz010-nixos-wsl/gjz010".path;
   };

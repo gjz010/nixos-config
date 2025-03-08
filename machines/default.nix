@@ -121,4 +121,19 @@ inputs@{ nixpkgs, self, ... }:
       )
     ];
   };
+  "gjz010-nixos-laptop-mechrevo" = nixpkgs.lib.nixosSystem {
+    system = "x86_64-linux";
+    specialArgs = {
+      inherit inputs;
+    };
+    modules = (builtins.attrValues self.nixosModules) ++ [
+      ./gjz010-nixos-laptop-mechrevo
+      (
+        { lib, ... }:
+        {
+          networking.hostName = "gjz010-nixos-laptop-mechrevo";
+        }
+      )
+    ];
+  };
 }

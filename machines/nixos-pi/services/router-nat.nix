@@ -21,7 +21,7 @@ let
   ssid = "gjz010-nixos-pi";
   vpn-dev = "tun0";
   vpn-dev-tcp = "tun1";
-  nebula-dev = "nebula.nebula-g";
+  nebula-dev = "nebula.gjz010";
 in
 {
   sops.templates."router-hostapd.conf".content = ''

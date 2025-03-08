@@ -12,5 +12,6 @@
     ./services/conduit.nix
     ./services/qqbridge.nix
     ./services/phantun.nix
+    ./services/mongo.nix
   ];
 }

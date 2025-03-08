@@ -1,7 +1,12 @@
 {
     "network_name": "nebula-gjz010",
-    "tun_name": "nebula.nebula-gjz010",
+    "tun_name": "nebula.gjz010",
     "nodes": {
+        "aliasqli": {
+            "local_ip": "192.168.80.8",
+            "lighthouse": false,
+            "relay": false
+        },
         "android-phone": {
             "local_ip": "192.168.80.6",
             "lighthouse": false,
