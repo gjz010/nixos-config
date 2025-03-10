@@ -61,6 +61,10 @@
   services.xserver.enable = true;
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+  hardware.bluetooth.enable = true;
+  boot.kernelModules = [ "yt6801" ];
+  boot.extraModulePackages = with config.boot.kernelPackages; [ yt6801 ];
   # programs.hyprland.enable = true;
 
   # Configure keymap in X11
@@ -100,7 +104,17 @@
     git
     kitty
   ];
-  fonts.packages = with pkgs; [ sarasa-gothic ];
+  fonts.packages = with pkgs; [
+    sarasa-gothic
+    font-awesome
+    nerd-fonts.symbols-only
+  ];
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      "steam"
+      "steam-unwrapped"
+    ];
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -110,6 +124,9 @@
   # };
 
   programs.direnv.enable = true;
+  programs.steam.enable = true;
+  programs.kdeconnect.enable = true;
+
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.

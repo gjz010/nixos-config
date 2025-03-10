@@ -1,0 +1,44 @@
+pki:
+  ca: |
+    -----BEGIN NEBULA CERTIFICATE-----
+    Cj8KDW5lYnVsYS1nanowMTAo7s/rtwYw7rbwxgY6IFGRPqt8Ei9im2QfjQ2bRUob
+    HsqVGsRV7VW/8hs5Vm7jQAESQCBx0tWrUz/YSUZiX7BTAoFG7xv8Ck3KiymHNPe6
+    tD5aGrxCLkllU/oqSDRe+JdQaCSSwhFaDTQVRwP90YWL5gU=
+    -----END NEBULA CERTIFICATE-----
+  cert: |
+    -----BEGIN NEBULA CERTIFICATE-----
+    Co0BCghhbGlhc3FsaRIKiKChhQyA/v//DyIDYWxsIg5uZWJ1bGEtbWFuYWdlciIQ
+    c3RhYmxlLWRpZmZ1c2lvbii/vqO9BjDttvDGBjogempEwn+yUPWi8BZI7Jplu3Lg
+    bIVR4ilY/h5AX6ltt11KIBYhIlJM8Pn2NqXn2BK1COTohR/x+TvbZ+o9lEmycre0
+    EkCai/lraQl9OOm+JsgdE2JEkEYiQzRZD1jeNlYoXbFy7IAHnr8QU537POZD8lcz
+    Br4Nuc0dhqFHwSK0dY55qsAA
+    -----END NEBULA CERTIFICATE-----
+  key: ""
+lighthouse:
+  am_lighthouse: false
+  hosts:
+    - '192.168.80.1'
+static_host_map:
+  '192.168.80.1':
+    - bold-flower-7103.nebula-nodes.gjz010.com:4242
+    - ipv6.bold-flower-7103.nebula-nodes.gjz010.com:4242
+relay:
+  am_relay: false
+  relays:
+    - '192.168.80.1'
+  use_relays: true
+listen:
+  host: '::'
+  port: 4242
+tun:
+  dev: nebula.gjz010
+  unsafe_routes:
+    - route: '192.168.77.0/24'
+      via: '192.168.80.1'
+firewall:
+  outbound:
+    - port: any
+      proto: any
+      host: any
+static_map:
+  network: ip
