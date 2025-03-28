@@ -182,7 +182,7 @@
     dconf
     #virtiofsd
     firefox
-    kate
+    kdePackages.kate
     kdePackages.krfb
     virtiofsd
     virt-viewer
@@ -224,11 +224,20 @@
     3389
     22000
     7860
+    27040
+    3389
   ];
   networking.firewall.allowedUDPPorts = [
     55400
     22000
     21027
+    27031
+    27032
+    27033
+    27034
+    27035
+    27036
+    3389
   ];
   #networking.networkmanager.unmanaged = [ "wlp11s0" ];
   services.syncthing = {
@@ -332,6 +341,8 @@
     models = "/mnt/zhitai-data/ollama-models";
     acceleration = "rocm";
     rocmOverrideGfx = "11.0.0";
+    host = "0.0.0.0";
+    openFirewall = true;
     environmentVariables = {
       OLLAMA_ORIGINS = "*";
       OLLAMA_CONTEXT_LENGTH = "131072";
@@ -343,10 +354,11 @@
   services.owncast = {
     port = 7860;
     listen = "0.0.0.0";
-    openFirewall = true;
-    enable = true;
+    openFirewall = false;
+    enable = false;
   };
-  services.open-webui = {
+  /*
+    services.open-webui = {
     enable = true;
     port = 8889;
     environment = {
@@ -360,7 +372,9 @@
       http_proxy = "http://192.168.76.1:30086";
       https_proxy = "http://192.168.76.1:30086";
     };
-  };
+
+    };
+  */
 
   #networking.interfaces.enp10s0.wakeOnLan.enable = true;
   # Enable networking

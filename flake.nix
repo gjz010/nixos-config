@@ -8,7 +8,7 @@
       url = "file+file:///dev/null";
       flake = false;
     };
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable-small";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager";
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixos-wsl = {

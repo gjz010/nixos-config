@@ -12,6 +12,6 @@ in
   services.mongodb = {
     enable = true;
     enableAuth = true;
-    initialRootPassword = password;
+    initialRootPasswordFile = pkgs.writeText "mongodb-initial-root-password" password;
   };
 }

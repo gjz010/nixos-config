@@ -10,5 +10,8 @@
       "steam-run"
       "steam-unwrapped"
     ];
-  imports = [ ./configuration.nix ];
+  imports = [
+    ./configuration.nix
+    ./sunshine.nix
+  ];
 }

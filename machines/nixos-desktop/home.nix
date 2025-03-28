@@ -51,7 +51,7 @@ in
   home.homeDirectory = "/home/gjz010";
   home.packages = [
     (gjz010.pkgs.icalinguapp.override { inherit electron; })
-    spectacle
+    kdePackages.spectacle
     gjz010.pkgs.proxychains-wrapper
     x11vnc
     screen

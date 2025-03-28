@@ -132,6 +132,7 @@
   networking.firewall.trustedInterfaces = [
     "docker0"
     "br-93ecfca3a4ec"
+    "nebula.gjz010"
   ];
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 25565 ];

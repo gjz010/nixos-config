@@ -57,6 +57,8 @@ nixos-build: update-git-rev
     nixos-rebuild build --flake . {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
 nixos-switch: update-git-rev
     sudo proxychains4 nixos-rebuild switch --flake . {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
+nixos-boot: update-git-rev
+    sudo proxychains4 nixos-rebuild boot --flake . {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
 encrypt:
     ./scripts/secrets-embedded.ts --encrypt
 decrypt:
