@@ -1,9 +1,15 @@
 {
-  "deno.enable": true,
-  "editor.formatOnSave": true,
-  "nix.formatterPath": "nixpkgs-fmt",
-  "[typescript]": {
-    "editor.defaultFormatter": "denoland.vscode-deno"
-  },
-  "deno.config": "./deno.jsonc"
+    "deno.enable": true,
+    "editor.formatOnSave": true,
+    "nix.enableLanguageServer": true, // Enable LSP.
+    "nix.serverPath": "nil", // The path to the LSP server executable.
+    "nix.serverSettings": {
+        "nil": {
+            "formatting": { "command": ["nixfmt"] }
+        }
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "denoland.vscode-deno"
+    },
+    "deno.config": "./deno.jsonc"
 }

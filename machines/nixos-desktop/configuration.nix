@@ -271,40 +271,7 @@
     #settings.substituters =  pkgs.lib.mkForce [ "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store" ];
 
   };
-  i18n.inputMethod = {
-    type = "fcitx5";
-    enable = true;
-    #enabled = "fcitx5";
-    fcitx5 = {
-      waylandFrontend = true;
-      plasma6Support = true;
-      addons = with pkgs; [
-        fcitx5-rime
-        fcitx5-chinese-addons
-        fcitx5-configtool
-        fcitx5-mozc
-        fcitx5-gtk
-        kdePackages.fcitx5-qt
-      ];
-    };
-  };
-  fonts.packages = with pkgs; [
-    wqy_zenhei
-    wqy_microhei
-    noto-fonts
-    noto-fonts-cjk-sans
-    noto-fonts-cjk-serif
-    noto-fonts-emoji
-    liberation_ttf
-    fira-code
-    fira-code-symbols
-    mplus-outline-fonts.githubRelease
-    dina-font
-    proggyfonts
-    sarasa-gothic
-    jetbrains-mono
-    dejavu_fonts
-  ];
+  gjz010.options.preferredDesktop.enable = true;
   virtualisation.libvirtd.enable = true;
   virtualisation.docker.enable = true;
   virtualisation.podman.enable = true;
@@ -317,7 +284,6 @@
   ];
   virtualisation.libvirtd.qemu.swtpm.enable = true;
   virtualisation.spiceUSBRedirection.enable = true;
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   services.guix.enable = true;
   nixpkgs.overlays = [

@@ -551,7 +551,9 @@ let
             python
             nodejs
           ]
-          ++ lib.optional (stdenv.isLinux) utillinux ++ lib.optional (stdenv.isDarwin) libtool ++ buildInputs;
+          ++ lib.optional (stdenv.isLinux) utillinux
+          ++ lib.optional (stdenv.isDarwin) libtool
+          ++ buildInputs;
 
         inherit nodejs;
 
@@ -671,7 +673,9 @@ let
             python
             nodejs
           ]
-          ++ lib.optional (stdenv.isLinux) utillinux ++ lib.optional (stdenv.isDarwin) libtool ++ buildInputs;
+          ++ lib.optional (stdenv.isLinux) utillinux
+          ++ lib.optional (stdenv.isDarwin) libtool
+          ++ buildInputs;
 
         inherit dontStrip; # Stripping may fail a build for some package deployments
         inherit dontNpmInstall unpackPhase buildPhase;
@@ -764,10 +768,13 @@ let
       {
         name = "node-shell-${name}${if version == null then "" else "-${version}"}";
 
-        buildInputs = [
-          python
-          nodejs
-        ] ++ lib.optional (stdenv.isLinux) utillinux ++ buildInputs;
+        buildInputs =
+          [
+            python
+            nodejs
+          ]
+          ++ lib.optional (stdenv.isLinux) utillinux
+          ++ buildInputs;
         buildCommand = ''
           mkdir -p $out/bin
           cat > $out/bin/shell <<EOF

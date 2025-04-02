@@ -96,12 +96,14 @@
             denofmt.enable = true;
             denolint.enable = true;
           };
-          formatter = pkgs.nixpkgs-fmt;
+          formatter = pkgs.nixfmt-tree;
           packages = pkgs.gjz010.packages;
           bundlers = pkgs.gjz010.bundlers;
           devShells.default = pkgs.mkShell {
             packages = [
-              pkgs.nixpkgs-fmt
+              pkgs.treefmt2
+              pkgs.nixfmt-rfc-style
+              pkgs.nil
               pkgs.bashInteractive
               pkgs.sops
               pkgs.age

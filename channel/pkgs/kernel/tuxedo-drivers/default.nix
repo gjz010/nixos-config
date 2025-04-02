@@ -21,11 +21,13 @@ stdenv.mkDerivation (finalAttrs: {
   buildInputs = [ pahole ];
   nativeBuildInputs = [ kmod ] ++ kernel.moduleBuildDependencies;
 
-  makeFlags =  (lib.filter (flag: lib.head (lib.strings.splitString "=" flag) != "O") kernel.makeFlags) ++ [
-    "KERNELRELEASE=${kernel.modDirVersion}"
-    "KDIR=${kernel.dev}/lib/modules/${kernel.modDirVersion}/build"
-    "INSTALL_MOD_PATH=${placeholder "out"}"
-  ];
+  makeFlags =
+    (lib.filter (flag: lib.head (lib.strings.splitString "=" flag) != "O") kernel.makeFlags)
+    ++ [
+      "KERNELRELEASE=${kernel.modDirVersion}"
+      "KDIR=${kernel.dev}/lib/modules/${kernel.modDirVersion}/build"
+      "INSTALL_MOD_PATH=${placeholder "out"}"
+    ];
 
   meta = {
     broken = stdenv.isAarch64 || (lib.versionOlder kernel.version "5.5");

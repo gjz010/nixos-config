@@ -8,4 +8,5 @@ rec {
   nvidia = import ./nvidia.nix flake;
   auth-thu = import ./auth-thu.nix flake;
   nebula = import ./nebula flake;
+  desktop = import ./desktop flake;
 }
