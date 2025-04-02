@@ -22,6 +22,9 @@
   programs.adb.enable = true;
   programs.corectrl.enable = true;
   programs.nix-ld.enable = true;
+  programs.ydotool = {
+    enable = true;
+  };
   programs.hyprland = {
     enable = true;
   };

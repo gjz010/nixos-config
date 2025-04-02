@@ -17,8 +17,8 @@
             src = fetchFromGitHub {
               owner = "LaikaBridge";
               repo = "pymumble";
-              rev = "1c3bd8af2ef150873a7b28a1b6673434ce5fcfa4";
-              hash = "sha256-rB6QV0RuY/ivGBavFobKkyEyA6jmWVOg0hv22+6cHeY=";
+              rev = "a4ff713b846772fb8215b78f94cd8fce3d82f3c9";
+              hash = "sha256-FtvfME9k48L0M93yOEWOmJpExwOhLUTuwOpm3JH7Iw0=";
             };
           })
         );

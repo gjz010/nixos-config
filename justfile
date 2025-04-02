@@ -2,7 +2,7 @@ default:
     just --list
 updatekeys:
     find secrets -type f -exec sops updatekeys -y {} \;
-autocommit reason:
+autocommit reason="":
     git add .
     reason="{{reason}}"; \
     if [ -n "$reason" ]; then \

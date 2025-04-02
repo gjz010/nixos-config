@@ -23,13 +23,14 @@
         gjz010.pkgs.icalinguapp
         kdePackages.spectacle
         #yesplaymusic
-        gjz010.pkgs.yesplaymusic-osd
+        #gjz010.pkgs.yesplaymusic-osd
         osdlyrics
         kdePackages.polkit-kde-agent-1
         flameshot
         hyprpaper
         rofi-wayland
-        (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
+        nerd-fonts.symbols-only
+        #(nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
         font-awesome
         grimblast
         hyprlock
@@ -51,7 +52,7 @@
       fonts.fontconfig.enable = true;
       home.pointerCursor = {
         gtk.enable = true;
-        package = pkgs.gnome.adwaita-icon-theme;
+        package = pkgs.adwaita-icon-theme;
         name = "Adwaita";
         size = 16;
       };
