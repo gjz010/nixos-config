@@ -30,7 +30,6 @@
         hyprpaper
         rofi-wayland
         nerd-fonts.symbols-only
-        #(nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
         font-awesome
         grimblast
         hyprlock
