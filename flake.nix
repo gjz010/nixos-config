@@ -118,6 +118,7 @@
               pkgs.yq-go
               pkgs.yq
               pkgs.deno
+              pkgs.nil
               inputs.nm2nix.packages."${system}".default
               pkgs.nebula
               inputs.nix-patcher.packages."${system}".nix-patcher

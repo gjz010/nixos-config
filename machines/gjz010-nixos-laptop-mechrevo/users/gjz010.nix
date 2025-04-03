@@ -5,6 +5,7 @@
     extraGroups = [
       "networkmanager"
       "wheel"
+      "libvirtd"
     ];
     hashedPasswordFile = config.sops.secrets."shadow/gjz010-nixos-laptop-mechrevo/gjz010".path;
   };
@@ -35,6 +36,8 @@
         imagemagick
         pavucontrol
         qpwgraph
+        xournalpp
+        mumble
       ];
       programs.bash.enable = true;
       fonts.fontconfig.enable = true;

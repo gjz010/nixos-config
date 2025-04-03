@@ -69,3 +69,29 @@ decrypt:
     ./scripts/secrets-embedded.ts --decrypt
 encrypt_check:
     ./scripts/secrets-embedded.ts --encrypt --nonew
+
+# Import sops/age/keys.txt from ~/.ssh/id_ed25519
+sops-import-key:
+    #!/usr/bin/env bash
+    mkdir -p ~/.config/sops/age
+    if  [ -f ~/.config/sops/age/keys.txt ]; then
+        old_key=$(age-keygen -y ~/.config/sops/age/keys.txt)
+        new_key=$(ssh-to-age < ~/.ssh/id_ed25519.pub)
+        echo "Keys already imported!"
+        echo "Previous:"
+        age-keygen -y ~/.config/sops/age/keys.txt
+        echo "New:"
+        ssh-to-age < ~/.ssh/id_ed25519.pub
+        if [ "$old_key" = "$new_key" ]; then
+            echo "Keys are the same, skipping import."
+            exit 0
+        fi
+        echo "Overwrite? (y/n)"
+        read -r response
+        if [ "$response" != "y" ]; then
+            exit 0
+        fi
+    fi
+    echo "Importing key..."
+    ssh-to-age -private-key -i ~/.ssh/id_ed25519 > ~/.config/sops/age/keys.txt
+

@@ -15,6 +15,11 @@
     ./hardware-configuration.nix
   ];
 
+  # https://bbs.archlinux.org/viewtopic.php?id=300220
+  # https://github.com/NixOS/nixos-hardware/blob/de70a293ae40aebe74545017d1dd76c3c81353a3/lenovo/thinkpad/t14/amd/gen5/default.nix#L11
+  # https://wiki.archlinux.org/title/Power_management/Wakeup_triggers#/sys/module/acpi/parameters/ec_no_wakeup
+  boot.kernelParams = [ "acpi.ec_no_wakeup=1" ];
+
   # Use the systemd-boot EFI boot loader.
   # boot.loader.systemd-boot.enable = true;
   #boot.loader.efi.canTouchEfiVariables = true;
@@ -35,10 +40,13 @@
 
   i18n.defaultLocale = "zh_CN.UTF-8";
   i18n.inputMethod = {
-    enabled = "fcitx5";
+    enable = true;
+    type = "fcitx5";
+    fcitx5.waylandFrontend = true;
     fcitx5.addons = with pkgs; [
       fcitx5-rime
       fcitx5-chinese-addons
+      fcitx5-mozc
     ];
   };
 
@@ -126,6 +134,15 @@
   programs.direnv.enable = true;
   programs.steam.enable = true;
   programs.kdeconnect.enable = true;
+  programs.virt-manager.enable = true;
+  virtualisation.libvirtd.enable = true;
+  virtualisation.libvirtd.qemu.ovmf.enable = true;
+  virtualisation.libvirtd.qemu.ovmf.packages = [
+    pkgs.OVMFFull.fd
+    #pkgs.pkgsCross.aarch64-multiplatform.OVMF.fd
+  ];
+  virtualisation.libvirtd.qemu.swtpm.enable = true;
+  virtualisation.spiceUSBRedirection.enable = true;
 
   # List services that you want to enable:
 
@@ -133,7 +150,19 @@
   services.openssh.enable = true;
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 5900 ];
+  networking.firewall.allowedTCPPorts = [
+    5900
+    27040
+  ];
+  networking.firewall.allowedUDPPorts = [
+    27031
+    27032
+    27033
+    27034
+    27035
+    27036
+  ];
+
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;

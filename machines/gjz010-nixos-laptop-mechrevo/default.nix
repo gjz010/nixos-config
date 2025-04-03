@@ -5,5 +5,6 @@
     ./disko.nix
     ./users/gjz010.nix
     ./crucial.nix
+    ./plymouth.nix
   ];
 }
