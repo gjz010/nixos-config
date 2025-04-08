@@ -8,7 +8,8 @@
       url = "file+file:///dev/null";
       flake = false;
     };
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    #nixpkgs.url = "path:/home/gjz010/nixpkgs";
+    nixpkgs.url = "github:gjz010-Forks/nixpkgs/20250408";
     home-manager.url = "github:nix-community/home-manager";
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixos-wsl = {
@@ -47,6 +48,9 @@
     git-hooks-nix = {
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-patcher = {
+      url = "github:katrinafyi/nix-patcher";
     };
   };
   outputs =
@@ -116,6 +120,7 @@
               pkgs.deno
               inputs.nm2nix.packages."${system}".default
               pkgs.nebula
+              inputs.nix-patcher.packages."${system}".nix-patcher
             ];
             shellHook = ''
               ${config.pre-commit.installationScript}

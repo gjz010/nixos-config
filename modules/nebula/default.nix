@@ -16,7 +16,7 @@ let
       caSopsFile = "nebula-sops-${netName}-ca.crt";
       certSopsFile = "nebula-sops-${netName}-cert.crt";
       keySopsFile = "nebula-sops-${netName}-key.key";
-      netUserName = "nebula-sops-${netName}";
+      netUserName = "nebula-${netName}";
       ddnsV4File = "nebula-cfddns-v4-${netName}";
       ddnsV6File = "nebula-cfddns-v6-${netName}";
       hostName = config.networking.hostName;
@@ -58,12 +58,6 @@ let
         owner = "${netUserName}";
       };
       networking.firewall.allowedUDPPorts = [ 4242 ];
-      users.users."${netUserName}" = {
-        group = netUserName;
-        description = "Nebula service user for network ${netName}, with sops.";
-        isSystemUser = true;
-      };
-      users.groups."${netUserName}" = { };
       systemd.services."cloudflare-dyndns-ipv4@${netName}" = {
         description = "Nebula DNSv4 for ${netName}";
         after = [ "network.target" ];
@@ -90,57 +84,23 @@ let
           ExecStart = "${ddnsLauncher} v6";
         };
       };
-      systemd.services."nebula-sops@${netName}" = {
-        description = "Nebula VPN service (with sops) for ${netName}";
-        wants = [ "basic.target" ];
-        after = [
-          "basic.target"
-          "network.target"
-        ];
-        before = [ "sshd.service" ];
-        wantedBy = [ "multi-user.target" ];
-        serviceConfig = {
-          Type = "notify";
-          Restart = "always";
-          RuntimeDirectory = "nebula-sops/${netName}";
-          RuntimeDirectoryMode = "0755";
-          ExecStartPre = ''
-            ${pkgs.gjz010.pkgs.gjz010-nebula-manager}/bin/gjz010-nebula-manager merge-config \
-                ${settings.publicConfig} \
-                ${config.sops.secrets."${settingsSopsFile}".path} \
-                ${hostName} \
-                ${config.sops.secrets."${caSopsFile}".path} \
-                ${config.sops.secrets."${certSopsFile}".path} \
-                ${config.sops.secrets."${keySopsFile}".path} \
-                ''${RUNTIME_DIRECTORY}/nebula.config
-          '';
-          ExecStart = "${pkgs.nebula}/bin/nebula -config \${RUNTIME_DIRECTORY}/nebula.config";
-          UMask = "0027";
-          CapabilityBoundingSet = "CAP_NET_ADMIN";
-          AmbientCapabilities = "CAP_NET_ADMIN";
-          LockPersonality = true;
-          NoNewPrivileges = true;
-          PrivateDevices = false; # needs access to /dev/net/tun (below)
-          DeviceAllow = "/dev/net/tun rw";
-          DevicePolicy = "closed";
-          PrivateTmp = true;
-          PrivateUsers = false; # CapabilityBoundingSet needs to apply to the host namespace
-          ProtectClock = true;
-          ProtectControlGroups = true;
-          ProtectHome = true;
-          ProtectHostname = true;
-          ProtectKernelLogs = true;
-          ProtectKernelModules = true;
-          ProtectKernelTunables = true;
-          ProtectProc = "invisible";
-          ProtectSystem = "strict";
-          RestrictNamespaces = true;
-          RestrictSUIDSGID = true;
-          User = netUserName;
-          Group = netUserName;
-        };
-        unitConfig.StartLimitIntervalSec = 0; # ensure Restart=always is always honoured (networks can go down for arbitrarily long)
+      services.nebula.networks."${netName}" = {
+        enable = true;
+        ca = config.sops.secrets."${caSopsFile}".path;
+        cert = config.sops.secrets."${certSopsFile}".path;
+        key = config.sops.secrets."${keySopsFile}".path;
+        extraSettingsGenerator = pkgs.writeShellScript "nebula-sops" ''
+          ${pkgs.gjz010.pkgs.gjz010-nebula-manager}/bin/gjz010-nebula-manager merge-config \
+                  ${settings.publicConfig} \
+                  ${config.sops.secrets."${settingsSopsFile}".path} \
+                  ${hostName} \
+                  ${config.sops.secrets."${caSopsFile}".path} \
+                  ${config.sops.secrets."${certSopsFile}".path} \
+                  ${config.sops.secrets."${keySopsFile}".path} \
+                  $NEBULA_CONFIG_OUTPUT
+        '';
       };
+
     };
   defaultNetwork = makeNebulaService {
     netName = nebulaConfig.network_name;

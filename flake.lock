@@ -346,6 +346,24 @@
         "type": "github"
       }
     },
+    "nix-patcher": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_3"
+      },
+      "locked": {
+        "lastModified": 1733365094,
+        "narHash": "sha256-FOS8wKlM9BMUoe6FzMScUn5+1ouKEta0eeC6lOCBV7M=",
+        "owner": "katrinafyi",
+        "repo": "nix-patcher",
+        "rev": "d9dbf7ff6e4c281fcbadea97afd07b0d0cf28911",
+        "type": "github"
+      },
+      "original": {
+        "owner": "katrinafyi",
+        "repo": "nix-patcher",
+        "type": "github"
+      }
+    },
     "nixos-anywhere": {
       "inputs": {
         "disko": "disko_2",
@@ -500,21 +518,37 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1742669843,
-        "narHash": "sha256-G5n+FOXLXcRx+3hCJ6Rt6ZQyF1zqQ0DL0sWAMn2Nk0w=",
-        "owner": "NixOS",
+        "lastModified": 1733097829,
+        "narHash": "sha256-9hbb1rqGelllb4kVUCZ307G2k3/UhmA8PPGBoyuWaSw=",
+        "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "1e5b653dff12029333a6546c11e108ede13052eb",
+        "rev": "2c15aa59df0017ca140d9ba302412298ab4bf22a",
         "type": "github"
       },
       "original": {
-        "owner": "NixOS",
-        "ref": "nixos-unstable",
+        "owner": "nixos",
+        "ref": "nixpkgs-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
     },
     "nixpkgs_4": {
+      "locked": {
+        "lastModified": 1744108232,
+        "narHash": "sha256-iPKtiBBY9huqUwvdiEYCBC+TfXX5eOgJGzGWqEbm9W0=",
+        "owner": "gjz010-Forks",
+        "repo": "nixpkgs",
+        "rev": "03e03ce628da8f74be2f90316aa6641ce265e313",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gjz010-Forks",
+        "ref": "20250408",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_5": {
       "locked": {
         "lastModified": 1742578646,
         "narHash": "sha256-GiQ40ndXRnmmbDZvuv762vS+gew1uDpFwOfgJ8tLiEs=",
@@ -612,10 +646,11 @@
         "git-hooks-nix": "git-hooks-nix",
         "gitRevision": "gitRevision",
         "home-manager": "home-manager",
+        "nix-patcher": "nix-patcher",
         "nixos-anywhere": "nixos-anywhere",
         "nixos-hardware": "nixos-hardware",
         "nixos-wsl": "nixos-wsl",
-        "nixpkgs": "nixpkgs_3",
+        "nixpkgs": "nixpkgs_4",
         "nm2nix": "nm2nix",
         "prismlauncher": "prismlauncher",
         "rust-overlay": "rust-overlay",
@@ -679,7 +714,7 @@
     },
     "sops-nix": {
       "inputs": {
-        "nixpkgs": "nixpkgs_4"
+        "nixpkgs": "nixpkgs_5"
       },
       "locked": {
         "lastModified": 1742700801,

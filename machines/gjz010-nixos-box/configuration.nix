@@ -118,9 +118,36 @@
     ];
   };
 
+  virtualisation.podman.enable = true;
+  services.consul = {
+    enable = true;
+    webUi = true;
+    extraConfig = {
+      server = true;
+      bind_addr = "{{ GetInterfaceIP \"nebula.gjz010\" }}";
+      #domain = "nebula.gjz010.local.";
+      #alt_domain = "nebula.gjz010.com.";
+      bootstrap_expect = 1;
+    };
+  };
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      "consul"
+    ];
+  #systemd.services.consul.serviceConfig.Type = "notify";
+
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 5900 ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [
+    5900
+    8300
+    8301
+    8302
+  ];
+  networking.firewall.allowedUDPPorts = [
+    8301
+    8302
+  ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
