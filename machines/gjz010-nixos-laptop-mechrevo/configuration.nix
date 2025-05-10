@@ -15,10 +15,15 @@
     ./hardware-configuration.nix
   ];
 
-  # https://bbs.archlinux.org/viewtopic.php?id=300220
-  # https://github.com/NixOS/nixos-hardware/blob/de70a293ae40aebe74545017d1dd76c3c81353a3/lenovo/thinkpad/t14/amd/gen5/default.nix#L11
-  # https://wiki.archlinux.org/title/Power_management/Wakeup_triggers#/sys/module/acpi/parameters/ec_no_wakeup
-  boot.kernelParams = [ "acpi.ec_no_wakeup=1" ];
+  boot.kernelParams = [
+    # https://bbs.archlinux.org/viewtopic.php?id=300220
+    # https://github.com/NixOS/nixos-hardware/blob/de70a293ae40aebe74545017d1dd76c3c81353a3/lenovo/thinkpad/t14/amd/gen5/default.nix#L11
+    # https://wiki.archlinux.org/title/Power_management/Wakeup_triggers#/sys/module/acpi/parameters/ec_no_wakeup
+    "acpi.ec_no_wakeup=1"
+    # https://bbs.archlinux.org/viewtopic.php?id=302615
+    #    "amdgpu.sg_display=0"
+    "amdgpu.dcdebugmask=0x10"
+  ];
 
   # Use the systemd-boot EFI boot loader.
   # boot.loader.systemd-boot.enable = true;
@@ -39,20 +44,11 @@
   time.timeZone = "Asia/Shanghai";
 
   i18n.defaultLocale = "zh_CN.UTF-8";
-  i18n.inputMethod = {
-    enable = true;
-    type = "fcitx5";
-    fcitx5.waylandFrontend = true;
-    fcitx5.addons = with pkgs; [
-      fcitx5-rime
-      fcitx5-chinese-addons
-      fcitx5-mozc
-    ];
-  };
 
   # Enable auth-thu
   services.auth-thu.enable = true;
   gjz010.secrets.auth-thu.enable = true;
+  gjz010.options.preferredDesktop.enable = true;
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
@@ -111,11 +107,6 @@
     firefox
     git
     kitty
-  ];
-  fonts.packages = with pkgs; [
-    sarasa-gothic
-    font-awesome
-    nerd-fonts.symbols-only
   ];
   nixpkgs.config.allowUnfreePredicate =
     pkg:
