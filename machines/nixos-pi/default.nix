@@ -1,15 +1,35 @@
-{ lib, inputs, ... }:
 {
-  boot.supportedFilesystems.zfs = lib.mkForce false;
+  lib,
+  inputs,
+  specialArgs,
+  ...
+}:
+let
+  variant = specialArgs.variant;
+  variantConfig =
+    if variant == "raspi" then
+      ./raspi
+    else if variant == "amd64" then
+      ./amd64
+    else
+      builtins.trace "Invalid variant: ${variant}";
+in
+{
+
   nixpkgs.overlays = [
     (final: super: {
-      makeModulesClosure = x: super.makeModulesClosure (x // { allowMissing = true; });
+      makeModulesClosure =
+        x:
+        super.makeModulesClosure (
+          x
+          // {
+            allowMissing = true;
+          }
+        );
     })
   ];
-  sdImage.compressImage = false;
+
   imports = [
-    inputs.nixos-hardware.nixosModules.raspberry-pi-4
-    "${inputs.nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
     ./configuration.nix
     ./services/auth-thu.nix
     ./services/openvpn.nix
@@ -26,5 +46,6 @@
     ./services/web.nix
     ./services/wake-on-lan.nix
     ./users/gjz010.nix
+    variantConfig
   ];
 }

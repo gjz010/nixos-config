@@ -5,9 +5,9 @@
   ...
 }:
 let
-  wifi = "wlan0";
-  eth = "end0";
-  ethInternal = "enp1s0u2c2";
+  wifi = config.passthru.router.networkInterfaces.wlan;
+  eth = config.passthru.router.networkInterfaces.wan;
+  ethInternal = config.passthru.router.networkInterfaces.lan;
   ipAddress = "192.168.76.1";
   ipAddress1 = "192.168.77.1";
   prefixLength = 24;
@@ -198,5 +198,10 @@ in
           ip daddr 255.255.255.255 iifname ${ethInternal} ip saddr 192.168.77.0/24 dup to 192.168.76.255;
       }
     '';
+  };
+
+  gjz010.nebula = {
+    enable = true;
+    hostName = "nixos-pi";
   };
 }

@@ -40,11 +40,15 @@ switch-nixos-pi: update-git-rev
 switch-server: update-git-rev
     NIX_SSHOPTS="-p 22" nixos-rebuild switch --flake .#gjz010-nixos-server --use-remote-sudo --target-host server.gjz010.com {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
 
+# nixos-switch on remote device.
 nixos-switch-remote system hostname: update-git-rev
     nixos-rebuild switch --flake .#{{system}} --use-remote-sudo --target-host {{hostname}} {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
+# nixos-boot on remote device.
 nixos-boot-remote system hostname: update-git-rev
     nixos-rebuild boot --flake .#{{system}} --use-remote-sudo --target-host {{hostname}} {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
-
+# Install NixOS on a device using nixos-anywhere. The ssh_keys should be a folder containing `etc`.
+nixos-anywhere-remote system hostname ssh_keys: (build-nixos-drv system)
+    nixos-anywhere -s result-disko result-nixos --extra-files {{ssh_keys}} {{hostname}}
 
 build-pi-sdimage: update-git-rev
     nix build .#nixosConfigurations.nixos-pi.config.system.build.sdImage {{NIX_INJECT_FLAKE_INPUT_FLAGS}}

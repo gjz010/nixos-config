@@ -62,6 +62,14 @@ in
     cfssl
     openssl
     #fluffychat
+    /*
+      (vscode-with-extensions.override {
+        vscode = vscodium;
+        vscodeExtensions = with vscode-extensions; [
+          continue.continue
+        ];
+      })
+    */
     vscodium
     element-desktop
     prismlauncher

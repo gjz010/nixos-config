@@ -2,3 +2,5 @@ result
 .direnv/
 **/*.tmp
 .pre-commit-config.yaml
+result-disko
+result-nixos

@@ -17,6 +17,11 @@
             "lighthouse": true,
             "relay": true
         },
+        "gjz010-nixos-laptop-mechrevo": {
+            "local_ip": "192.168.80.9",
+            "lighthouse": false,
+            "relay": false
+        },
         "gjz010-nixos-miniserver-cn": {
             "local_ip": "192.168.80.7",
             "lighthouse": false,

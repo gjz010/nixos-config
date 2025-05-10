@@ -19,7 +19,7 @@ let
       netUserName = "nebula-${netName}";
       ddnsV4File = "nebula-cfddns-v4-${netName}";
       ddnsV6File = "nebula-cfddns-v6-${netName}";
-      hostName = config.networking.hostName;
+      hostName = config.gjz010.nebula.hostName;
       ddnsLauncher = pkgs.writeShellScript "cfddns-launcher" ''
         export PATH=${pkgs.lib.makeBinPath [ pkgs.yq ]}:$PATH
         secretYaml=${config.sops.secrets."${settingsSopsFile}".path}
@@ -115,8 +115,13 @@ in
   options.gjz010.nebula = {
     enable = lib.mkOption {
       description = "Nebula network";
-      default = lib.hasAttr config.networking.hostName nebulaConfig.nodes;
+      default = lib.hasAttr config.gjz010.nebula.hostName nebulaConfig.nodes;
       type = lib.types.bool;
+    };
+    hostName = lib.mkOption {
+      description = "Nebula hostname";
+      default = config.networking.hostName;
+      type = lib.types.str;
     };
   };
 

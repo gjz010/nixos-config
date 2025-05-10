@@ -56,7 +56,7 @@ in
       include "${config.sops.templates."phantun-client.nft".path}"
       chain postrouting {
           type nat hook postrouting priority srcnat; policy accept;
-          iifname ${phantunDev} oifname end0 masquerade
+          iifname ${phantunDev} oifname ${config.passthru.router.networkInterfaces.wan} masquerade
       }
     '';
   };

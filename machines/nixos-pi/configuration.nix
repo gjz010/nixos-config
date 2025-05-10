@@ -5,27 +5,13 @@
 { config, pkgs, ... }:
 
 {
-  imports = [
-    # Include the results of the hardware scan.
-    ./hardware-configuration.nix
-  ];
 
-  # Use the extlinux boot loader. (NixOS wants to enable GRUB by default)
-  boot.loader.grub.enable = false;
-  # Enables the generation of /boot/extlinux/extlinux.conf
-  boot.loader.generic-extlinux-compatible.enable = true;
   boot.initrd.availableKernelModules = [
     "usbhid"
     "usb_storage"
     "hid_apple"
   ];
-  boot.kernelPackages = pkgs.linuxPackages_rpi4;
   boot.kernelParams = [
-    "console=ttyAMA0,115200n8"
-    "console=ttyS0,115200n8"
-    "console=tty0"
-    "console=tty1"
-    "cma=128M"
     "hid_apple.fnmode=2"
   ];
   # Pick only one of the below networking options.
@@ -36,7 +22,6 @@
 
   # Set your time zone.
   time.timeZone = "Asia/Shanghai";
-  hardware.raspberry-pi."4".fkms-3d.enable = true;
   #services.logrotate.checkConfig = false;
 
   # Configure network proxy if necessary

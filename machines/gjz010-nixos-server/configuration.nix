@@ -96,7 +96,8 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
   services.openssh.settings.GatewayPorts = "yes";
-
+  services.openssh.settings.PermitTunnel = "yes";
+  services.openssh.settings.PermitRootLogin = "prohibit-password";
   services.btrfs.autoScrub = {
     enable = true;
     interval = "monthly";

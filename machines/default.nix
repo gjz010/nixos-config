@@ -50,6 +50,7 @@ inputs@{ nixpkgs, self, ... }:
     system = "aarch64-linux";
     specialArgs = {
       inherit inputs;
+      variant = "raspi";
     };
     modules = (builtins.attrValues self.nixosModules) ++ [
       ./nixos-pi
@@ -57,6 +58,22 @@ inputs@{ nixpkgs, self, ... }:
         { lib, ... }:
         {
           networking.hostName = "nixos-pi";
+        }
+      )
+    ];
+  };
+  "gjz010-nixos-pi-amd64" = nixpkgs.lib.nixosSystem {
+    system = "x86_64-linux";
+    specialArgs = {
+      inherit inputs;
+      variant = "amd64";
+    };
+    modules = (builtins.attrValues self.nixosModules) ++ [
+      ./nixos-pi
+      (
+        { lib, ... }:
+        {
+          networking.hostName = "gjz010-nixos-pi-amd64";
         }
       )
     ];

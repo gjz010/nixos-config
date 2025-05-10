@@ -58,7 +58,7 @@
   ];
   boot.extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
   boot.kernelModules = [ "v4l2loopback" ];
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_6_11;
   boot.kernelParams = [
     "amdgpu.sg_display=0"
     "amd_iommu=on"
@@ -314,7 +314,7 @@
     openFirewall = true;
     environmentVariables = {
       OLLAMA_ORIGINS = "*";
-      OLLAMA_CONTEXT_LENGTH = "131072";
+      #OLLAMA_CONTEXT_LENGTH = "131072";
     };
   };
   services.nextjs-ollama-llm-ui = {

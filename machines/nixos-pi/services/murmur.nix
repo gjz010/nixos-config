@@ -21,6 +21,7 @@ in
   services.murmur.clientCertRequired = true;
   services.murmur.registerHostname = "${domain}";
   services.murmur.password = "${secrets.private-mumble-password}";
+  services.murmur.bandwidth = 558000;
   services.botamusique = {
     enable = true;
     package = botamusique_pkg;

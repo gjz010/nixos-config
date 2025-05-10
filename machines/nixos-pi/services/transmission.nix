@@ -1,17 +1,17 @@
-let
-  transmissionRoot = "/mnt/downloads/transmission/";
-in
 {
   lib,
   pkgs,
   config,
   ...
 }:
+let
+  transmissionRoot = config.passthru.router.transmissionPath;
+in
 {
   services.transmission.enable = true;
   services.transmission.settings = {
     rpc-enabled = true;
-    rpc-bind-address = "unix:/var/lib/transmission/transmission-rpc.socket";
+    rpc-bind-address = "unix:${config.services.transmission.home}/transmission-rpc.socket";
     rpc-socket-mode = "0770";
     rpc-whitelist = "*";
     download-dir = "${transmissionRoot}/Downloads";
