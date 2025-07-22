@@ -45,6 +45,8 @@ in
     ./services/jitsi.nix
     ./services/web.nix
     ./services/wake-on-lan.nix
+    ./services/teamspeak3.nix
+    #./services/syncplay.nix
     ./users/gjz010.nix
     variantConfig
   ];

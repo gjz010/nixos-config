@@ -80,7 +80,7 @@ in
     wget
     kotatogram-desktop
     corectrl
-    zotero_7
+    zotero
     gjz010.pkgs.wemeetapp
     (wrapOBS { plugins = with pkgs.obs-studio-plugins; [ obs-multi-rtmp ]; })
     renderdoc
@@ -120,6 +120,15 @@ in
     xdotool
     libnotify
     xournalpp
+    (mpv.override {
+      scripts = with pkgs.mpvScripts; [
+        uosc
+        thumbfast
+      ];
+    })
+    syncplay
+    (inkscape-with-extensions.override { inkscapeExtensions = [ inkscape-extensions.textext ]; })
+    appflowy
   ];
   programs.waybar.enable = true;
   fonts.fontconfig.enable = true;

@@ -36,7 +36,7 @@ update-git-rev:
 
 # Update nixos-pi configuration remotely.
 switch-nixos-pi: update-git-rev
-    NIX_SSHOPTS="-p 2222" nixos-rebuild switch --flake .#nixos-pi --use-remote-sudo --target-host nixos-pi {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
+    NIX_SSHOPTS="-p 2222" nixos-rebuild switch --flake .#gjz010-nixos-pi-amd64 --use-remote-sudo --target-host 192.168.76.1 {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
 switch-server: update-git-rev
     NIX_SSHOPTS="-p 22" nixos-rebuild switch --flake .#gjz010-nixos-server --use-remote-sudo --target-host server.gjz010.com {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
 

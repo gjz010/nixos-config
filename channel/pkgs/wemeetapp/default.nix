@@ -7,6 +7,7 @@
   autoPatchelfHook,
   libsForQt515,
   librsvg,
+  xorg,
 }:
 let
   libsForQt5 = libsForQt515;
@@ -23,6 +24,7 @@ let
       qtwebengine
       qtwebchannel
       qtx11extras
+      xorg.libXinerama
     ];
     nativeBuildInputs = [
       autoPatchelfHook

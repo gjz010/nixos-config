@@ -12,6 +12,23 @@
       };
     };
   };
+  users = {
+    users.conduit = {
+      isSystemUser = true;
+      group = "conduit";
+    };
+    groups.conduit = { };
+  };
+  systemd.services.conduit = {
+    serviceConfig = {
+      User = "conduit";
+      Group = "conduit";
+      BindPaths = [
+        "/mnt/hdd-conduit-media/conduit-media/"
+      ];
+    };
+
+  };
   virtualisation.oci-containers.containers = {
     mautrix-tg = {
       image = "ghcr.io/laikabridge/mautrix-telegram@sha256:8495e349d2c757a9ecd0bbda943c2d6e001cc055fc4538f6123be38c0708baef";

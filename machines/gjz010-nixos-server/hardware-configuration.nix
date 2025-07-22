@@ -51,6 +51,15 @@
     ];
   };
 
+  fileSystems."/mnt/hdd-conduit-media" = {
+    device = "/dev/disk/by-uuid/20f14d3c-c30d-4c6f-9fa1-cd9f4e9cbfd1";
+    fsType = "btrfs";
+    options = [
+      "compress=zstd"
+      "subvol=hdd-conduit-media"
+    ];
+  };
+
   fileSystems."/swap" = {
     device = "/dev/disk/by-uuid/10f6545e-1ea7-4627-836b-21fbd12257df";
     fsType = "btrfs";

@@ -30,6 +30,16 @@
         "force user" = "gjz010";
         "force group" = "users";
       };
+      transmission-downloads = {
+        path = "/var/lib/transmission/Downloads";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+        "force user" = "gjz010";
+        "force group" = "users";
+      };
     };
 
   };

@@ -14,11 +14,16 @@ let
 in
 {
   sops.templates."udp2raw.env".content = ''
-    listen_addr=${config.sops.placeholder."tunnel/udp2raw/listenAddr"}
+    listen_addr=[${config.sops.placeholder."tunnel/udp2raw/listenAddr"}]
+    key=${config.sops.placeholder."tunnel/udp2raw/key"}
+  '';
+  sops.templates."udp2raw.ipv4.env".content = ''
+    listen_addr=${config.sops.placeholder."tunnel/udp2raw/listenAddrV4"}
     key=${config.sops.placeholder."tunnel/udp2raw/key"}
   '';
   sops.secrets."tunnel/udp2raw/key" = sopsConfig;
   sops.secrets."tunnel/udp2raw/listenAddr" = sopsConfig;
+  sops.secrets."tunnel/udp2raw/listenAddrV4" = sopsConfig;
 
   systemd.services.udp2raw = {
     enable = true;
@@ -30,6 +35,21 @@ in
     serviceConfig = {
       ExecStart = udp2rawScript;
       EnvironmentFile = config.sops.templates."udp2raw.env".path;
+      Restart = "always";
+      RestartSec = "10s";
+    };
+    wantedBy = [ "multi-user.target" ];
+  };
+  systemd.services.udp2raw-v4 = {
+    enable = true;
+    description = "udp2raw-v4";
+    after = [
+      "network.target"
+      "nss-lookup.target"
+    ];
+    serviceConfig = {
+      ExecStart = udp2rawScript;
+      EnvironmentFile = config.sops.templates."udp2raw.ipv4.env".path;
       Restart = "always";
       RestartSec = "10s";
     };

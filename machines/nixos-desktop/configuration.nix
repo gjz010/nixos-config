@@ -56,9 +56,12 @@
     "vfio"
     "vfio_iommu_type1"
   ];
-  boot.extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
+  boot.extraModulePackages = with config.boot.kernelPackages; [
+    v4l2loopback
+  ];
+  hardware.xpadneo.enable = true;
   boot.kernelModules = [ "v4l2loopback" ];
-  boot.kernelPackages = pkgs.linuxPackages_6_11;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelParams = [
     "amdgpu.sg_display=0"
     "amd_iommu=on"
@@ -90,7 +93,7 @@
   time.timeZone = "Asia/Shanghai";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "zh_CN.utf8";
+  i18n.defaultLocale = "zh_CN.UTF-8";
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -285,22 +288,24 @@
   virtualisation.libvirtd.qemu.swtpm.enable = true;
   virtualisation.spiceUSBRedirection.enable = true;
 
-  services.guix.enable = true;
-  nixpkgs.overlays = [
-    (final: prev: {
-      guile-lzlib = prev.guile-lzlib.overrideAttrs (
-        f2: p2: {
-          patches = [
-            # fix support for gcc14
-            (final.fetchpatch {
-              url = "https://notabug.org/guile-lzlib/guile-lzlib/commit/3fd524d1f0e0b9beeca53c514620b970a762e3da.patch";
-              hash = "sha256-I1SSdygNixjx5LL/UPOgEGLILWWYKKfOGoCvXM5Sp/E=";
-            })
-          ];
-        }
-      );
-    })
-  ];
+  /*
+    services.guix.enable = true;
+    nixpkgs.overlays = [
+      (final: prev: {
+        guile-lzlib = prev.guile-lzlib.overrideAttrs (
+          f2: p2: {
+            patches = [
+              # fix support for gcc14
+              (final.fetchpatch {
+                url = "https://notabug.org/guile-lzlib/guile-lzlib/commit/3fd524d1f0e0b9beeca53c514620b970a762e3da.patch";
+                hash = "sha256-I1SSdygNixjx5LL/UPOgEGLILWWYKKfOGoCvXM5Sp/E=";
+              })
+            ];
+          }
+        );
+      })
+    ];
+  */
 
   programs.appimage.enable = true;
   programs.appimage.binfmt = true;

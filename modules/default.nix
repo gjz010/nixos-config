@@ -9,4 +9,5 @@ rec {
   auth-thu = import ./auth-thu.nix flake;
   nebula = import ./nebula flake;
   desktop = import ./desktop flake;
+  udp2raw = import ./udp2raw flake;
 }

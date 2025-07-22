@@ -6,6 +6,7 @@
       "networkmanager"
       "wheel"
       "docker"
+      "transmission"
     ];
     hashedPasswordFile = config.sops.secrets."shadow/gjz010-nixos-pi/gjz010".path;
   };
