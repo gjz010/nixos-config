@@ -16,7 +16,11 @@
   home-manager.users."gjz010" =
     { pkgs, ... }:
     {
-      home.packages = [ pkgs.cowsay ];
+      home.packages = [
+        pkgs.cowsay
+        pkgs.vscodium
+        pkgs.firefox
+      ];
       programs.bash.enable = true;
 
       # The state version is required and should stay at the version you

@@ -5,7 +5,7 @@ in
 {
   virtualisation.oci-containers.containers = {
     "wol-web" = {
-      image = "ghcr.io/gjz010-forks/wol-web@sha256:8739493ab652b6515bc2734d3936999167541f266f3270d42d1b0acbad5ee970";
+      image = "ghcr.io/gjz010-forks/wol-web:latest";
       extraOptions = [ "--network=host" ];
       volumes = [ "/srv/wol-web/pb_data:/app/pb_data" ];
       environment = {

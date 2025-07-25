@@ -26,8 +26,9 @@ in
     };
     transmissionPath = config.services.transmission.home;
   };
-  services.xserver.enable = true;
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
-
+  #services.xserver.enable = true;
+  #services.displayManager.sddm.enable = true;
+  #services.desktopManager.plasma6.enable = true;
+  #gjz010.options.preferredDesktop.enable = true;
+  i18n.defaultLocale = "zh_CN.UTF-8";
 }

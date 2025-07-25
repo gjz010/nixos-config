@@ -11,14 +11,14 @@
     (python3.override {
       packageOverrides = pyself: pysuper: {
         pymumble = (
-          pysuper.pymumble.overrideAttrs (old: {
+          (pysuper.pymumble.override ({ protobuf = pyself.protobuf5; })).overrideAttrs (old: {
             pname = "pymumble";
             version = "1.7.0";
             src = fetchFromGitHub {
               owner = "LaikaBridge";
               repo = "pymumble";
-              rev = "a4ff713b846772fb8215b78f94cd8fce3d82f3c9";
-              hash = "sha256-FtvfME9k48L0M93yOEWOmJpExwOhLUTuwOpm3JH7Iw0=";
+              rev = "6f2149f0f05fa3a51bbf0bda427473d29afbc028";
+              #hash = "sha256-FtvfME9k48L0M93yOEWOmJpExwOhLUTuwOpm3JH7Iw0=";
             };
           })
         );

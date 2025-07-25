@@ -34,6 +34,7 @@ in
       bot.max_track_duration = 10000;
     };
   };
+
   systemd.services.botamusique = {
     serviceConfig = {
       LoadCredential = "botamusique.pem:${cert_sops_path}";
@@ -42,6 +43,7 @@ in
       } -C \${CREDENTIALS_DIRECTORY}/botamusique.pem";
     };
   };
+
   networking.nat = {
     internalInterfaces = [ "ve-*" ];
     #enableIPv6 = true;

@@ -40,7 +40,7 @@ in
     ./services/transmission.nix
     ./services/udp2raw.nix
     ./services/v2ray.nix
-    ./services/phantun.nix
+    #./services/phantun.nix
     ./services/murmur.nix
     ./services/jitsi.nix
     ./services/web.nix
