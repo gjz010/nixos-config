@@ -115,6 +115,13 @@ creation_rules:
                 - *admin_gjz010_nixos_desktop
                 - *admin_gjz010_nixos_pi
                 - *server_gjz010_nixos_pi
+    - path_regex: secrets/iroh/.*$
+      key_groups:
+          - age:
+                - *admin_gjz010_nixos_desktop
+                - *admin_gjz010_nixos_pi
+                - *server_gjz010_nixos_pi
+                - *server_gjz010_nixos_miniserver_cn
     - path_regex: secrets/botamusique/.*$
       key_groups:
           - age:

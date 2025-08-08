@@ -1,14 +1,15 @@
 {
   botamusique,
-  python3,
+  python312,
   fetchFromGitHub,
   fetchNpmDeps,
   python3Packages,
   lib,
 }:
-(botamusique.override {
-  python3Packages =
-    (python3.override {
+let
+  pythonNew = (
+    python312.override {
+      self = pythonNew;
       packageOverrides = pyself: pysuper: {
         pymumble = (
           (pysuper.pymumble.override ({ protobuf = pyself.protobuf5; })).overrideAttrs (old: {
@@ -18,7 +19,7 @@
               owner = "LaikaBridge";
               repo = "pymumble";
               rev = "6f2149f0f05fa3a51bbf0bda427473d29afbc028";
-              #hash = "sha256-FtvfME9k48L0M93yOEWOmJpExwOhLUTuwOpm3JH7Iw0=";
+              hash = "sha256-JGu/fe8lN+SWGQ3JGL0uTHOsQ8Vti0pJ5dQCoG8mh08=";
             };
           })
         );
@@ -28,7 +29,11 @@
         #  })
         #);
       };
-    }).pkgs;
+    }
+  );
+in
+(botamusique.override {
+  python3Packages = pythonNew.pkgs;
 }).overrideAttrs
   (
     f: p: rec {

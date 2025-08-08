@@ -5,5 +5,6 @@
     ./disko.nix
     ./users/gjz010.nix
     ./services/murmur.nix
+    ./services/iroh-relay.nix
   ];
 }

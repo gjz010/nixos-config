@@ -10,4 +10,5 @@ rec {
   nebula = import ./nebula flake;
   desktop = import ./desktop flake;
   udp2raw = import ./udp2raw flake;
+  keystone = import ./keystone flake;
 }

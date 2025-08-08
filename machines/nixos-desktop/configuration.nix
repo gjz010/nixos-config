@@ -275,6 +275,7 @@
 
   };
   gjz010.options.preferredDesktop.enable = true;
+  gjz010.options.keystone.enable = true;
   virtualisation.libvirtd.enable = true;
   virtualisation.docker.enable = true;
   virtualisation.podman.enable = true;

@@ -13,5 +13,6 @@
     ./services/qqbridge.nix
     ./services/phantun.nix
     ./services/mongo.nix
+    ./services/iroh-relay.nix
   ];
 }

@@ -36,13 +36,13 @@ update-git-rev:
 
 # Update nixos-pi configuration remotely.
 switch-nixos-pi: update-git-rev
-    NIX_SSHOPTS="-p 2222" nixos-rebuild switch --flake .#gjz010-nixos-pi-amd64 --use-remote-sudo --target-host 192.168.76.1 {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
+    NIX_SSHOPTS="-p 2222" nixos-rebuild switch --flake .#gjz010-nixos-pi-amd64 --use-remote-sudo --ask-sudo-password --target-host 192.168.76.1 {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
 switch-server: update-git-rev
     NIX_SSHOPTS="-p 22" nixos-rebuild switch --flake .#gjz010-nixos-server --use-remote-sudo --target-host server.gjz010.com {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
 
 # nixos-switch on remote device.
 nixos-switch-remote system hostname: update-git-rev
-    nixos-rebuild switch --flake .#{{system}} --use-remote-sudo --target-host {{hostname}} {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
+    nixos-rebuild switch --flake .#{{system}} --use-remote-sudo --ask-sudo-password --target-host {{hostname}} {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
 # nixos-boot on remote device.
 nixos-boot-remote system hostname: update-git-rev
     nixos-rebuild boot --flake .#{{system}} --use-remote-sudo --target-host {{hostname}} {{NIX_INJECT_FLAKE_INPUT_FLAGS}}

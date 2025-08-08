@@ -41,11 +41,7 @@ flake@{ inputs, self, ... }:
       # 1. Allow using ssh public key for sudo-authentication.
       # 2. Allow all wheel users (sudoers) to be trusted by nix-daemon.
       # TODO: will this affect behaviour of http proxy?
-      security.pam = {
-        sshAgentAuth.enable = true;
-        services.sudo.sshAgentAuth = true;
-      };
-      programs.ssh.startAgent = true;
+
       nix.settings.trusted-users = [ "@wheel" ];
     };
 }
