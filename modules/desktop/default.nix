@@ -25,6 +25,7 @@ flake@{ inputs, self, ... }:
         fcitx5.enable = true;
         fonts.enable = true;
       };
+      services.flatpak.enable = true;
     })
   ];
 }

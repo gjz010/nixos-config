@@ -49,6 +49,8 @@
   services.auth-thu.enable = true;
   gjz010.secrets.auth-thu.enable = true;
   gjz010.options.preferredDesktop.enable = true;
+  gjz010.options.keystone.enable = true;
+
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
