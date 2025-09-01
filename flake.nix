@@ -9,7 +9,7 @@
       flake = false;
     };
     #nixpkgs.url = "path:/home/gjz010/nixpkgs";
-    nixpkgs.url = "github:gjz010-Forks/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager";
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixos-wsl = {

@@ -6,7 +6,7 @@
 }:
 with pkgs;
 let
-  electron = pkgs.gjz010.pkgs.electron_33-bin;
+  #electron = pkgs.gjz010.pkgs.electron_33-bin;
   symbols-nerd-font = (
     stdenv.mkDerivation {
       pname = "symbols-nerd-font";
@@ -50,7 +50,7 @@ in
   home.username = "gjz010";
   home.homeDirectory = "/home/gjz010";
   home.packages = [
-    (gjz010.pkgs.icalinguapp.override { inherit electron; })
+    #(gjz010.pkgs.icalinguapp.override { inherit electron; })
     kdePackages.spectacle
     gjz010.pkgs.proxychains-wrapper
     x11vnc
@@ -84,7 +84,7 @@ in
     gjz010.pkgs.wemeetapp
     (wrapOBS { plugins = with pkgs.obs-studio-plugins; [ obs-multi-rtmp ]; })
     renderdoc
-    electron
+    #electron
     httplib
     vlc
     firefox
@@ -227,6 +227,6 @@ in
       fi
     '';
   };
-  programs.wezterm.enable = true;
-  programs.wezterm.package = specialArgs.inputs.wezterm.packages.${pkgs.system}.default;
+  #programs.wezterm.enable = true;
+  #programs.wezterm.package = specialArgs.inputs.wezterm.packages.${pkgs.system}.default;
 }
