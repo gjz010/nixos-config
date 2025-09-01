@@ -1,0 +1,18 @@
+--- /usr/lib/python3.11/site-packages/mautrix/client/api/modules/media_repository.py 2025-08-23 22:31:40.623834863 +0800
++++ /usr/lib/python3.11/site-packages/mautrix/client/api/modules/media_repository.py 2025-08-23 22:32:14.985004514 +0800
+@@ -182,6 +182,7 @@
+             The raw downloaded data.
+         """
+         authenticated = (await self.versions()).supports(SpecVersions.V111)
++        authenticated = False
+         url = self.api.get_download_url(url, authenticated=authenticated)
+         query_params: dict[str, Any] = {"allow_redirect": "true"}
+         if timeout_ms is not None:
+@@ -233,6 +234,7 @@
+             The raw downloaded data.
+         """
+         authenticated = (await self.versions()).supports(SpecVersions.V111)
++        authenticated = False
+         url = self.api.get_download_url(
+             url, download_type="thumbnail", authenticated=authenticated
+         )

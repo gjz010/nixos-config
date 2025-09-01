@@ -9,8 +9,14 @@
         server_name = "matrix-bridge.gjz010.com";
         database_backend = "rocksdb";
         allow_registration = true;
+        log = "trace";
       };
     };
+    package = pkgs.matrix-conduit.overrideAttrs (
+      final: prev: {
+        patches = prev.patches ++ [ ./0001-UNSAFE-disable-authentication-for-conduit.patch ];
+      }
+    );
   };
   users = {
     users.conduit = {
@@ -31,12 +37,12 @@
   };
   virtualisation.oci-containers.containers = {
     mautrix-tg = {
-      image = "ghcr.io/laikabridge/mautrix-telegram@sha256:8495e349d2c757a9ecd0bbda943c2d6e001cc055fc4538f6123be38c0708baef";
+      image = "ghcr.io/laikabridge/mautrix-telegram:v0.15.3-media";
       extraOptions = [ "--network=host" ];
       volumes = [ "/var/qqbridge/mautrix-tg:/data" ];
     };
     mautrix-discord = {
-      image = "dock.mau.dev/mautrix/discord:latest";
+      image = "dock.mau.dev/mautrix/discord:v0.7.5";
       extraOptions = [ "--network=host" ];
       volumes = [ "/var/qqbridge/mautrix-discord:/data" ];
     };

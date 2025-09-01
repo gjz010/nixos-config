@@ -28,6 +28,7 @@ flake@{ inputs, self, ... }:
       sarasa-gothic
       jetbrains-mono
       dejavu_fonts
+      nerd-fonts.symbols-only
     ];
   };
 }

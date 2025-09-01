@@ -14,5 +14,7 @@
     ./services/phantun.nix
     ./services/mongo.nix
     ./services/iroh-relay.nix
+    ./services/tor-bridge.nix
+
   ];
 }

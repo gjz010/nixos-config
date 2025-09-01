@@ -31,6 +31,7 @@ flake@{ inputs, self, ... }:
         with pkgs;
         (lib.optionals config.gjz010.options.preferredDesktop.enable [
           kdePackages.kleopatra
+          keepassxc
         ]);
     })
   ];

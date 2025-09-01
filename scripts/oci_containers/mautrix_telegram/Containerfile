@@ -1,0 +1,10 @@
+FROM docker.io/nixos/nix:2.31.0 AS get_patch
+RUN nix-channel --update
+WORKDIR /build
+RUN nix-build -A pkgsStatic.patch '<nixpkgs>'
+
+FROM dock.mau.dev/mautrix/telegram:v0.15.3
+COPY --from=get_patch /build/result/bin/patch /bin/patch
+COPY ./mautrix_telegram.patch ./mautrix_telegram.patch
+RUN /bin/patch /usr/lib/python3.11/site-packages/mautrix/client/api/modules/media_repository.py < ./mautrix_telegram.patch
+RUN rm /bin/patch ./mautrix_telegram.patch

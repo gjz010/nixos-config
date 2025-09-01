@@ -1,0 +1,25 @@
+From 752defda09c7b200bc7ed92320288436de30a37b Mon Sep 17 00:00:00 2001
+From: gjz010 <gjz010944@gmail.com>
+Date: Wed, 13 Aug 2025 03:05:58 +0800
+Subject: [PATCH] UNSAFE: disable authentication for conduit
+
+---
+ src/api/client_server/media.rs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/api/client_server/media.rs b/src/api/client_server/media.rs
+index e922b15..93697ee 100644
+--- a/src/api/client_server/media.rs
++++ b/src/api/client_server/media.rs
+@@ -172,7 +172,7 @@ pub async fn get_content_route(
+         &body.server_name,
+         body.media_id.clone(),
+         body.allow_remote,
+-        false,
++        true,
+     )
+     .await?;
+ 
+-- 
+2.50.0
+

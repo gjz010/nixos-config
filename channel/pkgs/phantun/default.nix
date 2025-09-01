@@ -13,7 +13,7 @@ rustPlatform.buildRustPackage rec {
     rev = version;
     hash = "sha256-ENFx4ZkaFxiN9cKfdWk2x1CWgnMysbgan7bjhpiRUEg=";
   };
-  cargoHash = "sha256-G1Hksx99M/s0yg5QCxMNlX9PvD9xGTepiypuc72MrCQ=";
+  cargoHash = "sha256-QV1rdhztXqTGuiT2ybxLAYJxi4/G9voFVHkCkPpwaKM=";
   postFixup = ''
     mv $out/bin/client $out/bin/phantun-client
     mv $out/bin/server $out/bin/phantun-server

@@ -28,11 +28,11 @@ let
         export CLOUDFLARE_API_TOKEN=$(cat $secretYaml | yq -r ".\"nebula-secrets-global\".\"cloudflare-dyndns-token\"")
         if [ "$1" = "v4" ] ; then
             export CLOUDFLARE_DOMAINS="$domainPart.$domainRoot"
-            exec ${pkgs.cloudflare-dyndns}/bin/cloudflare-dyndns --cache-file $STATE_DIRECTORY/ipv4.cache -4 -no-6 --delete-missing
+            exec ${pkgs.cloudflare-dyndns}/bin/cloudflare-dyndns --cache-file $STATE_DIRECTORY/ipv4.cache -4 -no-6
         fi
         if [ "$1" = "v6" ] ; then
             export CLOUDFLARE_DOMAINS="ipv6.$domainPart.$domainRoot"
-            exec ${pkgs.cloudflare-dyndns}/bin/cloudflare-dyndns --cache-file $STATE_DIRECTORY/ipv6.cache -6 -no-4 --delete-missing
+            exec ${pkgs.cloudflare-dyndns}/bin/cloudflare-dyndns --cache-file $STATE_DIRECTORY/ipv6.cache -6 -no-4
         fi
       '';
     in
