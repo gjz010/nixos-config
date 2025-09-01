@@ -11,4 +11,5 @@ rec {
   desktop = import ./desktop flake;
   udp2raw = import ./udp2raw flake;
   keystone = import ./keystone flake;
+  forked_nebula = import ./forked/nebula.nix flake;
 }

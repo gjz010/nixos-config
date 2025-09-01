@@ -84,7 +84,7 @@ let
           ExecStart = "${ddnsLauncher} v6";
         };
       };
-      services.nebula.networks."${netName}" = {
+      gjz010.services.nebula.networks."${netName}" = {
         enable = true;
         ca = config.sops.secrets."${caSopsFile}".path;
         cert = config.sops.secrets."${certSopsFile}".path;

@@ -41,13 +41,13 @@
   boot.loader.grub.efiInstallAsRemovable = true;
   #boot.loader.systemd-boot.enable = true;
   #boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.efi.efiSysMountPoint = "/boot/efi";
+  boot.loader.efi.efiSysMountPoint = "/boot";
   boot.loader.grub.memtest86.enable = true;
-  boot.loader.grub.extraEntries = ''
-    menuentry "Memtest86+ bootPath" {
-      linux @bootRoot@/efi/memtest.bin 
-    }
-  '';
+  #boot.loader.grub.extraEntries = ''
+  #  menuentry "Memtest86+ bootPath" {
+  #    linux @bootRoot@/efi/memtest.bin
+  #  }
+  #'';
   boot.tmp.useTmpfs = false;
   boot.initrd.kernelModules = [
     "nfs"
