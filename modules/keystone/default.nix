@@ -16,7 +16,13 @@ flake@{ inputs, self, ... }:
   };
   config = lib.mkMerge [
     (lib.mkIf config.gjz010.options.keystone.enable {
-      gjz010.hardware.yubikey.enable = true;
+      gjz010.hardware.yubikey = {
+        enable = true;
+        autolock = {
+          enable = true;
+          productId = "1050/407/574";
+        };
+      };
       # Use GPG agent.
       programs.gnupg.agent = {
         enable = true;

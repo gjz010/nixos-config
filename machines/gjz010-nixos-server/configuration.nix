@@ -106,6 +106,10 @@
 
   networking.nftables.enable = true;
   virtualisation.docker.enable = true;
+  networking.nameservers = [
+    "1.1.1.1"
+    "1.0.0.1"
+  ];
   virtualisation.docker.storageDriver = "btrfs";
   users.users.gjz010.extraGroups = [ "docker" ];
   #virtualisation.podman.enable = true;

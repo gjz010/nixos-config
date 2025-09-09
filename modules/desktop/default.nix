@@ -25,7 +25,12 @@ flake@{ inputs, self, ... }:
         fcitx5.enable = true;
         fonts.enable = true;
       };
+      programs.thunderbird = {
+        enable = true;
+      };
       services.flatpak.enable = true;
+      services.protonmail-bridge.enable = true;
+
     })
   ];
 }
