@@ -1,4 +1,4 @@
-# gjz010's Nix channel & NixOS configuration
+![nixos-config](https://socialify.git.ci/gjz010/nixos-config/image?description=1&font=JetBrains+Mono&issues=1&logo=https%3A%2F%2Fraw.githubusercontent.com%2Fgjz010%2Fnixos-config%2F636dbb3bfa8f7c985d02a84ffc0c4eb06404e7a6%2Fstatic%2Flogo.png&owner=1&pattern=Charlie+Brown&pulls=1&stargazers=1&theme=Light)
 
 ## Use packages
 
