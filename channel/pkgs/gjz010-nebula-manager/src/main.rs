@@ -306,10 +306,12 @@ impl NebulaCert{
         if cacert_path.exists() && cakey_path.exists(){
             let cacert = read_sops_encrypted(&cacert_path)?;
             let cakey = read_sops_encrypted(&cakey_path)?;
+            info!("Verifying CA");
             if NebulaCert::verify_ca(&cacert, &cakey)?{
                 return Ok((cacert, cakey));
             }
         }
+        info!("Generating CA");
         let (cacert, cakey) = NebulaCert::generate_ca(name)?;
         write_sops_encrypted(cacert_path, &cacert)?;
         write_sops_encrypted(cakey_path, &cakey)?;
@@ -324,6 +326,7 @@ impl NebulaCert{
                 return Ok((cert, key));
             }
         }
+        info!("Generating cert for {}", name);
         let (cert, key) = NebulaCert::generate_cert(name, ip, subnets, groups, &cacert.0, &cacert.1, None)?;
         write_sops_encrypted(cert_path, &cert)?;
         write_sops_encrypted(key_path, &key)?;
@@ -337,6 +340,7 @@ impl NebulaCert{
                 return Ok(cert);
             }
         }
+        info!("Generating external cert for {}", name);
         let (cert, key) = NebulaCert::generate_cert(name, ip, subnets, groups, &cacert.0, &cacert.1, Some(cert_raw_path))?;
         // write string to file
         let mut f = fs::File::create(cert_out_path)?;

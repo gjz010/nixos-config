@@ -13,5 +13,6 @@
   imports = [
     ./configuration.nix
     ./sunshine.nix
+    ./k3s.nix
   ];
 }

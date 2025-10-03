@@ -70,7 +70,7 @@ in
         ];
       })
     */
-    vscodium
+    vscodium-fhs
     element-desktop
     prismlauncher
     graalvm-ce

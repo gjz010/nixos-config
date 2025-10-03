@@ -95,3 +95,5 @@ sops-import-key:
     echo "Importing key..."
     ssh-to-age -private-key -i ~/.ssh/id_ed25519 > ~/.config/sops/age/keys.txt
 
+nixos-list:
+    nix eval .#nixosConfigurations --apply builtins.attrNames
