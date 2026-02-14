@@ -27,6 +27,7 @@ let
       libutp = final.libutp_3_4;
     };
     botamusique = final.callPackage ./pkgs/botamusique { };
+    canokey-udev-rules = final.callPackage ./pkgs/canokey-udev-rules { };
   };
   examples = {
     egui-test = final.callPackage ./pkgs/examples/egui-test { };

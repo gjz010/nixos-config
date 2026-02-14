@@ -28,7 +28,7 @@
         kdePackages.polkit-kde-agent-1
         flameshot
         hyprpaper
-        rofi-wayland
+        #rofi-wayland
         nerd-fonts.symbols-only
         font-awesome
         grimblast

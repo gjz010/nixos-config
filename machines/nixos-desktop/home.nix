@@ -58,6 +58,7 @@ in
     clinfo
     glxinfo
     gnupg
+    #(pkgs.enableDebugging gnupg)
     gnumake
     cfssl
     openssl

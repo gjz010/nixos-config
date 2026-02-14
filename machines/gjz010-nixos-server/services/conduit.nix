@@ -9,7 +9,7 @@
         server_name = "matrix-bridge.gjz010.com";
         database_backend = "rocksdb";
         allow_registration = true;
-        log = "trace";
+        #log = "trace";
       };
     };
     package = pkgs.matrix-conduit.overrideAttrs (

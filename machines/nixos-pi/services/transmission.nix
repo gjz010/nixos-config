@@ -26,7 +26,7 @@ in
   #services.transmission.package = pkgs.transmission_4;
   services.transmission.package = pkgs.gjz010.pkgs.transmission-4-0-5;
   # Disable all incoming traffic.
-  services.transmission.openPeerPorts = false;
+  services.transmission.openPeerPorts = true;
   # Only allows IPv6 traffic for transmission.
   systemd.services.transmission.serviceConfig.RestrictAddressFamilies =
     lib.mkForce "AF_UNIX AF_INET6";

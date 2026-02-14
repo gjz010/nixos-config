@@ -17,6 +17,7 @@ in
   imports = [
     ./hardware-configuration.nix
     ./disko.nix
+    ./samsung.nix
   ];
   passthru.router = {
     networkInterfaces = {
@@ -24,7 +25,9 @@ in
       lan = "enp1s0";
       wlan = "wlo1";
     };
-    transmissionPath = config.services.transmission.home;
+    transmissionPath = "/mnt/samsung-data/transmission/";
+    #transmissionPath = config.services.transmission.home;
+
   };
   #services.xserver.enable = true;
   #services.displayManager.sddm.enable = true;

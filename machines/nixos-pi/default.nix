@@ -48,6 +48,8 @@ in
     ./services/teamspeak3.nix
     #./services/syncplay.nix
     ./users/gjz010.nix
+
+    ./services/srs-frontend.nix
     variantConfig
   ];
 }

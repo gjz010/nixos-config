@@ -29,7 +29,7 @@
         kdePackages.polkit-kde-agent-1
         flameshot
         hyprpaper
-        rofi-wayland
+        #rofi-wayland
         grimblast
         hyprlock
         grim

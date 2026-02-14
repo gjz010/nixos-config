@@ -29,7 +29,17 @@ flake@{ inputs, self, ... }:
         enable = true;
       };
       services.flatpak.enable = true;
-      services.protonmail-bridge.enable = true;
+      services.protonmail-bridge = {
+        enable = true;
+        path = with pkgs; [ pass ];
+      };
+      systemd.user.services.protonmail-bridge = {
+        environment = {
+          http_proxy = "http://192.168.76.1:30086";
+          https_proxy = "http://192.168.76.1:30086";
+
+        };
+      };
 
     })
   ];

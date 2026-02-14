@@ -38,7 +38,7 @@ update-git-rev:
 switch-nixos-pi: update-git-rev
     NIX_SSHOPTS="-p 2222" nixos-rebuild switch --flake .#gjz010-nixos-pi-amd64 --use-remote-sudo --ask-sudo-password --target-host 192.168.76.1 {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
 switch-server: update-git-rev
-    NIX_SSHOPTS="-p 22" nixos-rebuild switch --flake .#gjz010-nixos-server --use-remote-sudo --target-host server.gjz010.com {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
+    NIX_SSHOPTS="-p 22" nixos-rebuild switch --flake .#gjz010-nixos-server --use-remote-sudo --ask-sudo-password --target-host server.gjz010.com {{NIX_INJECT_FLAKE_INPUT_FLAGS}}
 
 # nixos-switch on remote device.
 nixos-switch-remote system hostname: update-git-rev
@@ -97,3 +97,5 @@ sops-import-key:
 
 nixos-list:
     nix eval .#nixosConfigurations --apply builtins.attrNames
+bump-flake-inputs:
+    nix flake update nixpkgs home-manager nixos-wsl sops-nix disko nixos-hardware nixos-anywhere nm2nix

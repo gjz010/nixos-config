@@ -1,0 +1,49 @@
+diff --git a/scd/app-common.h b/scd/app-common.h
+index 03b6c4884..64e6a4563 100644
+--- a/scd/app-common.h
++++ b/scd/app-common.h
+@@ -57,7 +57,8 @@ typedef enum
+    CARDTYPE_GNUK,
+    CARDTYPE_YUBIKEY,
+    CARDTYPE_ZEITCONTROL,
+-   CARDTYPE_SCE7          /* G+D SmartCafe Expert 7.0  */
++   CARDTYPE_SCE7,          /* G+D SmartCafe Expert 7.0  */
++   CARDTYPE_CANOKEY
+   } cardtype_t;
+ 
+ /* List of supported card applications.  The source code for each
+diff --git a/scd/app.c b/scd/app.c
+index f08067e87..60c638c31 100644
+--- a/scd/app.c
++++ b/scd/app.c
+@@ -126,6 +126,7 @@ strcardtype (cardtype_t t)
+     case CARDTYPE_YUBIKEY:     return "yubikey";
+     case CARDTYPE_ZEITCONTROL: return "zeitcontrol";
+     case CARDTYPE_SCE7:        return "smartcafe";
++    case CARDTYPE_CANOKEY:        return "canokey";
+     }
+   return "?";
+ }
+@@ -654,6 +655,9 @@ atr_to_cardtype (int slot, const unsigned char *atr, size_t atrlen)
+     { 19, X("\x3b\xf9\x96\x00\x00\x80\x31\xfe"
+             "\x45\x53\x43\x45\x37\x20\x0f\x00\x20\x46\x4e"),
+       CARDTYPE_SCE7 },
++    { 17, X("\x3B\xF7\x11\x00\x00\x81\x31\xFE"
++            "\x65\x43\x61\x6E\x6F\x6B\x65\x79\x99"),
++      CARDTYPE_CANOKEY },
+     { 0 }
+   };
+ #undef X
+@@ -1177,6 +1181,12 @@ select_all_additional_applications_internal (ctrl_t ctrl, card_t card)
+       candidates[1] = APPTYPE_PIV;
+       candidates[2] = APPTYPE_NONE;
+     }
++  else if(card->cardtype == CARDTYPE_CANOKEY)
++    {
++      candidates[0] = APPTYPE_OPENPGP;
++      candidates[1] = APPTYPE_PIV;
++      candidates[2] = APPTYPE_NONE;
++    }
+   else
+     {
+       candidates[0] = APPTYPE_NONE;

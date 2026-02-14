@@ -8,6 +8,7 @@ flake@{ inputs, self, ... }:
 {
   imports = [
     (import ./yubikey.nix flake)
+    (import ./canokey.nix flake)
   ];
   options = {
     gjz010.options.keystone = {
@@ -30,8 +31,10 @@ flake@{ inputs, self, ... }:
       };
       # Use pcscd for GPG.
       # Requires disable-ccid
-      services.pcscd.enable = true;
-
+      services.pcscd = {
+        enable = true;
+        extraArgs = [ "--debug" ];
+      };
       # Install kleopatra on preferred desktop
       environment.systemPackages =
         with pkgs;
@@ -39,6 +42,7 @@ flake@{ inputs, self, ... }:
           kdePackages.kleopatra
           keepassxc
         ]);
+
     })
   ];
 }

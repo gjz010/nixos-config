@@ -104,7 +104,7 @@
     #driSupport32Bit = true;
     extraPackages = with pkgs; [
       rocmPackages.clr.icd
-      amdvlk
+      #amdvlk
     ];
   };
 
@@ -165,6 +165,7 @@
       "transmission"
       "adbusers"
     ];
+    autoSubUidGidRange = true;
     packages = with pkgs; [
       #  thunderbird
     ];
@@ -192,20 +193,29 @@
     kdePackages.krfb
     virtiofsd
     virt-viewer
-    gitFull
     git-crypt
     kitty
     kdePackages.ark
     #miraclecast
   ];
+  programs.git = {
+    enable = true;
+    package = pkgs.gitFull;
+    lfs.enable = true;
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+  #programs.gnupg.package = (
+  #  pkgs.enableDebugging (
+  #    pkgs.gnupg.overrideAttrs (
+  #      f: p: {
+  #        patches = p.patches ++ [ ./gpg.patch ];
+  #      }
+  #    )
+  #  )
+  #);
   programs.steam.enable = true;
   programs.kdeconnect.enable = true;
   # List services that you want to enable:
@@ -277,15 +287,16 @@
   gjz010.options.preferredDesktop.enable = true;
   gjz010.options.keystone.enable = true;
   virtualisation.libvirtd.enable = true;
+  virtualisation.libvirtd.onShutdown = "shutdown";
   virtualisation.docker.enable = true;
   virtualisation.podman.enable = true;
   #virtualisation.lxd.enable = true;
   virtualisation.waydroid.enable = true;
-  virtualisation.libvirtd.qemu.ovmf.enable = true;
-  virtualisation.libvirtd.qemu.ovmf.packages = [
-    pkgs.OVMFFull.fd
-    pkgs.pkgsCross.aarch64-multiplatform.OVMF.fd
-  ];
+  #virtualisation.libvirtd.qemu.ovmf.enable = true;
+  #virtualisation.libvirtd.qemu.ovmf.packages = [
+  #  pkgs.OVMFFull.fd
+  #  pkgs.pkgsCross.aarch64-multiplatform.OVMF.fd
+  #];
   virtualisation.libvirtd.qemu.swtpm.enable = true;
   virtualisation.spiceUSBRedirection.enable = true;
 
@@ -356,6 +367,7 @@
   networking.networkmanager.enable = true;
   networking.networkmanager.ensureProfiles.profiles = import ./nm.nix;
 
+  services.nixseparatedebuginfod.enable = true;
   #  environment.sessionVariables = {
   #      GTK_IM_MODULE = "fcitx";
   #      QT_IM_MODULE = "fcitx";

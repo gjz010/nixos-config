@@ -87,6 +87,17 @@
       ip6tables = false;
     };
   };
+  services.openssh.settings = {
+    PasswordAuthentication = false;
+    KbdInteractiveAuthentication = false;
+  };
+
+  networking.firewall.allowedTCPPorts = [
+    11010
+  ];
+  networking.firewall.allowedUDPPorts = [
+    11010
+  ];
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
   # accidentally delete configuration.nix.

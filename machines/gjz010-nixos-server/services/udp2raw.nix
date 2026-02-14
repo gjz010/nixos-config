@@ -11,8 +11,13 @@ let
   udp2rawScript = pkgs.writeShellScript "udp2raw-launch" ''
     exec ${pkgs.udp2raw}/bin/udp2raw -s -l $listen_addr:1 -r 127.0.0.1:18888 --raw-mode icmp -k $key --seq-mode 4 --fix-gro
   '';
+  faketcpPort = 34286;
+  udp2rawFakeTCPScript = pkgs.writeShellScript "udp2raw-launch" ''
+    exec ${pkgs.udp2raw}/bin/udp2raw -s -l $listen_addr:${builtins.toString faketcpPort} -r 127.0.0.1:18888 --raw-mode faketcp -k $key --seq-mode 4 --fix-gro
+  '';
 in
 {
+  networking.firewall.allowedTCPPorts = [ faketcpPort ];
   sops.templates."udp2raw.env".content = ''
     listen_addr=[${config.sops.placeholder."tunnel/udp2raw/listenAddr"}]
     key=${config.sops.placeholder."tunnel/udp2raw/key"}
@@ -25,33 +30,52 @@ in
   sops.secrets."tunnel/udp2raw/listenAddr" = sopsConfig;
   sops.secrets."tunnel/udp2raw/listenAddrV4" = sopsConfig;
 
-  systemd.services.udp2raw = {
-    enable = true;
-    description = "udp2raw";
-    after = [
-      "network.target"
-      "nss-lookup.target"
-    ];
-    serviceConfig = {
-      ExecStart = udp2rawScript;
-      EnvironmentFile = config.sops.templates."udp2raw.env".path;
-      Restart = "always";
-      RestartSec = "10s";
+  /*
+    systemd.services.udp2raw = {
+      enable = true;
+      description = "udp2raw";
+      after = [
+        "network.target"
+        "nss-lookup.target"
+      ];
+      serviceConfig = {
+        ExecStart = udp2rawScript;
+        EnvironmentFile = config.sops.templates."udp2raw.env".path;
+        Restart = "always";
+        RestartSec = "10s";
+        LimitNOFILE = 524288;
+      };
+      wantedBy = [ "multi-user.target" ];
     };
-    wantedBy = [ "multi-user.target" ];
-  };
-  systemd.services.udp2raw-v4 = {
+    systemd.services.udp2raw-v4 = {
+      enable = true;
+      description = "udp2raw-v4";
+      after = [
+        "network.target"
+        "nss-lookup.target"
+      ];
+      serviceConfig = {
+        ExecStart = udp2rawScript;
+        EnvironmentFile = config.sops.templates."udp2raw.ipv4.env".path;
+        Restart = "always";
+        RestartSec = "10s";
+      };
+      wantedBy = [ "multi-user.target" ];
+    };
+  */
+  systemd.services.udp2raw-v4-faketcp = {
     enable = true;
-    description = "udp2raw-v4";
+    description = "udp2raw-v4-faketcp";
     after = [
       "network.target"
       "nss-lookup.target"
     ];
     serviceConfig = {
-      ExecStart = udp2rawScript;
+      ExecStart = udp2rawFakeTCPScript;
       EnvironmentFile = config.sops.templates."udp2raw.ipv4.env".path;
       Restart = "always";
       RestartSec = "10s";
+      LimitNOFILE = 524288;
     };
     wantedBy = [ "multi-user.target" ];
   };

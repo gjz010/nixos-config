@@ -109,6 +109,7 @@
     firefox
     git
     kitty
+    moonlight-qt
   ];
   nixpkgs.config.allowUnfreePredicate =
     pkg:
@@ -146,6 +147,7 @@
   networking.firewall.allowedTCPPorts = [
     5900
     27040
+    48010
   ];
   networking.firewall.allowedUDPPorts = [
     27031
@@ -154,7 +156,20 @@
     27034
     27035
     27036
+    48000
+    48010
   ];
+
+  services.syncthing = {
+    enable = true;
+    user = "gjz010";
+    dataDir = "/home/gjz010/Syncthing"; # Default folder for new synced folders
+    configDir = "/home/gjz010/.config/syncthing"; # Folder for Syncthing's settings and keys
+  };
+  services.vaultwarden = {
+    enable = true;
+
+  };
 
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
