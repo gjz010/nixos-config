@@ -37,14 +37,14 @@
     fsType = "vfat";
   };
 
-  fileSystems."/mnt/win10" = {
-    device = "/dev/disk/by-uuid/B6EE0816EE07CD95";
-    fsType = "auto";
-    options = [
-      "defaults"
-      "rw"
-    ];
-  };
+  #fileSystems."/mnt/win10" = {
+  #  device = "/dev/disk/by-uuid/B6EE0816EE07CD95";
+  #  fsType = "auto";
+  #  options = [
+  #    "defaults"
+  #    "rw"
+  #  ];
+  #};
   fileSystems."/mnt/zhitai" = {
     device = "/dev/disk/by-uuid/f2ecf750-f14b-45b4-a5a8-37250844d84e";
     fsType = "auto";
